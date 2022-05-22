@@ -1,0 +1,68 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url("https://fonts.googleapis.com/css2?family=Kanit:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Sarabun:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800&display=swap");
+@layer components {
+    .btn-primary {
+        @apply cursor-pointer border border-transparent bg-primary-light text-white transition-colors duration-200 hover:border-primary-light   hover:bg-white hover:text-primary-light disabled:!cursor-default  disabled:border-gray-200  disabled:bg-white disabled:!text-gray-200;
+    }
+    .ellipsis {
+        @apply overflow-hidden text-ellipsis whitespace-nowrap;
+    }
+    .abs-center {
+        @apply absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2;
+    }
+    .flex-col-cen {
+        @apply flex flex-col items-center justify-center;
+    }
+    .flex-cen {
+        @apply flex flex-row items-center justify-center;
+    }
+}
+
+html,
+body {
+    padding: 0;
+    margin: 0;
+    font-family: "Kanit";
+    scroll-behavior: auto;
+}
+
+.adp-distance {
+}
+
+* {
+    box-sizing: border-box;
+    font-family: "Kanit";
+    scroll-behavior: auto;
+}
+
+.triangle {
+    width: 0;
+    height: 0;
+    border-left: 25px solid transparent;
+    border-right: 25px solid transparent;
+    border-bottom: 50px solid #555;
+}
+
+.white-transparent {
+    background-color: red;
+}
+
+::-webkit-scrollbar {
+    width: 6px;
+    height: 8px;
+}
+::-webkit-scrollbar-track {
+    background-color: #e7e7e7;
+}
+::-webkit-scrollbar-thumb {
+    background-color: #8d8d8d;
+    border-radius: 10px;
+}
+
+.inner-shadow {
+    box-shadow: inset 0px 0px 60px 10px rgba(0, 0, 0, 0.3);
+}
