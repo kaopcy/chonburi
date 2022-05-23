@@ -4,7 +4,7 @@ import Link from "next/link";
 import gsap from "gsap";
 
 import Image from "next/image";
-import { urlFor } from "../lib/sanity";
+import { urlFor } from "../../../lib/sanity";
 
 import { v4 as uuid } from "uuid";
 import "moment/locale/th";
@@ -14,8 +14,8 @@ import { faCheck, faLocationDot } from "@fortawesome/free-solid-svg-icons";
 import { faQuestionCircle } from "@fortawesome/free-regular-svg-icons";
 
 import { getDistance } from "geolib";
-import { getRestaurantTypeProperties } from "../utils/typeUtils";
-import useIsTouchDevice from "../composables/useIsTouchDevice";
+import { getRestaurantTypeProperties } from "../../../utils/typeUtils";
+import useIsTouchDevice from "../../../composables/useIsTouchDevice";
 
 const RestaurantCard = ({ post, currentLocation }) => {
     const [index, setIndex] = useState(0);

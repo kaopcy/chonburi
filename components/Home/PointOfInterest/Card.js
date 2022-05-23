@@ -5,7 +5,7 @@ import { PortableText } from "@portabletext/react";
 import gsap from "gsap";
 
 import Image from "next/image";
-import { urlFor } from "../lib/sanity";
+import { urlFor } from "../../../lib/sanity";
 
 import { v4 as uuid } from "uuid";
 import Moment from "react-moment";
@@ -16,9 +16,9 @@ import { faLocationDot } from "@fortawesome/free-solid-svg-icons";
 import { faQuestionCircle } from "@fortawesome/free-regular-svg-icons";
 
 import { getDistance } from "geolib";
-import { getTypeProperties } from "../utils/typeUtils";
+import { getTypeProperties } from "../../../utils/typeUtils";
 
-import useIsTouchDevice from "../composables/useIsTouchDevice";
+import useIsTouchDevice from "../../../composables/useIsTouchDevice";
 
 const Card = ({ post, currentLocation, isUserLocation }) => {
     const [index, setIndex] = useState(0);

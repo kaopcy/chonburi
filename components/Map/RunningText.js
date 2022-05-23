@@ -11,15 +11,18 @@ import {
     faUtensils,
 } from "@fortawesome/free-solid-svg-icons";
 
+const DURATION = 10;
+const PADDING = "20px";
+
 const RunningText = () => {
-    console.log('running text rerender');
+    console.log("running text rerender");
 
     const container = useRef(null);
     const rootContainer = useRef(null);
     const animate = useRef(null);
     useEffect(() => {
         const onResize = () => {
-            if(!rootContainer.current) return
+            if (!rootContainer.current) return;
             //  clear animation on resize event
             if (animate.current) {
                 animate.current.kill();
@@ -66,7 +69,7 @@ const RunningText = () => {
             );
             gsap.set(container.current, { left: -mostElWidth });
             animate.current = gsap.to(".box", {
-                duration: 10 * timeScale,
+                duration: DURATION * timeScale,
                 ease: "none",
                 x: `+=${fixedWidth}`,
                 modifiers: {
@@ -121,18 +124,21 @@ const RunningText = () => {
     return (
         <div
             ref={rootContainer}
-            className="relative mx-auto mt-20 flex h-14 w-full max-w-[1300px] overflow-hidden  border-t-gray-100 border-b-gray-100 border-t-2 border-b-2"
+            className="relative mx-auto mt-20 flex h-14 w-full max-w-[1300px] overflow-hidden  border-t-2 border-b-2 border-t-gray-100 border-b-gray-100"
         >
             <div ref={container} className="relative left-[-80px]">
                 {textList.map((text) => (
                     <div
                         key={text.name}
-                        className="box cursor-default absolute flex h-full items-center whitespace-nowrap px-5 text-text-lighter"
+                        className="box absolute flex h-full cursor-default items-center whitespace-nowrap  text-text-lighter"
+                        style={{ padding: PADDING }}
                     >
-                        <div className="mr-2 text-base sm:text-xl">{text.name}</div>
+                        <div className="mr-2 text-base sm:text-xl">
+                            {text.name}
+                        </div>
                         <FontAwesomeIcon
                             icon={text.icon}
-                            className="text-xs sm:text-sm text-text-lightest"
+                            className="text-xs text-text-lightest sm:text-sm"
                         />
                     </div>
                 ))}
