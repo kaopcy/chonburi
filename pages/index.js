@@ -5,12 +5,13 @@ import { getClient } from "../lib/sanity.server";
 
 import gsap from "gsap/dist/gsap";
 
-import LocationList from "../components/Home/LocationList";
+import LocationList from "../components/Home/PointOfInterest/PointOfInterestList";
 import SearchBar from "../components/Home/SearchBar";
 import RouteDisplay from "../components/Map/RouteDisplay";
+import chonburiImage from "../public/images/background.jpg";
 
 import { routes } from "../generalConfig/tempRoutes";
-import RestaurantList from "../components/Home/RestaurantList";
+import RestaurantList from "../components/Home/Restaurant/RestaurantList";
 import RunningText from "../components/Map/RunningText";
 import dynamic from "next/dynamic";
 
@@ -25,6 +26,7 @@ const Home = ({ posts, restaurants }) => {
     const isTouch = useIsTouchDevice();
 
     useEffect(() => {
+        
         if (isTouch || isTouch === null) return;
         parallax.current = gsap
             .timeline({
@@ -61,8 +63,8 @@ const Home = ({ posts, restaurants }) => {
                         ref={imageRef}
                     >
                         <Image
-                            priority='low'
-                            src="/images/background.jpg"
+                            priority="low"
+                            src={chonburiImage}
                             layout="fill"
                             className="object-cover "
                             quality="100"

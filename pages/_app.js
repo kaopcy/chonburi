@@ -10,7 +10,7 @@ config.autoAddCss = false;
 import "nprogress/nprogress.css";
 
 // import
-import Navbar from "../components/Navbar";
+import Navbar from "../components/Navbar/Navbar";
 const ProgressBar = dynamic(() => import("../components/ProgressBar"), {
     ssr: false,
 });

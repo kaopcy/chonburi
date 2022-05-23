@@ -20,6 +20,9 @@
     .flex-cen {
         @apply flex flex-row items-center justify-center;
     }
+    .mobile {
+        @apply visible lg:invisible
+    }
 }
 
 html,
@@ -28,9 +31,6 @@ body {
     margin: 0;
     font-family: "Kanit";
     scroll-behavior: auto;
-}
-
-.adp-distance {
 }
 
 * {
