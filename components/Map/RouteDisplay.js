@@ -1,3 +1,7 @@
+import { useEffect, useMemo, useState } from "react";
+import gsap from "gsap";
+
+// import icons
 import {
     faChevronDown,
     faEllipsisVertical,
@@ -5,10 +9,13 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { faCircle } from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useEffect, useMemo, useState } from "react";
+
+// import constants
 import { maneuverMap } from "../../utils/ManeuverMap";
-import gsap from "gsap";
+
+// import hooks
 import useIsTouchDevice from "../../composables/useIsTouchDevice";
+
 const RouteDisplay = ({
     routes,
     setActivePopup,
@@ -68,7 +75,7 @@ const RouteDisplay = ({
     }, [active, isTouch]);
 
     return (
-        <div className="absolute inset-0  z-10 flex  flex-col overflow-y-auto rounded-md sm:border bg-white px-2 py-2">
+        <div className="absolute inset-0  z-10 flex  flex-col overflow-y-auto rounded-md bg-white px-2 py-2 sm:border">
             <div className="my-2 mt-6 flex items-center px-[7px] text-xl font-semibold text-text">
                 เส้นทาง
                 <span className="ml-4 text-base font-light text-text-lighter">

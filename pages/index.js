@@ -1,21 +1,21 @@
 import React, { useEffect, useRef } from "react";
 import Image from "next/image";
 import groq from "groq";
-import { getClient } from "../lib/sanity.server";
-
 import gsap from "gsap/dist/gsap";
 
+// import hooks
+import { getClient } from "../lib/sanity.server";
+import useIsTouchDevice from "../composables/useIsTouchDevice";
+
+// import components
 import LocationList from "../components/Home/PointOfInterest/PointOfInterestList";
 import SearchBar from "../components/Home/SearchBar";
 import RouteDisplay from "../components/Map/RouteDisplay";
-import chonburiImage from "../public/images/background.jpg";
-
-import { routes } from "../generalConfig/tempRoutes";
 import RestaurantList from "../components/Home/Restaurant/RestaurantList";
 import RunningText from "../components/Map/RunningText";
-import dynamic from "next/dynamic";
 
-import useIsTouchDevice from "../composables/useIsTouchDevice";
+// import images
+import chonburiImage from "../public/images/background.jpg";
 
 const Home = ({ posts, restaurants }) => {
     const imageRef = useRef(null);
@@ -26,7 +26,6 @@ const Home = ({ posts, restaurants }) => {
     const isTouch = useIsTouchDevice();
 
     useEffect(() => {
-        
         if (isTouch || isTouch === null) return;
         parallax.current = gsap
             .timeline({
@@ -52,7 +51,7 @@ const Home = ({ posts, restaurants }) => {
     }, [isTouch]);
 
     return (
-        <div className="flex min-h-screen w-full flex-col bg-white px-3 sm:px-16">
+        <div className="flex min-h-screen w-full flex-col bg-white px-3 text-text sm:px-16">
             <div
                 ref={parallaxTrigger}
                 className="relative mt-4 aspect-[16/11]  w-full max-w-[1300px] self-center sm:aspect-[16/9] "
