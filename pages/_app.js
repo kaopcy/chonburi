@@ -29,7 +29,7 @@ function MyApp({ Component, pageProps }) {
     return (
         <PortableTextComponentsProvider components={CustomPortableText}>
             <ProgressBar />
-            <div className="min-h-screen w-full">
+            <div className="w-full">
                 <Navbar />
                 <div className="h-[100px]"></div>
                 <Component {...pageProps} />

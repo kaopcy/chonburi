@@ -10,7 +10,6 @@ import useIsTouchDevice from "../composables/useIsTouchDevice";
 // import components
 import LocationList from "../components/Home/PointOfInterest/PointOfInterestList";
 import SearchBar from "../components/Home/SearchBar";
-import RouteDisplay from "../components/Map/RouteDisplay";
 import RestaurantList from "../components/Home/Restaurant/RestaurantList";
 import RunningText from "../components/Map/RunningText";
 
