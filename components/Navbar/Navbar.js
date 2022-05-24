@@ -133,7 +133,7 @@ const Navbar = () => {
             <div className="flex h-full  w-full max-w-[1300px] items-center justify-between self-center  px-3 text-xl font-medium text-text lg:hidden">
                 <div className="absolute top-0 left-0 z-10 h-full w-full bg-white opacity-80"></div>
                 <Link href={"/"} passHref>
-                    <h1 className="z-20  cursor-pointer text-3xl font-bold ">
+                    <h1 className="z-20  cursor-pointer text-3xl font-semibold ">
                         ชลบุรี
                     </h1>
                 </Link>
