@@ -1,7 +1,12 @@
+import React from "react";
+
+// import icons
 import { faPoundSign } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React from "react";
-import { restaurantType } from "../../generalConfig";
+
+// import constants
+import { restaurantType } from "../../config/restaurantType";
+
 const RestaurantType = () => {
     return (
         <div className="invisible absolute  top-full flex flex-col whitespace-nowrap rounded-md  border bg-white  py-3  opacity-0 shadow-md transition-opacity group-hover:visible group-hover:opacity-100">

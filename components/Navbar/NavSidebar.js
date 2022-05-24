@@ -1,20 +1,19 @@
-import {
-    forwardRef,
-    useEffect,
-    useImperativeHandle,
-    useRef,
-    useState,
-} from "react";
+import { useEffect, useRef, useState } from "react";
+import { useRouter } from "next/router";
+import Link from "next/link";
+
 import gsap from "gsap/dist/gsap";
+
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronRight, faXmark } from "@fortawesome/free-solid-svg-icons";
 
-import { useRouter } from "next/router";
-import Link from "next/link";
+// import constants
+import { navItems } from "../../config/navbarConfig";
+
+// import HOC
 import MatchLink from "../Utils/MatchLink";
 
-const NavSidebar = forwardRef(({ setIsOpen, navItems }, ref) => {
-    const router = useRouter();
+const NavSidebar = ({ setIsOpen }) => {
     const animation = useRef(null);
     const container = useRef(null);
     const overlay = useRef(null);
@@ -56,7 +55,7 @@ const NavSidebar = forwardRef(({ setIsOpen, navItems }, ref) => {
                 onClick={() => animationToggle()}
             ></div>
             <div
-                className="absolute -left-full flex h-full w-full max-w-[300px] flex-col items-start  bg-white pt-10 text-lg"
+                className="absolute  -left-full flex h-full w-full max-w-[300px] flex-col items-start  bg-white pt-10 text-lg"
                 ref={container}
             >
                 <FontAwesomeIcon
@@ -65,20 +64,20 @@ const NavSidebar = forwardRef(({ setIsOpen, navItems }, ref) => {
                     className=" absolute top-0 right-0 p-4 text-lg text-text "
                 />
                 {navItems.map((link) =>
-                    link.to === "/" ? (
-                        <NormalLink link={link} key={link.name} />
-                    ) : (
+                    link.children ? (
                         <DropdownLink link={link} key={link.name} />
+                    ) : (
+                        <NormalLink link={link} key={link.name} />
                     )
                 )}
             </div>
         </div>
     );
-});
+};
 
 const NormalLink = ({ link }) => {
     return (
-        <div className="flex w-full flex-col">
+        <div className="sidebar-item flex w-full flex-col">
             <div className="relative flex w-full  cursor-pointer items-center  justify-between px-4  py-2 ">
                 <MatchLink path={link.to}>
                     {({ isMatch }) => (
@@ -108,15 +107,22 @@ const DropdownLink = ({ link }) => {
     const dropdownAnimation = useRef(null);
     const container = useRef(null);
     const detail = useRef(null);
+    const chevron = useRef(null);
+    const dropdownLists = link.children;
 
     useEffect(() => {
-        dropdownAnimation.current = gsap.to(container.current, {
-            height: detail.current.clientHeight,
-            paused: true,
-            reversed: true,
-            ease: "none",
-            duration: 0.3,
-        });
+        dropdownAnimation.current = gsap
+            .timeline({
+                paused: true,
+                reversed: true,
+            })
+            .to(container.current, {
+                height: detail.current.clientHeight,
+                ease: "none",
+                duration: 0.3,
+            })
+            .to(chevron.current, { rotate: "90deg", duration: 0.3 }, "<");
+
         return () => {
             if (dropdownAnimation.current) {
                 dropdownAnimation.current.kill();
@@ -125,7 +131,7 @@ const DropdownLink = ({ link }) => {
     }, []);
 
     return (
-        <div className="flex w-full flex-col">
+        <div className="sidebar-item flex w-full flex-col">
             <div className=" relative flex w-full  cursor-pointer items-center  justify-between px-4  py-2 ">
                 <MatchLink path={link.to}>
                     {({ isMatch }) => (
@@ -147,27 +153,42 @@ const DropdownLink = ({ link }) => {
                         </>
                     )}
                 </MatchLink>
-                <FontAwesomeIcon
-                    icon={faChevronRight}
-                    className={`justify-self-end text-sm text-text-lightest transition-transform  ${
-                        dropdownAnimation.current?.reversed() && "rotate-90"
-                    }`}
-                    onClick={() => {
-                        dropdownAnimation.current.reversed()
-                            ? dropdownAnimation.current.play()
-                            : dropdownAnimation.current.reverse();
-                        // setIsDropdown((e) => !e);
-                    }}
-                />
+                <div ref={chevron}>
+                    <FontAwesomeIcon
+                        icon={faChevronRight}
+                        className="justify-self-end text-sm text-text-lightest transition-transform  "
+                        onClick={() => {
+                            dropdownAnimation.current.reversed()
+                                ? dropdownAnimation.current.play()
+                                : dropdownAnimation.current.reverse();
+                        }}
+                    />
+                </div>
             </div>
             <div
                 ref={container}
-                className="relative h-0 w-full overflow-hidden"
+                className="relative h-0 w-full overflow-hidden ml-6"
             >
+                <div className="absolute top-0 left-0 w-[2px] h-[calc(100%-15px)] bg-zinc-100"></div>
                 <div className="absolute bottom-0 left-0" ref={detail}>
-                    Lorem ipsum dolor, sit amet consectetur adipisicing elit.
-                    Ducimus officiis, maxime esse perspiciatis harum cumque!
-                    Omnis non ab rem soluta?
+                    {dropdownLists.map((dropdown, i) => (
+                        <div
+                            className="flex items-center py-1 text-base text-text-lighter pl-4"
+                            key={dropdown.name + i}
+                        >
+                            <div className="w-3 h-[3px] bg-zinc-100 absolute left-0"></div>
+                            <div
+                                className="flex-cen  mr-4 aspect-square w-5 rounded-md"
+                                style={{ backgroundColor: dropdown.color }}
+                            >
+                                <FontAwesomeIcon
+                                    className="text-xs text-white "
+                                    icon={dropdown.icon}
+                                />
+                            </div>
+                            <div className="">{dropdown.name}</div>
+                        </div>
+                    ))}
                 </div>
             </div>
         </div>

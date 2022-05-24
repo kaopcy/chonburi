@@ -1,52 +1,28 @@
 import { useEffect, useMemo, useRef, useState } from "react";
-import Link from "next/link";
 import { useRouter } from "next/dist/client/router";
+import Link from "next/link";
 
 import gsap from "gsap/dist/gsap";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars, faChevronDown } from "@fortawesome/free-solid-svg-icons";
-import {
-    faMountain,
-    faUtensils,
-    faHouseChimney,
-} from "@fortawesome/free-solid-svg-icons";
 
+// import constants
+import { navItems } from "../../config/navbarConfig";
+
+// import components
 import NavSidebar from "./NavSidebar";
 import PoiDropdown from "./PoiDropdown";
 import RestaurantDropdown from "./RestaurantDropdown";
 
+// import HOC
 import MatchLink from "../Utils/MatchLink";
 
 const Navbar = () => {
     const router = useRouter();
-
-    const navItems = useMemo(
-        () => [
-            {
-                name: "หน้าแรก",
-                to: "/",
-                match: router.pathname === "/",
-                icon: faHouseChimney
-            },
-            {
-                name: "แหล่งท่องเที่ยว",
-                to: "/travel",
-                match: router.pathname === "/travel",
-                icon: faMountain
-            },
-            {
-                name: "ร้านอาหาร & คาเฟ่",
-                to: "/restaurant",
-                match: router.pathname === "/restaurant",
-                icon: faUtensils
-            },
-        ],
-        []
-    );
-
     const navbarRef = useRef(null);
     const animation = useRef(null);
+
     useEffect(() => {
         animation.current = gsap
             .timeline({
@@ -65,7 +41,6 @@ const Navbar = () => {
     }, []);
 
     // navsidebar
-    const navsidebarRef = useRef(null);
     const [isOpenSidebar, setIsOpenSidebar] = useState(false);
 
     return (
@@ -107,8 +82,13 @@ const Navbar = () => {
                                         isMatch ? "text-primary" : "text-text"
                                     }`}
                                 >
-                                    <span className="mr-2">แหล่งท่องเที่ยว</span>
-                                    <FontAwesomeIcon icon={faChevronDown} className="group-hover:rotate-180  transition-transform text-sm text-text-lighter "/>
+                                    <span className="mr-2">
+                                        แหล่งท่องเที่ยว
+                                    </span>
+                                    <FontAwesomeIcon
+                                        icon={faChevronDown}
+                                        className="text-sm  text-text-lighter transition-transform group-hover:rotate-180 "
+                                    />
                                     {isMatch && (
                                         <div className="h-[3px] w-full bg-primary"></div>
                                     )}
@@ -125,8 +105,13 @@ const Navbar = () => {
                                         isMatch ? "text-primary" : "text-text"
                                     }`}
                                 >
-                                    <span className="mr-2">ร้านอาหาร & กาแฟ</span>
-                                    <FontAwesomeIcon icon={faChevronDown} className="group-hover:rotate-180  transition-transform text-sm text-text-lighter "/>
+                                    <span className="mr-2">
+                                        ร้านอาหาร & กาแฟ
+                                    </span>
+                                    <FontAwesomeIcon
+                                        icon={faChevronDown}
+                                        className="text-sm  text-text-lighter transition-transform group-hover:rotate-180 "
+                                    />
                                     {isMatch && (
                                         <div className="h-[3px] w-full bg-primary"></div>
                                     )}
@@ -158,13 +143,7 @@ const Navbar = () => {
                     onClick={() => setIsOpenSidebar(true)}
                 />
             </div>
-            {isOpenSidebar && (
-                <NavSidebar
-                    navItems={navItems}
-                    ref={navsidebarRef}
-                    setIsOpen={setIsOpenSidebar}
-                />
-            )}
+            {isOpenSidebar && <NavSidebar setIsOpen={setIsOpenSidebar} />}
         </div>
     );
 };

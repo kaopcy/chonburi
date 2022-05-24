@@ -1,7 +1,12 @@
-import { faPoundSign } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
-import { poiType } from "../../generalConfig";
+
+// import icons
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPoundSign } from "@fortawesome/free-solid-svg-icons";
+
+// import constants
+import { poiType } from "../../config/poiType";
+
 const PoiDropdown = () => {
     return (
         <div className="invisible absolute top-full flex flex-col rounded-md  border bg-white py-2  opacity-0 shadow-md transition-opacity group-hover:visible group-hover:opacity-100">

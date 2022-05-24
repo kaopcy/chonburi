@@ -2,7 +2,6 @@ import React, { useEffect, useMemo, useRef, useState } from "react";
 import groq from "groq";
 import gsap from "gsap/dist/gsap";
 import { useRouter } from "next/router";
-import useGeolocation from "../../composables/useGeolocation";
 import {
     useJsApiLoader,
     GoogleMap,
@@ -10,20 +9,27 @@ import {
     DirectionsRenderer,
     OverlayView,
 } from "@react-google-maps/api";
-
 import { PortableText } from "@portabletext/react";
-import { getClient } from "../../lib/sanity.server";
-import RouteDisplay from "../../components/Map/RouteDisplay";
-
 import { getCenter } from "geolib";
 
-import { coords } from "../../generalConfig/chonburiCoor";
+// import custom hooks
+import useGeolocation from "../../composables/useGeolocation";
+import { getClient } from "../../lib/sanity.server";
 
-import { routes as tempRoutes } from "../../generalConfig/tempRoutes";
+// import components
+import RouteDisplay from "../../components/Map/RouteDisplay";
+
+// import constants
+import { coords } from "../../config/mapConstants/chonburiCoor";
+import { tempRoutes } from "../../config/mapConstants/tempRoutes";
+import { mapStyles } from "../../config/mapConstants/mapStyles";
+
+// import icon
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
     faChevronDown,
     faChevronRight,
+    faRoute,
 } from "@fortawesome/free-solid-svg-icons";
 
 const tempPost = {
@@ -84,7 +90,6 @@ const Travel = ({ post }) => {
     if (router.isFallback) return <div className="">Loading</div>;
 
     // not fallback
-
     const { isLoaded } = useJsApiLoader({
         region: "th",
         language: "th",
@@ -94,10 +99,10 @@ const Travel = ({ post }) => {
     const [tempLocation, setTempLocation] = useState(post.coords);
 
     const [map, setMap] = useState(/**@type google.maps.Map */ (null));
-    const [directionRes, setDirectionRes] = useState(
-        /**@type google.maps.DirectionsResult */ (null)
-    );
-    // const [directionRes, setDirectionRes] = useState(tempRoutes);
+    // const [directionRes, setDirectionRes] = useState(
+    //     /**@type google.maps.DirectionsResult */ (null)
+    // );
+    const [directionRes, setDirectionRes] = useState(tempRoutes);
 
     const [activePopup, setActivePopup] = useState(0);
     const directionActive = useMemo(() => {
@@ -140,7 +145,7 @@ const Travel = ({ post }) => {
     };
 
     const onMapLoad = (map) => {
-        calculateDirection();
+        // calculateDirection();
         map.panTo(defaultCenter);
         if (map.getZoom() !== 10) {
             map.setZoom(9);
@@ -150,8 +155,7 @@ const Travel = ({ post }) => {
 
     return (
         <div className="relative flex w-full flex-col items-center px-3">
-            <div className="h-screen w-full"></div>
-            <div className="relative mb-16  flex w-full max-w-[1300px] justify-center overflow-hidden sm:mb-4">
+            <div className="relative flex w-full  justify-center overflow-hidden ">
                 {/* {post.body && <PortableText value={post.body} />} */}
                 <div
                     className={`relative flex h-[calc(100vh-120px)] w-full transition-transform duration-500 ${
@@ -189,6 +193,7 @@ const Travel = ({ post }) => {
                                     position:
                                         google.maps.ControlPosition.TOP_LEFT,
                                 },
+                                styles: mapStyles,
                             }}
                             onLoad={onMapLoad}
                         >
@@ -235,28 +240,37 @@ const Travel = ({ post }) => {
                             )}
 
                             {directionRes && (
-                                <>
-                                    <DirectionsRenderer
-                                        options={{
-                                            suppressMarkers: true,
-                                            preserveViewport: true,
-                                        }}
-                                        directions={directionRes}
-                                    />
-                                </>
+                                <DirectionsRenderer
+                                    options={{
+                                        suppressMarkers: true,
+                                        preserveViewport: true,
+                                    }}
+
+                                    directions={directionRes}
+                                />
                             )}
                         </GoogleMap>
                     )}
                 </div>
 
                 <div
-                    className={`fixed bottom-0 right-0 h-[400px] w-full max-w-[400px] transition-transform duration-300  sm:absolute sm:h-[calc(100vh-120px)]   sm:duration-500 ${
+                    className={`fixed bottom-0 right-0 h-[400px] w-full transition-transform duration-300 sm:absolute  sm:h-[calc(100vh-120px)] sm:max-w-[50%]   sm:duration-500 ${
                         isDisplayRoute
                             ? " translate-y-0 sm:translate-x-0 "
                             : " translate-y-full sm:translate-y-0 sm:translate-x-full "
                     }`}
                 >
                     <div className="flex h-full w-full shrink-0 ">
+                        <div className="flex items-center">
+                            <div className="flex flex-col items-center ">
+                                <FontAwesomeIcon icon={faRoute} />
+                                <div className="">เส้นทาง</div>
+                            </div>
+                            <div className="flex flex-col items-center ">
+                                <FontAwesomeIcon icon={faRoute} />
+                                <div className="">รายละเอียด</div>
+                            </div>
+                        </div>
                         {directionRes && (
                             // <RouteDisplay routes={directionRes?.routes[0].legs[0]} />
                             <RouteDisplay
@@ -266,6 +280,8 @@ const Travel = ({ post }) => {
                                 endPoint={router.query.slug}
                             />
                         )}
+
+                        {/* hide n show button */}
                         <div
                             className="flex-col-cen absolute bottom-full left-0  h-16 w-full rounded-t-3xl  border  bg-white   sm:left-0 sm:top-1/2 sm:hidden"
                             onClick={() => setIsDisplayRoute((e) => !e)}
@@ -279,6 +295,7 @@ const Travel = ({ post }) => {
                             <div className="text-text ">เส้นทาง</div>
                         </div>
 
+                        {/* hide n show button */}
                         <div
                             className="flex-col-cen absolute  top-1/2 right-full hidden h-10 w-10 rounded-l-xl border bg-white sm:flex"
                             onClick={() => setIsDisplayRoute((e) => !e)}
