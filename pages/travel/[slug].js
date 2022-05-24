@@ -15,13 +15,14 @@ import { getCenter } from "geolib";
 // import custom hooks
 import useGeolocation from "../../composables/useGeolocation";
 import { getClient } from "../../lib/sanity.server";
-
-// import components
-import RouteDisplay from "../../components/Map/RouteDisplay";
+import {
+    useDirectionContext,
+    useActiveDirection,
+    DirectionProvider,
+} from "../../context/DirectionContext";
 
 // import constants
 import { coords } from "../../config/mapConstants/chonburiCoor";
-import { tempRoutes } from "../../config/mapConstants/tempRoutes";
 import { mapStyles } from "../../config/mapConstants/mapStyles";
 
 // import icon
@@ -31,60 +32,16 @@ import {
     faChevronRight,
     faRoute,
 } from "@fortawesome/free-solid-svg-icons";
+import { faNewspaper } from "@fortawesome/free-regular-svg-icons";
+import DetailDisplay from "../../components/Map/RouteDisplay/DetailDisplay";
 
-const tempPost = {
-    _createdAt: "2022-05-05T20:57:15Z",
-    _id: "311d4def-7ed4-4abd-a125-3269f4461861",
-    _rev: "TdboPKuuXe2Xo36DQNmD4g",
-    _type: "post",
-    _updatedAt: "2022-05-06T14:16:52Z",
-    coords: {
-        _type: "geopoint",
-        lat: 13.208179,
-        lng: 100.9750484,
-    },
-    location: "ต.บางพระ อ.ศรีราชา จ.ชลบุรี",
-    locationType: "ธรรมชาติ#6BCB77",
-    mainImage: [
-        {
-            _key: "5e9d55908e68",
-            _type: "eachImage",
-            asset: {
-                _ref: "image-c9b84ae0a59bec0c2ba16e5de81bdb22957609e3-672x450-jpg",
-                _type: "reference",
-            },
-        },
-        {
-            _key: "5c0ac3956c45",
-            _type: "eachImage",
-            asset: {
-                _ref: "image-76cbab943da9353213d28bfdca7a9d79b1a07c13-672x450-jpg",
-                _type: "reference",
-            },
-        },
-        {
-            _key: "7760e6d2285a",
-            _type: "eachImage",
-            asset: {
-                _ref: "image-8a74fcd61805a22770d41ff6316518088c8b47a2-672x450-jpg",
-                _type: "reference",
-            },
-        },
-    ],
-    postedAt: {
-        _type: "geopoint",
-        lat: 13.8575872,
-        lng: 100.7255552,
-    },
-    publishedAt: "2022-05-05T20:55:38.193Z",
-    slug: {
-        _type: "slug",
-        current: "อ่างเก็บน้ำบางพระ",
-    },
-    title: "อ่างเก็บน้ำบางพระ",
-};
+const Travel = ({ post }) => (
+    <DirectionProvider>
+        <Inside post={post} />
+    </DirectionProvider>
+);
 
-const Travel = ({ post }) => {
+const Inside = ({ post }) => {
     // post = tempPost;
     const router = useRouter();
     if (router.isFallback) return <div className="">Loading</div>;
@@ -96,20 +53,18 @@ const Travel = ({ post }) => {
         googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAP_API_KEY,
     });
     const { currentLocation, error: userLocationError } = useGeolocation();
+    const { direction, setDirection } = useDirectionContext();
+    const { activeDirection } = useActiveDirection();
+
     const [tempLocation, setTempLocation] = useState(post.coords);
 
     const [map, setMap] = useState(/**@type google.maps.Map */ (null));
-    // const [directionRes, setDirectionRes] = useState(
-    //     /**@type google.maps.DirectionsResult */ (null)
-    // );
-    const [directionRes, setDirectionRes] = useState(tempRoutes);
 
-    const [activePopup, setActivePopup] = useState(0);
     const directionActive = useMemo(() => {
-        return directionRes
-            ? directionRes.routes[0].legs[0].steps[activePopup]
+        return direction
+            ? direction.routes[0].legs[0].steps[activeDirection]
             : null;
-    }, [directionRes, activePopup]);
+    }, [direction, activeDirection]);
 
     const defaultCenter = useMemo(() => {
         if (!currentLocation) return null;
@@ -131,7 +86,7 @@ const Travel = ({ post }) => {
             destination: tempLocation,
             travelMode: google.maps.TravelMode.WALKING,
         });
-        setDirectionRes(result);
+        setDirection(result);
     };
 
     const setPolyline = () => {
@@ -154,11 +109,11 @@ const Travel = ({ post }) => {
     };
 
     return (
-        <div className="relative flex w-full flex-col items-center px-3">
+        <div className="relative flex w-full flex-col items-center sm:px-3">
             <div className="relative flex w-full  justify-center overflow-hidden ">
                 {/* {post.body && <PortableText value={post.body} />} */}
                 <div
-                    className={`relative flex h-[calc(100vh-120px)] w-full transition-transform duration-500 ${
+                    className={`relative flex h-[calc(100vh-120px)]  w-full transition-transform duration-500 ${
                         isDisplayRoute
                             ? "sm:translate-x-[-200px]"
                             : "sm:translate-x-0"
@@ -218,17 +173,14 @@ const Travel = ({ post }) => {
                                         OverlayView.OVERLAY_MOUSE_TARGET
                                     }
                                 >
-                                    <div
-                                        className=" relative flex origin-top-right -translate-x-full flex-col rounded-md  border bg-white p-3 py-2 text-sm  text-text opacity-90"
-                                        id="test"
-                                    >
+                                    <div className=" relative flex origin-top-right -translate-x-full flex-col rounded-md  border bg-white p-3 py-2 text-sm  text-text opacity-90">
                                         <div className="">
-                                            {directionRes.routes[0].legs[0]
-                                                .steps.length -
+                                            {direction.routes[0].legs[0].steps
+                                                .length -
                                                 1 ===
-                                            activePopup
+                                            activeDirection
                                                 ? "จุดหมาย"
-                                                : activePopup === 0
+                                                : activeDirection === 0
                                                 ? "จุดเริ่มต้น"
                                                 : "เส้นทาง"}
                                         </div>
@@ -239,76 +191,23 @@ const Travel = ({ post }) => {
                                 </OverlayView>
                             )}
 
-                            {directionRes && (
+                            {direction && (
                                 <DirectionsRenderer
                                     options={{
                                         suppressMarkers: true,
                                         preserveViewport: true,
                                     }}
-
-                                    directions={directionRes}
+                                    directions={direction}
                                 />
                             )}
                         </GoogleMap>
                     )}
                 </div>
-
-                <div
-                    className={`fixed bottom-0 right-0 h-[400px] w-full transition-transform duration-300 sm:absolute  sm:h-[calc(100vh-120px)] sm:max-w-[50%]   sm:duration-500 ${
-                        isDisplayRoute
-                            ? " translate-y-0 sm:translate-x-0 "
-                            : " translate-y-full sm:translate-y-0 sm:translate-x-full "
-                    }`}
-                >
-                    <div className="flex h-full w-full shrink-0 ">
-                        <div className="flex items-center">
-                            <div className="flex flex-col items-center ">
-                                <FontAwesomeIcon icon={faRoute} />
-                                <div className="">เส้นทาง</div>
-                            </div>
-                            <div className="flex flex-col items-center ">
-                                <FontAwesomeIcon icon={faRoute} />
-                                <div className="">รายละเอียด</div>
-                            </div>
-                        </div>
-                        {directionRes && (
-                            // <RouteDisplay routes={directionRes?.routes[0].legs[0]} />
-                            <RouteDisplay
-                                userLocationError={userLocationError}
-                                routes={directionRes?.routes[0].legs[0]}
-                                setActivePopup={setActivePopup}
-                                endPoint={router.query.slug}
-                            />
-                        )}
-
-                        {/* hide n show button */}
-                        <div
-                            className="flex-col-cen absolute bottom-full left-0  h-16 w-full rounded-t-3xl  border  bg-white   sm:left-0 sm:top-1/2 sm:hidden"
-                            onClick={() => setIsDisplayRoute((e) => !e)}
-                        >
-                            <FontAwesomeIcon
-                                icon={faChevronDown}
-                                className={`rotate-180 text-text-lightest transition-transform duration-700  ${
-                                    isDisplayRoute && "rotate-0"
-                                }`}
-                            />
-                            <div className="text-text ">เส้นทาง</div>
-                        </div>
-
-                        {/* hide n show button */}
-                        <div
-                            className="flex-col-cen absolute  top-1/2 right-full hidden h-10 w-10 rounded-l-xl border bg-white sm:flex"
-                            onClick={() => setIsDisplayRoute((e) => !e)}
-                        >
-                            <FontAwesomeIcon
-                                icon={faChevronRight}
-                                className={`rotate-180 text-text transition-transform duration-700  ${
-                                    isDisplayRoute && "rotate-0"
-                                }`}
-                            />
-                        </div>
-                    </div>
-                </div>
+                <DetailDisplay
+                    isDisplayRoute={isDisplayRoute}
+                    setIsDisplayRoute={setIsDisplayRoute}
+                    userLocationError={userLocationError}
+                />
                 {/* <div ref={panel }  className="fixed top-0 left-0"></div>   */}
             </div>
         </div>

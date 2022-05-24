@@ -11,19 +11,17 @@ import { faCircle } from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 // import constants
-import { maneuverMap } from "../../utils/ManeuverMap";
+import { maneuverMap } from "../../../utils/ManeuverMap";
 
 // import hooks
-import useIsTouchDevice from "../../composables/useIsTouchDevice";
+import useIsTouchDevice from "../../../composables/useIsTouchDevice";
+import { useActiveDirection } from "../../../context/DirectionContext";
 
-const RouteDisplay = ({
-    routes,
-    setActivePopup,
-    userLocationError,
-    endPoint,
-}) => {
+const RouteDisplay = ({ routes, userLocationError, endPoint }) => {
     const isTouch = useIsTouchDevice();
+    const { setActiveDirection } = useActiveDirection();
     const [active, setActive] = useState(routes ? 0 : null);
+
     const shapedRoutes = useMemo(() => {
         const getSplitRoute = (s) => {
             const regex = /(<([^>]+)>)/gi;
@@ -75,7 +73,7 @@ const RouteDisplay = ({
     }, [active, isTouch]);
 
     return (
-        <div className="absolute inset-0  z-10 flex  flex-col overflow-y-auto rounded-md bg-white px-2 py-2 sm:border">
+        <div className="relative inset-0 z-10  flex  w-full shrink-0  flex-col overflow-y-auto rounded-md border bg-white px-2 py-2">
             <div className="my-2 mt-6 flex items-center px-[7px] text-xl font-semibold text-text">
                 เส้นทาง
                 <span className="ml-4 text-base font-light text-text-lighter">
@@ -120,7 +118,7 @@ const RouteDisplay = ({
                     }`}
                     onClick={() => {
                         setActive(index);
-                        setActivePopup(index);
+                        setActiveDirection(index);
                     }}
                 >
                     <div className="relative z-10   mb-2 flex h-10 items-center  justify-between rounded-full  p-[7px] text-sm font-light text-text sm:text-base">
