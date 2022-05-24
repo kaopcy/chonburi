@@ -4,13 +4,22 @@ import React from "react";
 import { restaurantType } from "../../generalConfig";
 const RestaurantType = () => {
     return (
-        <div className="invisible absolute  top-full flex flex-col whitespace-nowrap rounded-md  border bg-white  py-4  opacity-0 shadow-md transition-opacity group-hover:visible group-hover:opacity-100">
-            {restaurantType.map((poi) => (
-                <div className="flex h-10 w-full items-center px-6 font-normal hover:bg-gray-50 cursor-pointer">
-                    <div className="flex w-10 justify-start">
-                        <FontAwesomeIcon icon={poi.icon} className="" />
+        <div className="invisible absolute  top-full flex flex-col whitespace-nowrap rounded-md  border bg-white  py-3  opacity-0 shadow-md transition-opacity group-hover:visible group-hover:opacity-100">
+            {restaurantType.map((restaurant) => (
+                <div
+                    key={restaurant.name}
+                    className="flex h-10 w-48 cursor-pointer  items-center px-3 font-normal hover:bg-gray-50"
+                >
+                    <div
+                        className="flex-cen mr-3 aspect-square w-6 shrink-0  rounded-md"
+                        style={{ backgroundColor: restaurant.color }}
+                    >
+                        <FontAwesomeIcon
+                            icon={restaurant.icon}
+                            className="text-sm text-white"
+                        />
                     </div>
-                    <div className="">{poi.name}</div>
+                    <div className="text-base">{restaurant.name}</div>
                 </div>
             ))}
         </div>

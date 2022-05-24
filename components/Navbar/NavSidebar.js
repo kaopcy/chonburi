@@ -7,14 +7,14 @@ import {
 } from "react";
 import gsap from "gsap/dist/gsap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faXmark } from "@fortawesome/free-solid-svg-icons";
+import { faChevronRight, faXmark } from "@fortawesome/free-solid-svg-icons";
 
 import { useRouter } from "next/router";
 import Link from "next/link";
+import MatchLink from "../Utils/MatchLink";
 
 const NavSidebar = forwardRef(({ setIsOpen, navItems }, ref) => {
     const router = useRouter();
-
     const animation = useRef(null);
     const container = useRef(null);
     const overlay = useRef(null);
@@ -29,7 +29,16 @@ const NavSidebar = forwardRef(({ setIsOpen, navItems }, ref) => {
                 },
             })
             .to(container.current, { left: 0 })
-            .to(overlay.current, { opacity: 0.5 }, "<");
+            .to(overlay.current, { opacity: 0.5 }, "<")
+            .fromTo(
+                ".sidebar-item",
+                { xPercent: -120 },
+                {
+                    xPercent: 0,
+                    stagger: { amount: 0.2, each: 0.1 },
+                },
+                "<0.1"
+            );
         animation.current.play();
     }, []);
 
@@ -47,7 +56,7 @@ const NavSidebar = forwardRef(({ setIsOpen, navItems }, ref) => {
                 onClick={() => animationToggle()}
             ></div>
             <div
-                className="absolute -left-full flex h-full w-full max-w-[300px] flex-col items-start bg-white pt-10"
+                className="absolute -left-full flex h-full w-full max-w-[300px] flex-col items-start  bg-white pt-10 text-lg"
                 ref={container}
             >
                 <FontAwesomeIcon
@@ -55,23 +64,114 @@ const NavSidebar = forwardRef(({ setIsOpen, navItems }, ref) => {
                     icon={faXmark}
                     className=" absolute top-0 right-0 p-4 text-lg text-text "
                 />
-                {navItems.map((link, i) => (
-                    <Link href={link.to} key={Math.random(0) * (i + 1)}>
-                        <div
-                            className={`cursor-pointer relative     text-lg ${
-                                link.match ? "text-primary" : "text-text"
-                            }`}
-                        >
-                            <span className="">{link.name}</span>
-                            {link.match && (
-                                <div className="h-[2px] w-full absolute left-0 bottom-0 bg-primary"></div>
-                            )}
-                        </div>
-                    </Link>
-                ))}
+                {navItems.map((link) =>
+                    link.to === "/" ? (
+                        <NormalLink link={link} key={link.name} />
+                    ) : (
+                        <DropdownLink link={link} key={link.name} />
+                    )
+                )}
             </div>
         </div>
     );
 });
+
+const NormalLink = ({ link }) => {
+    return (
+        <div className="flex w-full flex-col">
+            <div className="relative flex w-full  cursor-pointer items-center  justify-between px-4  py-2 ">
+                <MatchLink path={link.to}>
+                    {({ isMatch }) => (
+                        <div className="flex items-center">
+                            <FontAwesomeIcon
+                                icon={link.icon}
+                                className={`mr-4 text-base text-text-lighter  ${
+                                    isMatch && "!text-primary"
+                                }`}
+                            />
+                            <span className="z-10 whitespace-nowrap tracking-tighter">
+                                {link.name}
+                            </span>
+                            {isMatch && (
+                                <div className="absolute left-0 top-0 z-10 h-full w-[4px] bg-primary"></div>
+                            )}
+                        </div>
+                    )}
+                </MatchLink>
+            </div>
+        </div>
+    );
+};
+
+const DropdownLink = ({ link }) => {
+    const [isDropdown, setIsDropdown] = useState(false);
+    const dropdownAnimation = useRef(null);
+    const container = useRef(null);
+    const detail = useRef(null);
+
+    useEffect(() => {
+        dropdownAnimation.current = gsap.to(container.current, {
+            height: detail.current.clientHeight,
+            paused: true,
+            reversed: true,
+            ease: "none",
+            duration: 0.3,
+        });
+        return () => {
+            if (dropdownAnimation.current) {
+                dropdownAnimation.current.kill();
+            }
+        };
+    }, []);
+
+    return (
+        <div className="flex w-full flex-col">
+            <div className=" relative flex w-full  cursor-pointer items-center  justify-between px-4  py-2 ">
+                <MatchLink path={link.to}>
+                    {({ isMatch }) => (
+                        <>
+                            <div className="flex items-center">
+                                <FontAwesomeIcon
+                                    icon={link.icon}
+                                    className={`mr-4 text-base text-text-lighter  ${
+                                        isMatch && "!text-primary"
+                                    }`}
+                                />
+                                <span className="z-10 whitespace-nowrap tracking-tighter text-text">
+                                    {link.name}
+                                </span>
+                                {isMatch && (
+                                    <div className="absolute left-0 top-0 z-10 h-full w-[4px] bg-primary"></div>
+                                )}
+                            </div>
+                        </>
+                    )}
+                </MatchLink>
+                <FontAwesomeIcon
+                    icon={faChevronRight}
+                    className={`justify-self-end text-sm text-text-lightest transition-transform  ${
+                        dropdownAnimation.current?.reversed() && "rotate-90"
+                    }`}
+                    onClick={() => {
+                        dropdownAnimation.current.reversed()
+                            ? dropdownAnimation.current.play()
+                            : dropdownAnimation.current.reverse();
+                        // setIsDropdown((e) => !e);
+                    }}
+                />
+            </div>
+            <div
+                ref={container}
+                className="relative h-0 w-full overflow-hidden"
+            >
+                <div className="absolute bottom-0 left-0" ref={detail}>
+                    Lorem ipsum dolor, sit amet consectetur adipisicing elit.
+                    Ducimus officiis, maxime esse perspiciatis harum cumque!
+                    Omnis non ab rem soluta?
+                </div>
+            </div>
+        </div>
+    );
+};
 
 export default NavSidebar;
