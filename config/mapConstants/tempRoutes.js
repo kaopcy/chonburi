@@ -1,4 +1,4 @@
-export const routes = {
+const tempRoutes = {
     "geocoded_waypoints": [
         {
             "geocoder_status": "OK",
@@ -32558,4 +32558,8 @@ export const routes = {
         },
         "travelMode": "WALKING"
     }
+}
+
+export {
+    tempRoutes
 }
