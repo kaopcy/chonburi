@@ -21,7 +21,7 @@
         @apply flex flex-row items-center justify-center;
     }
     .mobile {
-        @apply visible lg:invisible
+        @apply visible lg:invisible;
     }
 }
 
@@ -29,13 +29,13 @@ html,
 body {
     padding: 0;
     margin: 0;
-    font-family: "Kanit";
+    font-family: "Sarabun";
     scroll-behavior: auto;
 }
 
 * {
     box-sizing: border-box;
-    font-family: "Kanit";
+    font-family: "Sarabun";
     scroll-behavior: auto;
 }
 
@@ -65,4 +65,10 @@ body {
 
 .inner-shadow {
     box-shadow: inset 0px 0px 60px 10px rgba(0, 0, 0, 0.3);
+}
+
+.st0 {
+    fill: none;
+    stroke-width: 1.5;
+    stroke-miterlimit: 10;
 }
