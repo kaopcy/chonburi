@@ -74,21 +74,21 @@ const RouteDisplay = ({ routes, userLocationError, endPoint }) => {
 
     return (
         <div className="relative inset-0 z-10  flex  w-full shrink-0  flex-col overflow-y-auto rounded-md border bg-white px-2 py-2">
-            <div className="my-2 mt-6 flex items-center px-[7px] text-xl font-semibold text-text">
+            {/* <div className="my-2 mt-6 flex items-center px-[7px] text-xl font-semibold text-text">
                 เส้นทาง
                 <span className="ml-4 text-base font-light text-text-lighter">
                     ระยะทางรวม {routes.distance.text}
                 </span>
-            </div>
+            </div> */}
 
             <div className="mb-4 flex w-full flex-col">
-                <div className="flex items-center space-x-2">
+                <div className="flex items-center space-x-2 mt-2">
                     <FontAwesomeIcon
-                        className="w-6 text-xs text-primary  "
+                        className="w-6 text-xs text-primary shrink-0 "
                         icon={faCircle}
                     />
-                    <div className="text-base font-light text-text">
-                        {userLocationError ? "จากกรุงเทพ" : "ตำแหน่งของคุณ"}
+                    <div className="text-base font-light text-text w-full flex justify-between">
+                        {userLocationError ? "จากกรุงเทพ" : "ตำแหน่งของคุณ"} <span className="text-text-lighter">ห่าง {routes.distance.text}</span>
                     </div>
                 </div>
                 <div className="flex items-center space-x-2">
@@ -108,7 +108,7 @@ const RouteDisplay = ({ routes, userLocationError, endPoint }) => {
                 </div>
             </div>
 
-            <div className="mb-4 h-[2px] w-[85%] shrink-0 self-center  bg-zinc-100"></div>
+            <div className="mb-4 h-[1px] w-[110%] shrink-0 self-center  bg-zinc-100"></div>
 
             {shapedRoutes.map((route, index) => (
                 <div
@@ -123,7 +123,7 @@ const RouteDisplay = ({ routes, userLocationError, endPoint }) => {
                 >
                     <div className="relative z-10   mb-2 flex h-10 items-center  justify-between rounded-full  p-[7px] text-sm font-light text-text sm:text-base">
                         <div
-                            className={`absolute top-0 left-0 h-full w-full rounded-full bg-zinc-100 transition-colors ${
+                            className={`absolute top-0 left-0 h-full w-full rounded-full bg-[#C8C8C81A] transition-colors ${
                                 active === index && "!bg-white "
                             }`}
                         ></div>
@@ -131,7 +131,7 @@ const RouteDisplay = ({ routes, userLocationError, endPoint }) => {
                             <div className="relative mr-2  flex items-center">
                                 <FontAwesomeIcon
                                     icon={route?.icon}
-                                    className={` aspect-square shrink-0 rounded-full bg-zinc-300 p-2 text-white ${
+                                    className={` aspect-square shrink-0 rounded-full bg-[#DDDDDD] p-2 text-white ${
                                         active === index && "!bg-green-500"
                                     }`}
                                 />

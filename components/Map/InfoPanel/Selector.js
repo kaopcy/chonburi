@@ -15,9 +15,9 @@ const Selector = ({ setSelect, select }) => {
                 `}
             >
                 <FontAwesomeIcon className="text-lg " icon={faRoute} />
-                <div className="text-sm ">เส้นทาง</div>
+                <div className="text-sm whitespace-nowrap font-light">เส้นทาง</div>
                 <div
-                    className={`absolute bottom-0 left-0 h-[2px] w-full origin-right scale-x-0 bg-text transition-transform ${
+                    className={`duration-700 absolute bottom-0 left-0 h-[2px] w-full origin-right scale-x-0 bg-text transition-transform ${
                         select === "เส้นทาง" && "scale-x-100"
                     }`}
                 ></div>
@@ -29,9 +29,9 @@ const Selector = ({ setSelect, select }) => {
                 `}
             >
                 <FontAwesomeIcon className="text-lg " icon={faNewspaper} />
-                <div className="text-sm ">รายละเอียด</div>
+                <div className="text-sm whitespace-nowrap font-light">รายละเอียด</div>
                 <div
-                    className={`absolute bottom-0 left-0 h-[2px] w-full origin-left scale-x-0 bg-text transition-transform ${
+                    className={`duration-700 absolute bottom-0 left-0 h-[2px] w-full origin-left scale-x-0 bg-text transition-transform ${
                         select === "รายละเอียด" && "scale-x-100"
                     }`}
                 ></div>
