@@ -1,6 +1,5 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import groq from "groq";
-import gsap from "gsap/dist/gsap";
 import { useRouter } from "next/router";
 import {
     useJsApiLoader,
@@ -20,33 +19,34 @@ import {
     useActiveDirection,
     DirectionProvider,
 } from "../../context/DirectionContext";
+import { PostProvider, usePost, usePosts } from "../../context/PostContext";
 
 // import constants
 import { coords } from "../../config/mapConstants/chonburiCoor";
 import { mapStyles } from "../../config/mapConstants/mapStyles";
 
-// import icon
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-    faChevronDown,
-    faChevronRight,
-    faRoute,
-} from "@fortawesome/free-solid-svg-icons";
-import { faNewspaper } from "@fortawesome/free-regular-svg-icons";
-import DetailDisplay from "../../components/Map/RouteDisplay/DetailDisplay";
+// import components
+import InfoPanel from "../../components/Map/InfoPanel/InfoPanel";
 
-const Travel = ({ post }) => (
-    <DirectionProvider>
-        <Inside post={post} />
-    </DirectionProvider>
-);
+const Travel = ({ post, posts }) => {
+    return (
+        <PostProvider initialPost={post} initialPosts={posts}>
+            <DirectionProvider>
+                <Inside />
+            </DirectionProvider>
+        </PostProvider>
+    );
+};
 
-const Inside = ({ post }) => {
+const Inside = () => {
     // post = tempPost;
     const router = useRouter();
     if (router.isFallback) return <div className="">Loading</div>;
 
     // not fallback
+    const { post } = usePost();
+    const { posts } = usePosts();
+
     const { isLoaded } = useJsApiLoader({
         region: "th",
         language: "th",
@@ -99,6 +99,38 @@ const Inside = ({ post }) => {
         polyline.setMap(map);
     };
 
+    // add nearby marker
+    const nearByMarker = useRef([]);
+    const timeoutRef = useRef([]);
+
+    const addNearbyMarker = () => {
+        if (!map) return;
+        clearMarker();
+        for (let i = 0; i < posts.length; i++) {
+            timeoutRef.current.push(
+                window.setTimeout(() => {
+                    nearByMarker.current.push(
+                        new google.maps.Marker({
+                            position: {
+                                lat: posts[i].coords.lat,
+                                lng: posts[i].coords.lng,
+                            },
+                            map,
+                            title: posts[i].title,
+                            animation: google.maps.Animation.DROP,
+                        })
+                    );
+                }, i * 50)
+            );
+        }
+    };
+
+    const clearMarker = () => {
+        timeoutRef.current.forEach((e) => clearTimeout(e));
+        nearByMarker.current.forEach((e) => e.setMap(null));
+        nearByMarker.current = [];
+    };
+
     const onMapLoad = (map) => {
         // calculateDirection();
         map.panTo(defaultCenter);
@@ -111,6 +143,19 @@ const Inside = ({ post }) => {
     return (
         <div className="relative flex w-full flex-col items-center sm:px-3">
             <div className="relative flex w-full  justify-center overflow-hidden ">
+                <div
+                    onClick={() => addNearbyMarker()}
+                    className="absolute top-0 left-0 z-10 rounded-xl bg-white px-4 py-2 text-text"
+                >
+                    Click Me
+                </div>
+
+                <div
+                    onClick={() => clearMarker()}
+                    className="absolute top-0 left-20 z-10 rounded-xl bg-white px-4 py-2 text-text"
+                >
+                    Clear
+                </div>
                 {/* {post.body && <PortableText value={post.body} />} */}
                 <div
                     className={`relative flex h-[calc(100vh-120px)]  w-full transition-transform duration-500 ${
@@ -156,14 +201,14 @@ const Inside = ({ post }) => {
                                 <Marker
                                     options={{ optimized: true }}
                                     position={currentLocation}
-                                    animation={google.maps.Animation.BOUNCE}
+                                    animation={google.maps.Animation.DROP}
                                 />
                             )}
                             {tempLocation && (
                                 <Marker
                                     options={{ optimized: true }}
                                     position={tempLocation}
-                                    animation={google.maps.Animation.BOUNCE}
+                                    animation={google.maps.Animation.DROP}
                                 />
                             )}
                             {directionActive && (
@@ -203,7 +248,7 @@ const Inside = ({ post }) => {
                         </GoogleMap>
                     )}
                 </div>
-                <DetailDisplay
+                <InfoPanel
                     isDisplayRoute={isDisplayRoute}
                     setIsDisplayRoute={setIsDisplayRoute}
                     userLocationError={userLocationError}
@@ -226,14 +271,20 @@ export async function getStaticPaths() {
     };
 }
 
-const query = groq`
+const postQuery = groq`
 *[(_type == "post" || _type == "restaurant") && slug.current == $slug][0]`;
+const postsQuery = groq`
+*[(_type == "post" || _type == "restaurant")] {_id,coords , title}`;
 
 export async function getStaticProps({ params, preview = false }) {
-    const post = await getClient(preview).fetch(query, { slug: params.slug });
+    const post = await getClient(preview).fetch(postQuery, {
+        slug: params.slug,
+    });
+    const posts = await getClient(preview).fetch(postsQuery);
     return {
         props: {
             post,
+            posts,
         },
     };
 }
