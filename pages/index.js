@@ -57,7 +57,7 @@ const Home = ({ posts, restaurants }) => {
             >
                 <div className="relative h-full w-full  overflow-hidden rounded-xl">
                     <div
-                        className="absolute bottom-0 aspect-[16/14] w-full sm:aspect-[16/11] sm:w-[110%]"
+                        className="absolute bottom-0   aspect-[16/14] w-full sm:aspect-[16/11] sm:w-[110%]"
                         ref={imageRef}
                     >
                         <Image
@@ -72,11 +72,11 @@ const Home = ({ posts, restaurants }) => {
                         ref={quoteRef}
                         className="absolute top-1/2 right-[30%] z-10 flex w-[55%] -translate-y-1/2 flex-col self-center border-[4.5px] border-white px-2 py-4 text-[25px] font-semibold text-white sm:text-[30px] md:right-[40%] md:w-[47%] md:border-[10px] md:text-[40px] lg:min-w-[475px] lg:px-10 lg:text-[55px] xl:text-[70px]"
                     >
-                        <div className="self-start whitespace-nowrap">
+                        <div className="self-start whitespace-nowrap font-kanit">
                             แหล่งท่องเที่ยว
                         </div>
-                        <div className="self-end">
-                            ใน" <span className="text-[#5ABDFF]">ชลบุรี</span> "
+                        <div className="self-end font-kanit">
+                            ใน" <span className="text-[#5ABDFF] font-kanit">ชลบุรี</span> "
                         </div>
                     </div>
                 </div>
