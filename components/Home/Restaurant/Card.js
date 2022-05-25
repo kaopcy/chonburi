@@ -110,14 +110,14 @@ const RestaurantCard = ({ post, currentLocation }) => {
                     </Link>
                 </div>
                 {/* <Indicator index={index} postNum={post.mainImage.length} /> */}
-                <div className="mt-5 flex w-full min-w-0 items-center justify-between">
+                <div className="mt-5 flex w-full min-w-0 items-center text-sm justify-between">
                     <div className="ellipsis text-text-lighter">
                         {post.location}
                     </div>
                     <Type locationType={post.locationType} />
                 </div>
                 <div className=" mt-1 flex items-center justify-between">
-                    <h1 className="text-2xl font-medium text-text ">
+                    <h1 className="text-2xl font-semibold text-text ">
                         {post.title}
                     </h1>
                 </div>
@@ -125,10 +125,10 @@ const RestaurantCard = ({ post, currentLocation }) => {
                     {post.tag &&
                         post.tag.map((tag) => <Tag tag={tag} key={tag._id} />)}
                 </div>
-                <div className=" flex items-center font-light text-text-lighter">
+                <div className=" flex items-center font-light text-text-lighter text-sm mt-1">
                     <FontAwesomeIcon
                         icon={faLocationDot}
-                        className="mr-2 text-sm text-red-500"
+                        className="mr-2 text-xs text-red-500"
                     />
                     ระยะห่าง {distance ? distance : "-- เมตร"}
                     {!distance && (

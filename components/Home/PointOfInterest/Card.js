@@ -117,20 +117,20 @@ const Card = ({ post, currentLocation, isUserLocation }) => {
                 </div>
                 {/* <Indicator index={index} postNum={post.mainImage.length} /> */}
                 <div className="mt-5 flex w-full min-w-0 items-center justify-between">
-                    <div className="ellipsis text-text-lighter">
+                    <div className="ellipsis text-text-lighter text-sm">
                         {post.location}
                     </div>
                     <Type locationType={post.locationType} />
                 </div>
                 <div className=" mt-1 flex items-center justify-between">
-                    <h1 className="text-2xl font-medium text-text ">
+                    <h1 className="text-2xl font-semibold text-text ">
                         {post.title}
                     </h1>
                 </div>
-                <div className=" flex items-center font-light text-text-lighter">
+                <div className=" flex mt-1 items-center text-sm font-light text-text-lighter">
                     <FontAwesomeIcon
                         icon={faLocationDot}
-                        className="mr-2 text-sm text-red-500"
+                        className="mr-2 text-xs text-red-500"
                     />
                     {isUserLocation
                         ? `ห่างจากกรุงเทพ ${distance ? distance : "-- เมตร"}`
@@ -141,7 +141,7 @@ const Card = ({ post, currentLocation, isUserLocation }) => {
                                 icon={faQuestionCircle}
                                 className="ml-4 text-sm text-text-lightest"
                             />
-                            <div className="absolute bottom-full left-0 hidden w-[100px] overflow-hidden rounded-md border px-2 py-1 text-xs group-hover:flex">
+                            <div className="absolute bottom-full left-0 hidden w-[100px]  overflow-hidden rounded-md border px-2 py-1 text-xs group-hover:flex">
                                 <div className="absolute inset-0 bg-white opacity-40"></div>
                                 <div className="z-10">
                                     คุณไม่ได้เปิดใช้งานตำแหน่ง
