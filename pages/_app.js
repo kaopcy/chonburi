@@ -23,15 +23,18 @@ import Image from "next/dist/client/image";
 import { urlFor } from "../lib/sanity";
 
 import { PortableTextComponentsProvider } from "@portabletext/react";
+import { useEffect } from "react";
 
 function MyApp({ Component, pageProps }) {
-  
+    useEffect(() => {
+        
+    }, []);
     return (
         <PortableTextComponentsProvider components={CustomPortableText}>
-            <ProgressBar />
             <div className="w-full">
+                <ProgressBar />
                 <Navbar />
-                <div className="h-[100px]"></div>
+                {/* <div className="h-[100px]"></div> */}
                 <Component {...pageProps} />
             </div>
         </PortableTextComponentsProvider>
@@ -43,7 +46,7 @@ const CustomPortableText = {
         image: ({ value }) => (
             <div className="relative  aspect-video w-[60vw] md:w-[50vw] lg:w-[40vw] ">
                 <Image
-                    priority='low'
+                    priority="low"
                     layout="fill"
                     objectFit="cover"
                     src={urlFor(value).url()}

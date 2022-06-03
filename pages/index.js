@@ -51,6 +51,8 @@ const Home = ({ posts, restaurants }) => {
 
     return (
         <div className="flex min-h-screen w-full flex-col bg-white px-3 text-text sm:px-16">
+                <div className="h-[100px]"></div>
+
             <div
                 ref={parallaxTrigger}
                 className="relative mt-4 aspect-[16/11]  w-full max-w-[1300px] self-center sm:aspect-[16/9] "
