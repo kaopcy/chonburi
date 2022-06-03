@@ -4,6 +4,7 @@
 
 @import url("https://fonts.googleapis.com/css2?family=Kanit:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Sarabun:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800&display=swap");
+
 @layer components {
     .btn-primary {
         @apply cursor-pointer border border-transparent bg-primary-light text-white transition-colors duration-200 hover:border-primary-light   hover:bg-white hover:text-primary-light disabled:!cursor-default  disabled:border-gray-200  disabled:bg-white disabled:!text-gray-200;
@@ -33,10 +34,20 @@ body {
     scroll-behavior: auto;
 }
 
-* {
-    box-sizing: border-box;
-    font-family: "Sarabun";
-    scroll-behavior: auto;
+@media (max-width: 768px) {
+    html {
+        overflow: hidden;
+        width: 100vw;
+        height: 100%;
+    }
+
+    body {
+        height: 100%;
+        width: 100%;
+        position: fixed;
+        overflow-y: scroll;
+        -webkit-overflow-scrolling: touch;
+    }
 }
 
 .triangle {
@@ -71,4 +82,11 @@ body {
     fill: none;
     stroke-width: 1.5;
     stroke-miterlimit: 10;
+}
+
+.labels {
+    background-color: #fff;
+    border-radius: 10px;
+    border: 1px solid red;
+    padding: 10px 5px;
 }

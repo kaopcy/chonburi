@@ -9,11 +9,11 @@ const MuseumIcon = ({ color }) => {
             x="0px"
             y="0px"
             viewBox="0 0 20 20"
+            className="st0"
         >
             <polygon
                 fill="none"
                 stroke={color}
-                strokeWidth="1.5px"
                 strokeLinecap="round"
                 strokeLinejoin="round"
                 strokeMiterlimit="10"
@@ -23,7 +23,6 @@ const MuseumIcon = ({ color }) => {
             <line
                 fill="none"
                 stroke={color}
-                strokeWidth="1.5px"
                 strokeLinecap="round"
                 strokeLinejoin="round"
                 strokeMiterlimit="10"
@@ -35,7 +34,6 @@ const MuseumIcon = ({ color }) => {
             <line
                 fill="none"
                 stroke={color}
-                strokeWidth="1.5px"
                 strokeLinecap="round"
                 strokeLinejoin="round"
                 strokeMiterlimit="10"
@@ -47,7 +45,6 @@ const MuseumIcon = ({ color }) => {
             <polygon
                 fill="none"
                 stroke={color}
-                strokeWidth="1.5px"
                 strokeLinecap="round"
                 strokeLinejoin="round"
                 strokeMiterlimit="10"
@@ -57,7 +54,6 @@ const MuseumIcon = ({ color }) => {
             <line
                 fill="none"
                 stroke={color}
-                strokeWidth="1.5px"
                 strokeLinecap="round"
                 strokeLinejoin="round"
                 strokeMiterlimit="10"
@@ -69,7 +65,6 @@ const MuseumIcon = ({ color }) => {
             <line
                 fill="none"
                 stroke={color}
-                strokeWidth="1.5px"
                 strokeLinecap="round"
                 strokeLinejoin="round"
                 strokeMiterlimit="10"
