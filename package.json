@@ -40,6 +40,7 @@
         "autoprefixer": "^10.4.5",
         "eslint": "8.14.0",
         "eslint-config-next": "12.1.5",
+        "markerwithlabel": "^2.0.2",
         "postcss": "^8.4.13",
         "prettier": "^2.6.2",
         "prettier-plugin-tailwindcss": "^0.1.10",
