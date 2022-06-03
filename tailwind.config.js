@@ -17,7 +17,7 @@ module.exports = {
                 text: {
                     lightest: "#DFDFDF",
                     lighter: "#8B8B8B",
-                    DEFAULT: "#4F4F4F",
+                    DEFAULT: "#222222",
                     dark: "#7F7F7F",
                 },
                 primary: {
@@ -25,6 +25,9 @@ module.exports = {
                     DEFAULT: "#5ABDFF",
                 },
             },
+            animation:{
+                'bounce-once': 'bounce 2s linear'
+            }
         },
     },
     plugins: [],
