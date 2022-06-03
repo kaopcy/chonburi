@@ -15,7 +15,7 @@ const RestaurantList = ({ restaurants }) => {
     return (
         <div className="mx-auto mt-10 flex w-full max-w-[1300px] flex-col items-start">
             <div className="mb-0 flex w-full items-center justify-between">
-                <span className="flex items-center text-2xl font-semibold text-text lg:text-3xl">
+                <span className="flex items-center text-lg font-semibold text-text sm:text-2xl lg:text-3xl">
                     ร้านอาหาร{" "}
                     <span className="mx-1 font-normal text-text-lightest">
                         {" "}
@@ -24,11 +24,11 @@ const RestaurantList = ({ restaurants }) => {
                     คาเฟ่แนะนำ
                     <FontAwesomeIcon
                         icon={faMugHot}
-                        className="ml-3 mb-1 text-2xl text-text-lightest"
+                        className="ml-3 mb-1  text-text-lightest"
                     />
                 </span>
                 <Link href={"/travel"} passHref>
-                    <span className="text-sm text-primary underline sm:text-base cursor-pointer">
+                    <span className="cursor-pointer text-sm text-primary underline sm:text-base">
                         ดูเพิ่มเติม...
                     </span>
                 </Link>

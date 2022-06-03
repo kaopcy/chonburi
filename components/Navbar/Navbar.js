@@ -21,6 +21,7 @@ import MatchLink from "../Utils/MatchLink";
 const Navbar = () => {
     const router = useRouter();
     const navbarRef = useRef(null);
+    const iconRef = useRef(null);
     const animation = useRef(null);
 
     useEffect(() => {
@@ -37,7 +38,12 @@ const Navbar = () => {
                 height: "70px",
                 duration: 0.7,
                 ease: "expo.inOut",
-            });
+            })
+            .to(
+                iconRef.current,
+                { ease: "expo.inOut", fontSize: "30px", duration: 0.7 },
+                "<"
+            );
     }, []);
 
     // navsidebar
@@ -46,12 +52,15 @@ const Navbar = () => {
     return (
         <div
             ref={navbarRef}
-            className="fixed z-[100] flex h-[70px] w-full  flex-col lg:h-[100px]"
+            className="fixed z-[100] flex  h-[70px] w-full flex-col  shadow-sm lg:h-[100px]"
         >
-            <div className="hidden h-full w-full  max-w-[1300px] items-center justify-between self-center px-3  text-xl font-medium text-text lg:flex">
+            <div className="hidden h-full w-full  max-w-[1300px] items-center justify-between self-center px-20 text-xl  font-medium text-text lg:flex 2xl:px-3">
                 <div className="absolute top-0 left-0 z-10 h-full w-full bg-white opacity-80"></div>
                 <Link href={"/"} passHref>
-                    <h1 className="z-20 cursor-pointer  text-[40px] font-bold text-text">
+                    <h1
+                        className="z-20 cursor-pointer  text-[40px] font-bold text-text "
+                        ref={iconRef}
+                    >
                         ชลบุรี
                     </h1>
                 </Link>
@@ -130,9 +139,9 @@ const Navbar = () => {
                     />
                 </div>
             </div>
-            <div className="flex h-full  w-full max-w-[1300px] items-center justify-between self-center  px-3 text-xl font-medium text-text lg:hidden">
+            <div className="flex h-full  w-full max-w-[1300px] items-center justify-between  self-center px-3 text-xl   font-medium text-text sm:px-16 lg:hidden" ref={navbarRef}>
                 <div className="absolute top-0 left-0 z-10 h-full w-full bg-white opacity-80"></div>
-                <Link href={"/"} passHref>
+                <Link href={"/"} passHref >
                     <h1 className="z-20  cursor-pointer text-3xl font-semibold ">
                         ชลบุรี
                     </h1>
