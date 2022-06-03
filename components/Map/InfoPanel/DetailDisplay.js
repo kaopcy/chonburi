@@ -12,6 +12,7 @@ import MuseumIcon from "../../../icons/MuseumIcon";
 import GlobeIcon from "../../../icons/GlobeIcon";
 import LocationIcon from "../../../icons/LocationIcon";
 
+
 const DetailDisplay = () => {
     const { post } = usePost();
     useEffect(() => {
@@ -19,33 +20,36 @@ const DetailDisplay = () => {
     }, [post]);
 
     return (
-        <div className="relative inset-0 z-10 flex  w-full shrink-0  flex-col overflow-y-auto  rounded-md border bg-white px-4">
+        <div className="relative inset-0 z-10 flex  w-full   shrink-0  flex-col overflow-y-auto  rounded-md border bg-white px-4">
+            <div className="text-3xl font-thin  mt-6 rounded-md border self-start px-4 py2">{post.title}</div>
+            <div className="my-6 h-[1px] w-full shrink-0 bg-zinc-200 "></div>
+
             <div className="mt-6 flex items-center">
-                <div className="mr-5 h-7 w-7 shrink-0">
-                    <MuseumIcon color="#4F4F4F" />
+                <div className="mr-5 h-7 w-7 shrink-0 ">
+                    <MuseumIcon color="#1a73e8" />
                 </div>
                 <div className=" flex flex-col items-start text-text">
-                    <span className="font-bold">ประเภทแหล่งท่องเที่ยว</span>
+                    <span className="font-bold ">ประเภทแหล่งท่องเที่ยว</span>
                     <span className="text-text-lighter">
                         {post.locationType.split("#")[0]}
                     </span>
                 </div>
             </div>
             <div className="mt-3 flex items-center">
-                <div className="mr-5 h-7 w-7 shrink-0">
-                    <GlobeIcon color="#4F4F4F" />
+                <div className="mr-5 h-7 w-7 shrink-0 ">
+                    <GlobeIcon color="#1a73e8" />
                 </div>
                 <div className=" flex flex-col items-start text-text">
-                    <span className="font-bold">สถานที่ตั้ง</span>
+                    <span className="font-bold ">สถานที่ตั้ง</span>
                     <span className="text-text-lighter">{post.location}</span>
                 </div>
             </div>
             <div className="mt-3 flex items-center">
                 <div className="mr-5 h-7 w-7 shrink-0">
-                    <LocationIcon color="#4F4F4F" />
+                    <LocationIcon color="#1a73e8" />
                 </div>
                 <div className="flex flex-col items-start text-text">
-                    <span className="font-bold">ตำแหน่ง</span>
+                    <span className="font-bold ">ตำแหน่ง</span>
                     <span className="flex flex-wrap text-text-lighter ">
                         <span className="mr-4">
                             ละติจูด: {post.coords.lat}{" "}
@@ -55,7 +59,7 @@ const DetailDisplay = () => {
                 </div>
             </div>
 
-            <div className="my-4 h-[1px] w-full shrink-0 bg-zinc-200 "></div>
+            <div className="my-6 h-[1px] w-full shrink-0 bg-zinc-200 "></div>
             <Images post={post} />
             <div className="my-4 h-[1px] w-full shrink-0 bg-zinc-200 "></div>
 
@@ -83,8 +87,8 @@ const DetailDisplay = () => {
 
 const Images = ({ post }) => {
     return (
-        <div className="relative flex w-full space-x-2">
-            <div className="flex w-full flex-col space-y-2">
+        <div className="relative flex w-full space-x-2 lg:space-x-3">
+            <div className="flex w-full flex-col space-y-2 lg:space-y-3">
                 <div className="relative aspect-[3/2] h-full overflow-hidden  rounded-tl-xl ">
                     <Image
                         priority="low"

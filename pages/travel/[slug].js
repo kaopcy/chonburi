@@ -1,5 +1,6 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import groq from "groq";
+import gsap from "gsap/dist/gsap";
 import { useRouter } from "next/router";
 import {
     useJsApiLoader,
@@ -20,21 +21,28 @@ import {
     DirectionProvider,
 } from "../../context/DirectionContext";
 import { PostProvider, usePost, usePosts } from "../../context/PostContext";
+import { SelectProvider, useSelect } from "../../context/SelectContext";
 
 // import constants
 import { coords } from "../../config/mapConstants/chonburiCoor";
 import { mapStyles } from "../../config/mapConstants/mapStyles";
+import { chonburiShape } from "../../config/mapConstants/chonburiShape";
 
 // import components
 import InfoPanel from "../../components/Map/InfoPanel/InfoPanel";
 
+// import icons
+import { faImage } from '@fortawesome/free-solid-svg-icons'
+
 const Travel = ({ post, posts }) => {
     return (
-        <PostProvider initialPost={post} initialPosts={posts}>
-            <DirectionProvider>
-                <Inside />
-            </DirectionProvider>
-        </PostProvider>
+        <SelectProvider>
+            <PostProvider initialPost={post} initialPosts={posts}>
+                <DirectionProvider>
+                    <Inside />
+                </DirectionProvider>
+            </PostProvider>
+        </SelectProvider>
     );
 };
 
@@ -89,20 +97,12 @@ const Inside = () => {
         setDirection(result);
     };
 
-    const setPolyline = () => {
-        const polyline = new google.maps.Polyline({
-            path: [...coords.map((e) => new google.maps.LatLng(e[0], e[1]))],
-            strokeColor: "#000000",
-            strokeOpacity: 1,
-            strokeWeight: 2,
-        });
-        polyline.setMap(map);
-    };
+    const setPolyline = () => {};
 
     // add nearby marker
     const nearByMarker = useRef([]);
     const timeoutRef = useRef([]);
-
+    const { select } = useSelect();
     const addNearbyMarker = () => {
         if (!map) return;
         clearMarker();
@@ -116,6 +116,7 @@ const Inside = () => {
                                 lng: posts[i].coords.lng,
                             },
                             map,
+
                             title: posts[i].title,
                             animation: google.maps.Animation.DROP,
                         })
@@ -131,34 +132,58 @@ const Inside = () => {
         nearByMarker.current = [];
     };
 
+    useEffect(() => {
+        if (select === "สถานที่อื่นๆ") addNearbyMarker();
+        else clearMarker();
+    }, [select]);
+
     const onMapLoad = (map) => {
+        const MarkerWithLabel = require("markerwithlabel")(google.maps);
         // calculateDirection();
         map.panTo(defaultCenter);
         if (map.getZoom() !== 10) {
             map.setZoom(9);
         }
         setMap(map);
+        chonburiShape.forEach((shape) => {
+            const polyline = new google.maps.Polygon({
+                fillColor: "#fff",
+                fillOpacity: 0.2,
+                path: [...shape.map((e) => new google.maps.LatLng(e[1], e[0]))],
+                strokeColor: "#4d4d4d",
+                strokeOpacity: 1,
+                strokeWeight: 1.5,
+            });
+            console.log("set polyline");
+            polyline.setMap(map);
+        });
+        var marker1 = new MarkerWithLabel({
+            position: currentLocation,
+            draggable: true,
+            raiseOnDrag: true,
+            map: map,
+            labelContent: `
+            <b>ไอควย</b>
+            `,
+            labelAnchor: new google.maps.Point(22, 0),
+            labelClass: "labels", // the CSS class for the label
+            labelStyle: { opacity: 0.75 },
+            animation: google.maps.Animation.DROP,
+        });
+    };
+
+    const [zoom, setZoom] = useState(null);
+    const onZoom = () => {
+        // if (!map) return;
+        // setZoom(map.getZoom());
     };
 
     return (
         <div className="relative flex w-full flex-col items-center sm:px-3">
-            <div className="relative flex w-full  justify-center overflow-hidden ">
-                <div
-                    onClick={() => addNearbyMarker()}
-                    className="absolute top-0 left-0 z-10 rounded-xl bg-white px-4 py-2 text-text"
-                >
-                    Click Me
-                </div>
-
-                <div
-                    onClick={() => clearMarker()}
-                    className="absolute top-0 left-20 z-10 rounded-xl bg-white px-4 py-2 text-text"
-                >
-                    Clear
-                </div>
+            <div className="relative flex h-screen  w-full  justify-center overflow-hidden ">
                 {/* {post.body && <PortableText value={post.body} />} */}
                 <div
-                    className={`relative flex h-[calc(100vh-120px)]  w-full transition-transform duration-500 ${
+                    className={`relative flex  h-full w-full transition-transform duration-500 ${
                         isDisplayRoute
                             ? "sm:translate-x-[-200px]"
                             : "sm:translate-x-0"
@@ -196,13 +221,17 @@ const Inside = () => {
                                 styles: mapStyles,
                             }}
                             onLoad={onMapLoad}
+                            onZoomChanged={onZoom}
                         >
                             {currentLocation && (
                                 <Marker
                                     options={{ optimized: true }}
                                     position={currentLocation}
                                     animation={google.maps.Animation.DROP}
-                                />
+                                    >
+                                        children={<div>หัวดอเอ้ย</div>}
+
+                                    </Marker>
                             )}
                             {tempLocation && (
                                 <Marker
@@ -213,12 +242,17 @@ const Inside = () => {
                             )}
                             {directionActive && (
                                 <OverlayView
+                                    onLoad={() => {
+                                        gsap.from(".overlay-ref", {
+                                            yPercent: 100,
+                                        });
+                                    }}
                                     position={directionActive.lat_lngs[0]}
                                     mapPaneName={
                                         OverlayView.OVERLAY_MOUSE_TARGET
                                     }
                                 >
-                                    <div className=" relative flex origin-top-right -translate-x-full flex-col rounded-md  border bg-white p-3 py-2 text-sm  text-text opacity-90">
+                                    <div className="overlay-ref  relative flex origin-top-right  -translate-x-full flex-col rounded-md  border bg-white p-3 py-2 text-sm  text-text opacity-100 shadow-md">
                                         <div className="">
                                             {direction.routes[0].legs[0].steps
                                                 .length -
@@ -230,12 +264,24 @@ const Inside = () => {
                                                 : "เส้นทาง"}
                                         </div>
                                         <div className="">
-                                            {directionActive.distance.text}
+                                            {directionActive.distance.text} ละก็{" "}
+                                            {zoom}
                                         </div>
                                     </div>
                                 </OverlayView>
                             )}
-
+                            {directionActive && (
+                                <OverlayView
+                                    position={directionActive.lat_lngs[0]}
+                                    mapPaneName={OverlayView.MARKER_LAYER}
+                                >
+                                    <div className="absolute top-1/2 left-1/2 h-[10px] w-[10px] -translate-x-1/2 -translate-y-1/2 rounded-full border-2 bg-white"></div>
+                                </OverlayView>
+                            )}
+                            <TestMarker
+                                lng={currentLocation.lng}
+                                lat={currentLocation.lat}
+                            />
                             {direction && (
                                 <DirectionsRenderer
                                     options={{
@@ -257,6 +303,10 @@ const Inside = () => {
             </div>
         </div>
     );
+};
+
+const TestMarker = (props) => {
+    return <div className="">ควย</div>;
 };
 
 export async function getStaticPaths() {

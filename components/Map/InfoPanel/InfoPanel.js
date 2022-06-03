@@ -9,6 +9,7 @@ import Selector from "./Selector";
 import { useDirectionContext } from "../../../context/DirectionContext";
 import { usePost } from "../../../context/PostContext";
 
+import { useSelect } from "../../../context/SelectContext";
 // import icons
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -24,28 +25,32 @@ const InfoPanel = ({
     const router = useRouter();
     const { post } = usePost();
     const { direction, setDirection } = useDirectionContext();
-    const [select, setSelect] = useState("รายละเอียด");
+
+    const { select } = useSelect();
 
     return (
         <div
-            className={`fixed bottom-0 font-light right-0 h-[calc(100vh-250px)] w-full text-text transition-transform duration-300 sm:absolute  sm:h-[calc(100vh-120px)] sm:max-w-[50%]   sm:duration-500 ${
+            className={`fixed bottom-0 right-0 h-[calc(100vh-250px)] w-full font-light text-text shadow-lg transition-transform duration-300 sm:absolute  sm:h-[calc(100vh-120px)] sm:max-w-[600px] sm:w-1/2   sm:duration-500 ${
                 isDisplayRoute
                     ? " translate-y-0 sm:translate-x-0 "
                     : " translate-y-full sm:translate-y-0 sm:translate-x-full "
             }`}
         >
             <div className="flex h-full w-full shrink-0 flex-col overflow-hidden bg-white">
-                <div className="flex w-full items-center justify-between px-4">
-                    <div className=" ellipsis  whitespace-nowrap text-2xl  text-text font-bold">
+                <div className="flex w-full items-center justify-end px-4">
+                    {/* <div className=" ellipsis  whitespace-nowrap text-2xl  text-text font-bold">
                         {router.query.slug}
-                    </div>
-                    <Selector select={select} setSelect={setSelect} />
+                    </div> */}
+                    <Selector />
                 </div>
                 <div
                     className={`flex h-full w-full   sm:transition-transform sm:duration-700  ${
-                        select === "รายละเอียด" && "-translate-x-full "
-                    }`}
+                        select === "เส้นทาง" && "!-translate-x-full "
+                    }    ${select === "สถานที่อื่นๆ" && "-translate-x-[200%] "}
+                    `}
                 >
+                    {direction && <DetailDisplay />}
+
                     {direction && (
                         <RouteDisplay
                             userLocationError={userLocationError}
