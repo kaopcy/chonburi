@@ -1,73 +1,67 @@
 export const mapStyles = [
     {
         featureType: "administrative",
-        elementType: "all",
+        elementType: "labels.text.fill",
         stylers: [
             {
-                visibility: "on",
+                color: "#6195a0",
             },
         ],
     },
     {
-        featureType: "administrative",
-        elementType: "geometry.fill",
-        stylers: [
-            {
-                visibility: "on",
-            },
-        ],
-    },
-    {
-        featureType: "administrative",
+        featureType: "administrative.province",
         elementType: "geometry.stroke",
         stylers: [
             {
-                visibility: "on",
-            },
-        ],
-    },
-    {
-        featureType: "administrative",
-        elementType: "labels.text",
-        stylers: [
-            {
-                visibility: "on",
+                visibility: "off",
             },
         ],
     },
     {
         featureType: "landscape",
-        elementType: "all",
-        stylers: [
-            {
-                visibility: "on",
-            },
-        ],
-    },
-    {
-        featureType: "poi",
-        elementType: "all",
-        stylers: [
-            {
-                visibility: "on",
-            },
-        ],
-    },
-    {
-        featureType: "poi",
         elementType: "geometry",
         stylers: [
             {
                 lightness: "0",
             },
+            {
+                saturation: "0",
+            },
+            {
+                color: "#f5f5f2",
+            },
+            {
+                gamma: "1",
+            },
         ],
     },
     {
-        featureType: "poi.medical",
-        elementType: "geometry.fill",
+        featureType: "landscape.man_made",
+        elementType: "all",
         stylers: [
             {
-                lightness: "-5",
+                lightness: "-3",
+            },
+            {
+                gamma: "1.00",
+            },
+        ],
+    },
+    {
+        featureType: "landscape.natural.terrain",
+        elementType: "all",
+        stylers: [
+            {
+                visibility: "off",
+            },
+        ],
+    },
+    {
+        featureType: "poi",
+        elementType: "all",
+        stylers: [
+            {
+                visibility: "off",
             },
         ],
     },
@@ -76,37 +70,10 @@ export const mapStyles = [
         elementType: "geometry.fill",
         stylers: [
             {
+                color: "#bae5ce",
+            },
+            {
                 visibility: "on",
-            },
-            {
-                color: "#a7ce95",
-            },
-            {
-                lightness: "45",
-            },
-        ],
-    },
-    {
-        featureType: "poi.school",
-        elementType: "geometry",
-        stylers: [
-            {
-                color: "#be9b7b",
-            },
-            {
-                lightness: "70",
-            },
-        ],
-    },
-    {
-        featureType: "poi.sports_complex",
-        elementType: "geometry",
-        stylers: [
-            {
-                color: "#5d4b46",
-            },
-            {
-                lightness: "60",
             },
         ],
     },
@@ -115,25 +82,115 @@ export const mapStyles = [
         elementType: "all",
         stylers: [
             {
+                saturation: -100,
+            },
+            {
+                lightness: 45,
+            },
+            {
                 visibility: "on",
             },
         ],
     },
     {
-        featureType: "transit.station",
-        elementType: "geometry",
+        featureType: "road.highway",
+        elementType: "all",
         stylers: [
             {
-                saturation: "23",
+                visibility: "simplified",
+            },
+        ],
+    },
+    {
+        featureType: "road.highway",
+        elementType: "geometry.fill",
+        stylers: [
+            {
+                color: "#fac9a9",
             },
             {
-                lightness: "10",
+                visibility: "simplified",
+            },
+        ],
+    },
+    {
+        featureType: "road.highway",
+        elementType: "labels.text",
+        stylers: [
+            {
+                color: "#4e4e4e",
+            },
+        ],
+    },
+    {
+        featureType: "road.arterial",
+        elementType: "labels.text.fill",
+        stylers: [
+            {
+                color: "#787878",
+            },
+        ],
+    },
+    {
+        featureType: "road.arterial",
+        elementType: "labels.icon",
+        stylers: [
+            {
+                visibility: "off",
+            },
+        ],
+    },
+    {
+        featureType: "transit",
+        elementType: "all",
+        stylers: [
+            {
+                visibility: "simplified",
+            },
+        ],
+    },
+    {
+        featureType: "transit.station.airport",
+        elementType: "labels.icon",
+        stylers: [
+            {
+                hue: "#0a00ff",
             },
             {
-                gamma: "0.8",
+                saturation: "-77",
             },
             {
-                hue: "#b000ff",
+                gamma: "0.57",
+            },
+            {
+                lightness: "0",
+            },
+        ],
+    },
+    {
+        featureType: "transit.station.rail",
+        elementType: "labels.text.fill",
+        stylers: [
+            {
+                color: "#43321e",
+            },
+        ],
+    },
+    {
+        featureType: "transit.station.rail",
+        elementType: "labels.icon",
+        stylers: [
+            {
+                hue: "#ff6c00",
+            },
+            {
+                lightness: "4",
+            },
+            {
+                gamma: "0.75",
+            },
+            {
+                saturation: "-68",
             },
         ],
     },
@@ -141,6 +198,9 @@ export const mapStyles = [
         featureType: "water",
         elementType: "all",
         stylers: [
+            {
+                color: "#eaf6f8",
+            },
             {
                 visibility: "on",
             },
@@ -151,7 +211,22 @@ export const mapStyles = [
         elementType: "geometry.fill",
         stylers: [
             {
-                color: "#a2daf2",
+                color: "#c7eced",
+            },
+        ],
+    },
+    {
+        featureType: "water",
+        elementType: "labels.text.fill",
+        stylers: [
+            {
+                lightness: "-49",
+            },
+            {
+                saturation: "-53",
+            },
+            {
+                gamma: "0.79",
             },
         ],
     },
