@@ -14,19 +14,13 @@ const PoiDropdown = () => {
     return (
         <div className="invisible absolute top-full flex flex-col rounded-md  border bg-white   px-4 py-3 opacity-0 shadow-lg transition-opacity group-hover:visible group-hover:opacity-100">
             {poiType.map((poi, index) => (
-                <>
-                    <div
-                        key={poi.name}
-                        className="flex  w-64   cursor-pointer items-center py-2 font-normal hover:bg-gray-50"
-                    >
-                        <div className="flex-cen mr-3 aspect-square w-10 shrink-0  rounded-md py-2 relative overflow-hidden">
-
-                            <div className="absolute inset-0 bg-[#FAFAFA] z-0">
-
-                            </div>
+                <div key={poi.name + index} >
+                    <div className="flex  w-64   cursor-pointer items-center py-2 font-normal hover:bg-gray-50">
+                        <div className="flex-cen relative mr-3 aspect-square w-10  shrink-0 overflow-hidden rounded-md py-2">
+                            <div className="absolute inset-0 z-0 bg-[#FAFAFA]"></div>
                             <FontAwesomeIcon
                                 icon={poi.icon}
-                                className="text-base z-10"
+                                className="z-10 text-base"
                                 color={poi.color}
                             />
                         </div>
@@ -39,11 +33,10 @@ const PoiDropdown = () => {
                             </div>
                         </div>
                     </div>
-                    {index < poiType.length - 1 &&
-                        <div className="h-[1px] w-full my-2  bg-slate-100"></div>
-
-                    }
-                </>
+                    {index < poiType.length - 1 && (
+                        <div className="my-2 h-[1px] w-full  bg-slate-100"></div>
+                    )}
+                </div>
             ))}
         </div>
     );
