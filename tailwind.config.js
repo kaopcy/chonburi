@@ -17,7 +17,7 @@ module.exports = {
                 text: {
                     lightest: "#DFDFDF",
                     lighter: "#8B8B8B",
-                    DEFAULT: "#222222",
+                    DEFAULT: "#4f4f4f",
                     dark: "#7F7F7F",
                 },
                 primary: {
