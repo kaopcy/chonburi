@@ -10,19 +10,19 @@ export const restaurantType = [
         name: "ร้านอาหาร",
         color: "#293D7D",
         icon: faUtensils,
-        description: "ร้านอาหารที่อยู่ในชลบุรี",
+        description: "ร้านอาหารที่อยู่ในชลบุร",
     },
     {
         name: "คาเฟ่",
         color: "#FF4848",
         icon: faCake,
-        description: "ร้านอาหารที่อยู่ในชลบุรี",
+        description: "ร้านอาหารที่อยู่ในชลบุ",
     },
     {
         name: "บาร์",
         color: "#006317",
         icon: faBeerMugEmpty,
-        description: "ร้านอาหารที่อยู่ในชลบุรี",
+        description: "ร้านอาหารที่อยู่ในชรี",
     },
     {
         name: "ร้านกาแฟ",

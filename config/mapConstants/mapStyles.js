@@ -56,15 +56,7 @@ export const mapStyles = [
             },
         ],
     },
-    {
-        featureType: "poi",
-        elementType: "all",
-        stylers: [
-            {
-                visibility: "off",
-            },
-        ],
-    },
+    
     {
         featureType: "poi.park",
         elementType: "geometry.fill",
