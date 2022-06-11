@@ -21,8 +21,23 @@
     .flex-cen {
         @apply flex flex-row items-center justify-center;
     }
-    .mobile {
-        @apply visible lg:invisible;
+    .mobile-sm {
+        @apply visible block sm:invisible  sm:hidden;
+    }
+    .mobile-md {
+        @apply visible block md:invisible  md:hidden;
+    }
+    .mobile-lg {
+        @apply visible block lg:invisible  lg:hidden;
+    }
+    .desktop-sm {
+        @apply invisible hidden sm:visible  sm:block;
+    }
+    .desktop-md {
+        @apply invisible hidden md:!visible  md:block;
+    }
+    .desktop-lg {
+        @apply invisible hidden lg:!visible  lg:block;
     }
 }
 

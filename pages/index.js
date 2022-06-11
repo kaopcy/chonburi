@@ -11,7 +11,7 @@ import useIsTouchDevice from "../composables/useIsTouchDevice";
 import LocationList from "../components/Home/PointOfInterest/PointOfInterestList";
 import SearchBar from "../components/Home/SearchBar";
 import RestaurantList from "../components/Home/Restaurant/RestaurantList";
-import RunningText from "../components/Map/RunningText";
+import RunningText from "../components/Home/RunningText";
 
 // import images
 import chonburiImage from "../public/images/background.jpg";

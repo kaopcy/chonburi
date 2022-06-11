@@ -1,43 +1,48 @@
+import Image from "next/dist/client/image";
 import dynamic from "next/dynamic";
+import { useEffect } from "react";
 import "../styles/globals.css";
-import Head from "next/head";
 
-// font awesome
+// import dependencies
+import { PortableTextComponentsProvider } from "@portabletext/react";
+import gsap from "gsap/dist/gsap";
+import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
+
+// import icons
 import { config } from "@fortawesome/fontawesome-svg-core";
 import "@fortawesome/fontawesome-svg-core/styles.css";
 config.autoAddCss = false;
 
+// import progressbar
 import "nprogress/nprogress.css";
 
-// import
+// import configs
+import { urlFor } from "../lib/sanity";
+
+// import contexts
+import { UserLocationProvider } from "../context/UserLocationContext";
+
+// import components
 import Navbar from "../components/Navbar/Navbar";
 const ProgressBar = dynamic(() => import("../components/ProgressBar"), {
     ssr: false,
 });
 
-import gsap from "gsap/dist/gsap";
-import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
 gsap.registerPlugin(ScrollTrigger);
 
-import Image from "next/dist/client/image";
-import { urlFor } from "../lib/sanity";
-
-import { PortableTextComponentsProvider } from "@portabletext/react";
-import { useEffect } from "react";
 
 function MyApp({ Component, pageProps }) {
-    useEffect(() => {
-        
-    }, []);
     return (
-        <PortableTextComponentsProvider components={CustomPortableText}>
-            <div className="w-full">
-                <ProgressBar />
-                <Navbar />
-                {/* <div className="h-[100px]"></div> */}
-                <Component {...pageProps} />
-            </div>
-        </PortableTextComponentsProvider>
+        <UserLocationProvider>
+            <PortableTextComponentsProvider components={CustomPortableText}>
+                <div className="w-full">
+                    <ProgressBar />
+                    <Navbar />
+                    {/* <div className="h-[100px]"></div> */}
+                    <Component {...pageProps} />
+                </div>
+            </PortableTextComponentsProvider>
+        </UserLocationProvider>
     );
 }
 

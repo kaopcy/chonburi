@@ -1,312 +1,129 @@
-import React, { useEffect, useMemo, useRef, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import groq from "groq";
-import gsap from "gsap/dist/gsap";
-import { useRouter } from "next/router";
-import {
-    useJsApiLoader,
-    GoogleMap,
-    Marker,
-    DirectionsRenderer,
-    OverlayView,
-} from "@react-google-maps/api";
-import { PortableText } from "@portabletext/react";
-import { getCenter } from "geolib";
 
-// import custom hooks
-import useGeolocation from "../../composables/useGeolocation";
+// import confixs
 import { getClient } from "../../lib/sanity.server";
-import {
-    useDirectionContext,
-    useActiveDirection,
-    DirectionProvider,
-} from "../../context/DirectionContext";
-import { PostProvider, usePost, usePosts } from "../../context/PostContext";
-import { SelectProvider, useSelect } from "../../context/SelectContext";
-
-// import constants
-import { coords } from "../../config/mapConstants/chonburiCoor";
-import { mapStyles } from "../../config/mapConstants/mapStyles";
-import { chonburiShape } from "../../config/mapConstants/chonburiShape";
-
-// import components
-import InfoPanel from "../../components/Map/InfoPanel/InfoPanel";
 
 // import icons
-import { faImage } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+    faChevronDown,
+    faChevronLeft,
+} from "@fortawesome/free-solid-svg-icons";
 
-const Travel = ({ post, posts }) => {
+// import contexts
+import {
+    SelectorContextProvider,
+    useSelectorContext,
+} from "../../context/Travel/SelectorContext";
+import { PostContextProvider } from "../../context/Travel/PostContext";
+import { DirectionProvider } from "../../context/DirectionContext";
+import { ActiveOtherPlaceProvider } from "../../context/Travel/ActiveOtherPlaceContext";
+
+// import components
+import Selector from "../../components/Travel/Selector";
+import TravelDetail from "../../components/Travel/Detail/TravelDetail";
+import OtherPlaceDetail from "../../components/Travel/Detail/OtherPlaceDetail";
+import RouteDetail from "../../components/Travel/Detail/RouteDetail";
+import Map from "../../components/Travel/Map/Map";
+import useIsTouchDevice from "../../composables/useIsTouchDevice";
+
+const Travel = ({ post: fetchedPost, posts: fetchedPosts }) => {
+    const isTouch = useIsTouchDevice();
+
     return (
-        <SelectProvider>
-            <PostProvider initialPost={post} initialPosts={posts}>
-                <DirectionProvider>
-                    <Inside />
-                </DirectionProvider>
-            </PostProvider>
-        </SelectProvider>
+        <PostContextProvider
+            fetchedPost={fetchedPost}
+            fetchedPosts={fetchedPosts}
+        >
+            <div
+                className={`flex  h-screen w-full flex-col overflow-hidden p-4 ${
+                    isTouch && "!h-[calc(100vh-100px)] "
+                }`}
+            >
+                <div className="h-[70px] md:h-[100px] shrink-0"></div>
+                <div className="relative flex h-full w-full overflow-hidden">
+                    <ActiveOtherPlaceProvider>
+                        <DirectionProvider>
+                            <SelectorContextProvider>
+                                {/* Map */}
+                                <div className="h-full w-full  shrink-0   md:w-[60%] md:max-w-[1000px]">
+                                    <div className="h-full w-full rounded-lg bg-white ">
+                                        <Map />
+                                    </div>
+                                </div>
+
+                                {/* Detail */}
+                                <Detail />
+                            </SelectorContextProvider>
+                        </DirectionProvider>
+                    </ActiveOtherPlaceProvider>
+                </div>
+            </div>
+        </PostContextProvider>
     );
 };
 
-const Inside = () => {
-    // post = tempPost;
-    const router = useRouter();
-    if (router.isFallback) return <div className="">Loading</div>;
+const Detail = () => {
+    const [isOpen, setIsOpen] = useState(true);
+    const { selectedMode } = useSelectorContext();
 
-    // not fallback
-    const { post } = usePost();
-    const { posts } = usePosts();
-
-    const { isLoaded } = useJsApiLoader({
-        region: "th",
-        language: "th",
-        googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAP_API_KEY,
-    });
-    const { currentLocation, error: userLocationError } = useGeolocation();
-    const { direction, setDirection } = useDirectionContext();
-    const { activeDirection } = useActiveDirection();
-
-    const [tempLocation, setTempLocation] = useState(post.coords);
-
-    const [map, setMap] = useState(/**@type google.maps.Map */ (null));
-
-    const directionActive = useMemo(() => {
-        return direction
-            ? direction.routes[0].legs[0].steps[activeDirection]
-            : null;
-    }, [direction, activeDirection]);
-
-    const defaultCenter = useMemo(() => {
-        if (!currentLocation) return null;
-        const center = getCenter([currentLocation, tempLocation]);
-        return { lat: center.latitude, lng: center.longitude };
-    }, [currentLocation]);
-
-    const [isDisplayRoute, setIsDisplayRoute] = useState(true);
-
+    const parentDetailContainer = useRef(null);
     useEffect(() => {
-        if (!map) return;
-        map.panTo(directionActive.lat_lngs[0]);
-    }, [directionActive]);
+        const calPosition = () => {
+            const elRef = document.getElementById(`${selectedMode}-detail`);
+            if (!elRef || !parentDetailContainer.current) return;
+            const { offsetLeft } = elRef;
+            parentDetailContainer.current.style.transform = `translate(-${offsetLeft}px , 0)`;
+        };
 
-    const calculateDirection = async () => {
-        const directionService = new google.maps.DirectionsService();
-        const result = await directionService.route({
-            origin: currentLocation,
-            destination: tempLocation,
-            travelMode: google.maps.TravelMode.WALKING,
-        });
-        setDirection(result);
-    };
-
-    const setPolyline = () => {};
-
-    // add nearby marker
-    const nearByMarker = useRef([]);
-    const timeoutRef = useRef([]);
-    const { select } = useSelect();
-    const addNearbyMarker = () => {
-        if (!map) return;
-        clearMarker();
-        for (let i = 0; i < posts.length; i++) {
-            timeoutRef.current.push(
-                window.setTimeout(() => {
-                    nearByMarker.current.push(
-                        new google.maps.Marker({
-                            position: {
-                                lat: posts[i].coords.lat,
-                                lng: posts[i].coords.lng,
-                            },
-                            map,
-
-                            title: posts[i].title,
-                            animation: google.maps.Animation.DROP,
-                        })
-                    );
-                }, i * 50)
-            );
-        }
-    };
-
-    const clearMarker = () => {
-        timeoutRef.current.forEach((e) => clearTimeout(e));
-        nearByMarker.current.forEach((e) => e.setMap(null));
-        nearByMarker.current = [];
-    };
-
-    useEffect(() => {
-        if (select === "สถานที่อื่นๆ") addNearbyMarker();
-        else clearMarker();
-    }, [select]);
-
-    const onMapLoad = (map) => {
-        const MarkerWithLabel = require("markerwithlabel")(google.maps);
-        // calculateDirection();
-        map.panTo(defaultCenter);
-        if (map.getZoom() !== 10) {
-            map.setZoom(9);
-        }
-        setMap(map);
-        chonburiShape.forEach((shape) => {
-            const polyline = new google.maps.Polygon({
-                fillColor: "#fff",
-                fillOpacity: 0.2,
-                path: [...shape.map((e) => new google.maps.LatLng(e[1], e[0]))],
-                strokeColor: "#4d4d4d",
-                strokeOpacity: 1,
-                strokeWeight: 1.5,
-            });
-            console.log("set polyline");
-            polyline.setMap(map);
-        });
-        var marker1 = new MarkerWithLabel({
-            position: currentLocation,
-            draggable: true,
-            raiseOnDrag: true,
-            map: map,
-            labelContent: `
-            <b>ไอควย</b>
-            `,
-            labelAnchor: new google.maps.Point(22, 0),
-            labelClass: "labels", // the CSS class for the label
-            labelStyle: { opacity: 0.75 },
-            animation: google.maps.Animation.DROP,
-        });
-    };
-
-    const [zoom, setZoom] = useState(null);
-    const onZoom = () => {
-        // if (!map) return;
-        // setZoom(map.getZoom());
-    };
+        calPosition();
+        window.addEventListener("resize", calPosition);
+        return () => window.removeEventListener("resize", calPosition);
+    }, [selectedMode]);
 
     return (
-        <div className="relative flex w-full flex-col items-center sm:px-3">
-            <div className="relative flex h-screen  w-full  justify-center overflow-hidden ">
-                {/* {post.body && <PortableText value={post.body} />} */}
-                <div
-                    className={`relative flex  h-full w-full transition-transform duration-500 ${
-                        isDisplayRoute
-                            ? "sm:translate-x-[-200px]"
-                            : "sm:translate-x-0"
-                    }`}
-                >
-                    {isLoaded && defaultCenter && (
-                        <GoogleMap
-                            center={defaultCenter}
-                            zoom={8}
-                            mapContainerStyle={{
-                                width: "100%",
-                                height: "100%",
-                            }}
-                            options={{
-                                restriction: {
-                                    latLngBounds: {
-                                        north: 20.4178496363,
-                                        south: 5.67,
-                                        west: 97.3758964376,
-                                        east: 105.589038527,
-                                    },
-                                    strictBounds: false,
-                                },
-                                streetViewControl: false,
-                                mapTypeControl: false,
-                                zoomControl: false,
-                                zoomControlOptions: {
-                                    position:
-                                        google.maps.ControlPosition.LEFT_CENTER,
-                                },
-                                fullscreenControlOptions: {
-                                    position:
-                                        google.maps.ControlPosition.TOP_LEFT,
-                                },
-                                styles: mapStyles,
-                            }}
-                            onLoad={onMapLoad}
-                            onZoomChanged={onZoom}
-                        >
-                            {currentLocation && (
-                                <Marker
-                                    options={{ optimized: true }}
-                                    position={currentLocation}
-                                    animation={google.maps.Animation.DROP}
-                                    >
-                                        children={<div>หัวดอเอ้ย</div>}
+        <div
+            className={`group fixed bottom-0 flex h-[80%] w-full translate-y-[calc(100%-68px)] flex-col transition-transform duration-[400ms] ease-in-out  md:relative md:h-full md:translate-x-full md:translate-y-0 ${
+                isOpen && "!translate-y-0 md:!translate-x-0"
+            }`}
+        >
+            {/* mobile control open */}
+            <div
+                className="mobile-md absolute bottom-full flex h-10 w-full shrink-0 items-center justify-center bg-white"
+                onClick={() => setIsOpen((e) => !e)}
+            >
+                <FontAwesomeIcon icon={faChevronDown} className="text-text" />
+            </div>
 
-                                    </Marker>
-                            )}
-                            {tempLocation && (
-                                <Marker
-                                    options={{ optimized: true }}
-                                    position={tempLocation}
-                                    animation={google.maps.Animation.DROP}
-                                />
-                            )}
-                            {directionActive && (
-                                <OverlayView
-                                    onLoad={() => {
-                                        gsap.from(".overlay-ref", {
-                                            yPercent: 100,
-                                        });
-                                    }}
-                                    position={directionActive.lat_lngs[0]}
-                                    mapPaneName={
-                                        OverlayView.OVERLAY_MOUSE_TARGET
-                                    }
-                                >
-                                    <div className="overlay-ref  relative flex origin-top-right  -translate-x-full flex-col rounded-md  border bg-white p-3 py-2 text-sm  text-text opacity-100 shadow-md">
-                                        <div className="">
-                                            {direction.routes[0].legs[0].steps
-                                                .length -
-                                                1 ===
-                                            activeDirection
-                                                ? "จุดหมาย"
-                                                : activeDirection === 0
-                                                ? "จุดเริ่มต้น"
-                                                : "เส้นทาง"}
-                                        </div>
-                                        <div className="">
-                                            {directionActive.distance.text} ละก็{" "}
-                                            {zoom}
-                                        </div>
-                                    </div>
-                                </OverlayView>
-                            )}
-                            {directionActive && (
-                                <OverlayView
-                                    position={directionActive.lat_lngs[0]}
-                                    mapPaneName={OverlayView.MARKER_LAYER}
-                                >
-                                    <div className="absolute top-1/2 left-1/2 h-[10px] w-[10px] -translate-x-1/2 -translate-y-1/2 rounded-full border-2 bg-white"></div>
-                                </OverlayView>
-                            )}
-                            <TestMarker
-                                lng={currentLocation.lng}
-                                lat={currentLocation.lat}
-                            />
-                            {direction && (
-                                <DirectionsRenderer
-                                    options={{
-                                        suppressMarkers: true,
-                                        preserveViewport: true,
-                                    }}
-                                    directions={direction}
-                                />
-                            )}
-                        </GoogleMap>
-                    )}
+            {/* desktop control open */}
+            <div
+                className={`desktop-md absolute top-1/2   right-full flex h-9 w-10   -translate-y-1/2 items-center justify-center  rounded-md rounded-r-none border  border-r-0 bg-white opacity-0 transition-all  group-hover:translate-x-0 group-hover:opacity-100
+                
+                    ${!isOpen && "!translate-x-0 opacity-100"}
+                `}
+                onClick={() => setIsOpen((e) => !e)}
+            >
+                <FontAwesomeIcon icon={faChevronLeft} className="text-text" />
+            </div>
+
+            <div className="h-full w-full shrink-0 rounded-lg  bg-white  lg:p-8 lg:pr-0 ">
+                <Selector setIsOpen={setIsOpen}/>
+                <div className="h-[1px] w-full bg-text-lightest"></div>
+
+                <div className="relative h-full w-full overflow-hidden ">
+                    <div
+                        ref={parentDetailContainer}
+                        className="absolute top-0 left-0 flex h-full w-full  flex-nowrap items-start transition-transform duration-500 ease-in-out"
+                    >
+                        <TravelDetail />
+                        <OtherPlaceDetail />
+                        <RouteDetail setIsOpen={setIsOpen} />
+                    </div>
                 </div>
-                <InfoPanel
-                    isDisplayRoute={isDisplayRoute}
-                    setIsDisplayRoute={setIsDisplayRoute}
-                    userLocationError={userLocationError}
-                />
-                {/* <div ref={panel }  className="fixed top-0 left-0"></div>   */}
             </div>
         </div>
     );
-};
-
-const TestMarker = (props) => {
-    return <div className="">ควย</div>;
 };
 
 export async function getStaticPaths() {
