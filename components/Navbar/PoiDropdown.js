@@ -16,8 +16,8 @@ const PoiDropdown = () => {
             {poiType.map((poi, index) => (
                 <div key={poi.name + index} >
                     <div className="flex  w-64   cursor-pointer items-center py-2 font-normal hover:bg-gray-50">
-                        <div className="flex-cen relative mr-3 aspect-square w-10  shrink-0 overflow-hidden rounded-md py-2">
-                            <div className="absolute inset-0 z-0 bg-[#FAFAFA]"></div>
+                        <div className="flex-cen relative mr-3 aspect-square w-10  shrink-0 overflow-hidden rounded-md py-2 shadow-big">
+                            <div className="absolute inset-0  z-0 bg-[#FAFAFA]"></div>
                             <FontAwesomeIcon
                                 icon={poi.icon}
                                 className="z-10 text-base"
