@@ -1,0 +1,33 @@
+<svg id="bca2e691-0d5a-470d-ae61-46d2c2867567" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 415.41162 210.71191">
+  <defs>
+    <style>
+      .a0e2313e-32f2-495e-8958-aacc8323def3 {
+        font-size: 176.7739px;
+        fill: #1e1e1e;
+        font-family: Kanit-SemiBold, Kanit;
+        font-weight: 600;
+      }
+
+      .b5ac47e5-aede-450c-bf13-191c051d48ce {
+        font-size: 37.74144px;
+        fill: #303030;
+        font-family: Kanit-Light, Kanit;
+        font-weight: 300;
+        letter-spacing: 0.284em;
+      }
+
+      .a029ac6f-4759-4597-a9a8-8878a2957564 {
+        fill: #676a6c;
+        stroke: #303030;
+        stroke-miterlimit: 10;
+        stroke-width: 2px;
+      }
+    </style>
+  </defs>
+  <title>Untitled-2</title>
+  <text class="a0e2313e-32f2-495e-8958-aacc8323def3" transform="translate(0 145.30664)">ชลบุรี</text>
+  <text class="b5ac47e5-aede-450c-bf13-191c051d48ce" transform="translate(7.69482 187.91699)">CHONBURI </text>
+  <line class="a029ac6f-4759-4597-a9a8-8878a2957564" x1="336.39101" y1="165.83957" x2="407.39101" y2="165.83957"/>
+  <line class="a029ac6f-4759-4597-a9a8-8878a2957564" x1="336.22217" y1="185.21191" x2="407.22217" y2="185.21191"/>
+  <line class="a029ac6f-4759-4597-a9a8-8878a2957564" x1="336.22217" y1="175.71191" x2="407.22217" y2="175.71191"/>
+</svg>
