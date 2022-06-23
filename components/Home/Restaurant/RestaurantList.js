@@ -21,7 +21,7 @@ const RestaurantList = ({ restaurants }) => {
                         {" "}
                         &{" "}
                     </span>{" "}
-                    คาเฟ่แนะนำ
+                    คาเฟ่
                     <FontAwesomeIcon
                         icon={faMugHot}
                         className="ml-3 mb-1  text-text-lightest"

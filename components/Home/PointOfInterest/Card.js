@@ -58,7 +58,7 @@ const Card = ({ post, currentLocation, isUserLocation }) => {
     }, [currentLocation, post.coords]);
 
     return (
-        <div className="relative mr-5 mb-4  flex h-full w-[300px] shrink-0 flex-col justify-between bg-white py-8">
+        <div className="relative mr-5 mb-4  flex h-full w-[230px] shrink-0   flex-col justify-between bg-white py-8 md:w-[300px]">
             <div className="flex flex-col">
                 <div className="group relative aspect-[16/12] w-full overflow-hidden rounded-xl">
                     <div className="absolute inset-0 overflow-hidden rounded-xl transition-transform duration-500 group-hover:scale-125">
@@ -117,31 +117,29 @@ const Card = ({ post, currentLocation, isUserLocation }) => {
                 </div>
                 {/* <Indicator index={index} postNum={post.mainImage.length} /> */}
                 <div className="mt-5 flex w-full min-w-0 items-center justify-between">
-                    <div className="ellipsis text-text-lighter text-sm">
+                    <div className="ellipsis text-xs md:text-sm text-text-lighter">
                         {post.location}
                     </div>
                     <Type locationType={post.locationType} />
                 </div>
                 <div className=" mt-1 flex items-center justify-between">
-                    <h1 className="text-2xl font-semibold text-text ">
+                    <h1 className="text-xl font-semibold text-text md:text-2xl ">
                         {post.title}
                     </h1>
                 </div>
-                <div className=" flex mt-1 items-center text-sm font-light text-text-lighter">
+                <div className=" mt-1 flex items-center text-xs font-light text-text-lighterr md:text-sm">
                     <FontAwesomeIcon
                         icon={faLocationDot}
                         className="mr-2 text-xs text-red-500"
                     />
-                    {isUserLocation
-                        ? `ห่างจากกรุงเทพ ${distance ? distance : "-- เมตร"}`
-                        : `ระยะห่าง ${distance ? distance : "-- เมตร"}`}
+                    ระยะห่าง {distance ? distance : "-- เมตร"}
                     {!distance && (
                         <div className="group relative">
                             <FontAwesomeIcon
                                 icon={faQuestionCircle}
                                 className="ml-4 text-sm text-text-lightest"
                             />
-                            <div className="absolute bottom-full left-0 hidden w-[100px]  overflow-hidden rounded-md border px-2 py-1 text-xs group-hover:flex">
+                            <div className="absolute bottom-full left-0 hidden w-[100px] overflow-hidden rounded-md border px-2 py-1 text-xs group-hover:flex">
                                 <div className="absolute inset-0 bg-white opacity-40"></div>
                                 <div className="z-10">
                                     คุณไม่ได้เปิดใช้งานตำแหน่ง
@@ -159,7 +157,7 @@ const Type = ({ locationType }) => {
     const { color, icon, name } = getTypeProperties(locationType);
     return (
         <div
-            className="flex items-center space-x-1 whitespace-nowrap rounded-l-full border bg-gray-200 px-[8px] py-[3px] text-xs text-text-dark"
+            className="flex items-center space-x-1 whitespace-nowrap rounded-l-full border bg-gray-200 px-[8px] py-[3px]  text-xxs md:text-xs text-text-dark"
             style={{
                 backgroundColor: color,
             }}

@@ -20,7 +20,7 @@ const Selector = ({ setIsOpen, isOpen }) => {
     const containerRef = useRef(null);
     return (
         <div
-            className={`relative flex  justify-center rounded-none bg-white  pt-3 pb-1 transition-all container-type-size md:w-full  md:justify-end ${
+            className={`relative flex  justify-center rounded-none bg-white pb-2 transition-all container-type-size md:w-full  md:justify-end ${
                 !isOpen && "w-[300px] self-center !rounded-full shadow-big"
             }`}
             ref={containerRef}
@@ -82,7 +82,7 @@ const Icon = ({ icon, text, isOpen, setIsOpen }) => {
     return (
         <div
             id={text}
-            className={`relative  mx-3 flex  cursor-pointer  flex-col items-center px-3 text-text-lightest cq-w-4:bg-blue-500 md:mx-0 md:ml-10 ${
+            className={`relative  mx-3 flex  cursor-pointer  flex-col items-center px-1  text-text-lightest  md:mx-2 ${
                 selectedMode === text && "!text-primary "
             }`}
             onClick={() => {
@@ -92,20 +92,17 @@ const Icon = ({ icon, text, isOpen, setIsOpen }) => {
         >
             <FontAwesomeIcon
                 icon={icon}
-                className={`mb-1 text-xl md:text-4xl ${
+                className={`mb-1 text-xl md:text-3xl ${
                     !isOpen && "mb-0 text-2xl"
                 }`}
             />
             <div
-                className={`whitespace-nowrap text-sm md:!text-base  ${
+                className={`whitespace-nowrap text-xs   ${
                     !isOpen && "!text-xxs font-semibold"
                 }`}
             >
                 {text}
             </div>
-            {/* {selectedMode === text && (
-                <div className="absolute bottom-0 mt-3 h-[3px] w-full translate-y-full  bg-text"></div>
-            )} */}
         </div>
     );
 };

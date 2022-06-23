@@ -122,10 +122,10 @@ const Card = forwardRef(({ post }, ref) => {
 
     return (
         <div
-            className={`my-3 border-b flex h-28  w-full min-w-0  shrink-0 items-center whitespace-nowrap  text-text transition-transform sm:h-36`}
+            className={`my-3 flex h-28 w-full  min-w-0 shrink-0  items-center whitespace-nowrap border-b  text-text transition-transform sm:h-32`}
             ref={cardRef}
         >
-            <div className="relative aspect-[12/9] h-full shrink-0 overflow-hidden rounded-xl  shadow-md sm:aspect-[11/9] md:aspect-[13/9]">
+            <div className="relative aspect-[12/9] h-full shrink-0 overflow-hidden rounded-xl  shadow-md sm:aspect-[11/9] md:aspect-[12/9]">
                 {post.mainImage[2] && (
                     <Image
                         priority="low"
@@ -140,7 +140,7 @@ const Card = forwardRef(({ post }, ref) => {
                 <div className="flex flex-col ">
                     <Type locationType={post.locationType} />
                     <div className=" mt-1 flex min-w-0 items-center justify-between">
-                        <h1 className="ellipsis text-lg font-semibold text-text sm:text-2xl ">
+                        <h1 className="ellipsis text-lg font-semibold text-text sm:text-xl ">
                             {post.title}
                         </h1>
                     </div>

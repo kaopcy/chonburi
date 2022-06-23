@@ -52,7 +52,7 @@ const RestaurantCard = ({ post, currentLocation }) => {
     }, [currentLocation, post.coords]);
 
     return (
-        <div className="relative mr-5 mb-4  flex h-full w-[300px] shrink-0 flex-col justify-between bg-white py-8">
+        <div className="relative mr-5 mb-4  flex h-full w-[230px] shrink-0  flex-col justify-between overflow-hidden bg-white py-8 md:w-[300px]">
             <div className="flex flex-col">
                 <div className="group relative aspect-[16/12] w-full overflow-hidden rounded-xl">
                     <div className="absolute inset-0 overflow-hidden rounded-xl transition-transform duration-500 group-hover:scale-125">
@@ -63,7 +63,7 @@ const RestaurantCard = ({ post, currentLocation }) => {
                                     className=" relative  aspect-[16/12] w-full  shrink-0 overflow-hidden  shadow-md "
                                 >
                                     <Image
-                                        priority='low'
+                                        priority="low"
                                         layout="fill"
                                         objectFit="cover"
                                         src={urlFor(image).url()}
@@ -110,14 +110,14 @@ const RestaurantCard = ({ post, currentLocation }) => {
                     </Link>
                 </div>
                 {/* <Indicator index={index} postNum={post.mainImage.length} /> */}
-                <div className="mt-5 flex w-full min-w-0 items-center text-sm justify-between">
-                    <div className="ellipsis text-text-lighter">
+                <div className="mt-5 flex w-full min-w-0 items-center justify-between text-sm">
+                    <div className="ellipsis text-xs text-text-lighter md:text-sm">
                         {post.location}
                     </div>
                     <Type locationType={post.locationType} />
                 </div>
-                <div className=" mt-1 flex items-center justify-between">
-                    <h1 className="text-2xl font-semibold text-text ">
+                <div className=" mt-1 flex min-w-0 items-center justify-between">
+                    <h1 className="ellipsis  text-xl font-semibold text-text md:text-2xl">
                         {post.title}
                     </h1>
                 </div>
@@ -125,7 +125,7 @@ const RestaurantCard = ({ post, currentLocation }) => {
                     {post.tag &&
                         post.tag.map((tag) => <Tag tag={tag} key={tag._id} />)}
                 </div>
-                <div className=" flex items-center font-light text-text-lighter text-sm mt-1">
+                <div className=" mt-1 flex items-center text-xs font-light text-text-lighterr md:text-sm">
                     <FontAwesomeIcon
                         icon={faLocationDot}
                         className="mr-2 text-xs text-red-500"
@@ -154,10 +154,10 @@ const RestaurantCard = ({ post, currentLocation }) => {
 const Type = ({ locationType }) => {
     const { color, icon, name } = getRestaurantTypeProperties(locationType);
     return (
-        <div className="e flex items-center space-x-1 whitespace-nowrap rounded-l-full px-[8px] py-[3px] text-sm text-text-dark">
+        <div className="flex items-center space-x-1 whitespace-nowrap rounded-l-full px-[8px] py-[3px] text-xxs text-text-dark md:text-sm">
             <FontAwesomeIcon
                 icon={icon}
-                className="aspect-square rounded-full p-[5px] text-white"
+                className="aspect-square rounded-full p-[5px] text-xxs text-white md:text-base"
                 style={{ color: "white", backgroundColor: color }}
             />
             <div className=" text-text-lighter">{name}</div>
@@ -167,9 +167,9 @@ const Type = ({ locationType }) => {
 
 const Tag = ({ tag }) => {
     return (
-        <div className="my-2 mr-2 flex cursor-pointer items-center rounded-full border px-3 py-[2px] text-xs text-text-lighter hover:bg-gray-100">
+        <div className="my-2 mr-2 flex cursor-pointer items-center rounded-full border px-3 py-[2px] text-xxs text-text-lighter hover:bg-gray-100 md:text-xs ">
             <FontAwesomeIcon icon={faCheck} className="mr-1 text-green-500" />
-            <div className="">{tag.name}</div>
+            <div className="ellipsis">{tag.name}</div>
         </div>
     );
 };

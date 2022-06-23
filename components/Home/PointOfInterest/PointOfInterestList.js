@@ -16,7 +16,7 @@ const LocationList = ({ posts }) => {
         <div className="mx-auto mt-10 flex w-full max-w-[1300px] flex-col items-start sm:mt-20">
             <div className="mb-0 flex w-full items-center justify-between">
                 <span className="flex items-center text-lg font-semibold text-text sm:text-2xl lg:text-3xl">
-                    แหล่งท่องเที่ยวแนะนำ
+                    แหล่งท่องเที่ยว
                     <FontAwesomeIcon
                         icon={faMountain}
                         className="ml-3  text-text-lightest"
