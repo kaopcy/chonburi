@@ -1,7 +1,29 @@
-import { useRef } from "react";
+import { useState } from "react";
+import { useCallback, useRef } from "react";
+import { useMapContext } from "../context/MapContext";
 
-export const useMapSmoothPan = (map) => {
-    const initzoom = useRef(null);
+export const useMapSmoothPan = () => {
+    const { map, isPanning, setIsPanning } = useMapContext();
+
+    // console.log('map-zoom:' , map?.getZoom());
+    const disableMapControl = () => {
+        if (!map) return;
+        map.setOptions({
+            draggable: false,
+            zoomControl: false,
+            scrollwheel: false,
+            disableDoubleClickZoom: true,
+        });
+    };
+    const enableMapControl = () => {
+        if (!map) return;
+        map.setOptions({
+            draggable: true,
+            zoomControl: false,
+            scrollwheel: true,
+            disableDoubleClickZoom: false,
+        });
+    };
 
     const project = (latLng) => {
         var TILE_SIZE = 256;
@@ -26,6 +48,8 @@ export const useMapSmoothPan = (map) => {
     };
 
     const getMapDimenInPixels = () => {
+        // console.log("map-zoom-in-getdimension:", map?.getZoom());
+
         var zoom = map.getZoom();
         var bounds = map.getBounds();
         var southWestPixel = getPixel(bounds.getSouthWest(), zoom);
@@ -61,13 +85,15 @@ export const useMapSmoothPan = (map) => {
         }
     };
 
-    const smoothlyAnimatePanToWorkarround = (
+    const smoothlyAnimatePanToWorkaround = (
         destLatLng,
+        zoom,
         optionalAnimationEndCallback
     ) => {
-        var initialZoom = initzoom.current || map.getZoom(),
+        var initialZoom = zoom || map.getZoom(),
             listener;
-        console.log("initzoom: ", initialZoom);
+        //here you should disable all the ui controls that your app uses
+        disableMapControl();
 
         function zoomIn() {
             if (map.getZoom() < initialZoom) {
@@ -75,14 +101,7 @@ export const useMapSmoothPan = (map) => {
             } else {
                 google.maps.event.removeListener(listener);
 
-                //here you should (re?)enable only the ui controls that make sense to your app
-                map.setOptions({
-                    draggable: true,
-                    zoomControl: true,
-                    scrollwheel: true,
-                    disableDoubleClickZoom: false,
-                });
-
+                enableMapControl();
                 if (!!optionalAnimationEndCallback) {
                     optionalAnimationEndCallback();
                 }
@@ -99,27 +118,46 @@ export const useMapSmoothPan = (map) => {
             }
         }
 
-        //here you should disable all the ui controls that your app uses
-        map.setOptions({
-            draggable: false,
-            zoomControl: false,
-            scrollwheel: false,
-            disableDoubleClickZoom: true,
-        });
-
         map.setZoom(getOptimalZoomOut(destLatLng, initialZoom));
         listener = google.maps.event.addListener(map, "idle", zoomOut);
     };
 
-    const smoothlyAnimatePanTo = (destLatLng, zoom) => {
-        initzoom.current = zoom || null;
-        if (willAnimatePanTo(destLatLng , initzoom.current || null)) {
-            map.panTo(destLatLng);
-        } else {
-            smoothlyAnimatePanToWorkarround(destLatLng);
-        }
+    const normalPanZoom = (destLatLnb, zoom) => {
+        disableMapControl();
+        let listener;
+        map.panTo(destLatLnb);
+        const zoomThenRemoveEvt = () => {
+            const curZoom = map.getZoom();
+            if (curZoom >= zoom) {
+                enableMapControl();
+
+                console.log("kuay");
+                google.maps.event.removeListener(listener);
+                return;
+            }
+            map.setZoom(curZoom + 3);
+        };
+        listener = google.maps.event.addListener(
+            map,
+            "idle",
+            zoomThenRemoveEvt
+        );
     };
+
+    const smoothlyAnimatePanTo = useCallback(
+        (destLatLng, zoom) => {
+            console.log("called from hook , isPanning: ", isPanning);
+            if (isPanning) return;
+            if (willAnimatePanTo(destLatLng)) {
+                normalPanZoom(destLatLng, zoom || map.getZoom());
+            } else {
+                smoothlyAnimatePanToWorkaround(destLatLng, zoom);
+            }
+        },
+        [isPanning, map]
+    );
     return {
         smoothlyAnimatePanTo,
+        isPanning,
     };
 };

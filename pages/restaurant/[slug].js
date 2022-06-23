@@ -35,7 +35,7 @@ import Map from "../../components/Travel/Map/Map";
 import useIsTouchDevice from "../../composables/useIsTouchDevice";
 import DirectionRouteControl from "../../components/Travel/Controls/DirectionRouteControl";
 
-const Travel = ({ post: fetchedPost, posts: fetchedPosts }) => {
+const Restaurant = ({ post: fetchedPost, posts: fetchedPosts }) => {
     const router = useRouter();
     if (router.isFallback) return <div className="">Loading</div>;
 
@@ -48,7 +48,7 @@ const Travel = ({ post: fetchedPost, posts: fetchedPosts }) => {
         >
             <MapContextProvider>
                 <div
-                    className={`flex  h-screen w-full max-w-[1500px] mx-auto flex-col overflow-hidden p-4 ${
+                    className={`mx-auto  flex h-screen w-full max-w-[1500px] flex-col overflow-hidden p-4 ${
                         isTouch && "!h-[calc(100vh-70px)] "
                     }`}
                 >
@@ -157,7 +157,7 @@ const Detail = () => {
 export async function getStaticPaths() {
     const path = await getClient().fetch(
         groq`
-            *[(_type == "post" ) && defined(slug.current)][].slug.current
+            *[(_type == "restaurant") && defined(slug.current)][].slug.current
         `
     );
     return {
@@ -184,4 +184,4 @@ export async function getStaticProps({ params, preview = false }) {
     };
 }
 
-export default Travel;
+export default Restaurant;

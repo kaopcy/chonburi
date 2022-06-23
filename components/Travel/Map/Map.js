@@ -1,14 +1,11 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
-import gsap from "gsap/dist/gsap";
-import { useRouter } from "next/router";
 import {
     useJsApiLoader,
     GoogleMap,
     Marker,
     DirectionsRenderer,
-    OverlayView,
 } from "@react-google-maps/api";
-import { getCenter } from "geolib";
+import { getCenter, getCenterOfBounds } from "geolib";
 
 // import custom hooks
 import {
@@ -23,25 +20,25 @@ import { useUserLocation } from "../../../context/UserLocationContext";
 import { useActiveOtherPlace } from "../../../context/Travel/ActiveOtherPlaceContext";
 import { useSelectorContext } from "../../../context/Travel/SelectorContext";
 import { useMapSmoothPan } from "../../../composables/useMapSmoothPan";
+import { useMapContext } from "../../../context/MapContext";
 
 // import constants
-import { coords } from "../../../config/mapConstants/chonburiCoor";
 import { mapStyles } from "../../../config/mapConstants/mapStyles";
 import { chonburiShape } from "../../../config/mapConstants/chonburiShape";
+import {
+    TRAVEL_MODE,
+    DIRECTION_MODE,
+    OTHERPLACE_MODE,
+} from "../../../config/selectorConstant";
 
 // import components
 import Overlay from "../Detail/Overlay";
-
-// import icons
-import { faImage } from "@fortawesome/free-solid-svg-icons";
+import DirectionRouteMarker from "./DirectionRouteMarker";
+import UserLocationMarker from "./UserLocationMarker";
 
 const Map = () => {
-    const router = useRouter();
-    if (router.isFallback) return <div className="">Loading</div>;
-
     // not fallback
     const { post } = usePostContext();
-    const { posts } = usePostsContext();
 
     const { isLoaded } = useJsApiLoader({
         region: "th",
@@ -49,14 +46,14 @@ const Map = () => {
         googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAP_API_KEY,
     });
     const { userLocation } = useUserLocation();
-    const { setDirection } = useDirectionContext();
+    const { setDirection, direction } = useDirectionContext();
     const { activeDirectionCoord } = useActiveDirection();
     const { selectedMode } = useSelectorContext();
 
     const [tempLocation, setTempLocation] = useState(post.coords);
 
-    const [map, setMap] = useState(/**@type google.maps.Map */ (null));
-    const { smoothlyAnimatePanTo } = useMapSmoothPan(map);
+    const { map, setMap, isPanning, setIsPanning } = useMapContext();
+    const { smoothlyAnimatePanTo } = useMapSmoothPan();
 
     const defaultCenter = useMemo(() => {
         if (!userLocation) return null;
@@ -65,14 +62,38 @@ const Map = () => {
     }, [userLocation]);
 
     useEffect(() => {
-        if (!map || selectedMode !== "เส้นทาง") return;
+        if (!map || selectedMode !== DIRECTION_MODE) return;
+        console.log("called");
         // map.panTo(activeDirectionCoord);
         const destCoords = new google.maps.LatLng(
             activeDirectionCoord.lat,
             activeDirectionCoord.lng
         );
-        smoothlyAnimatePanTo(destCoords , 15);
-    }, [activeDirectionCoord, selectedMode === "เส้นทาง"]);
+        smoothlyAnimatePanTo(destCoords, 15);
+    }, [activeDirectionCoord, selectedMode === DIRECTION_MODE]);
+
+    useEffect(() => {
+        if (!map || selectedMode !== TRAVEL_MODE) return;
+        const destCoords = new google.maps.LatLng(
+            tempLocation.lat,
+            tempLocation.lng
+        );
+        smoothlyAnimatePanTo(destCoords, 15);
+    }, [selectedMode === TRAVEL_MODE]);
+
+    const firstRender = useRef(false);
+    useEffect(() => {
+        if (!map || firstRender.current) return;
+        firstRender.current = true;
+        setTimeout(() => {
+            const destCoords = new google.maps.LatLng(
+                tempLocation.lat,
+                tempLocation.lng
+            );
+            console.log(destCoords.lat(), destCoords.lng());
+            smoothlyAnimatePanTo(destCoords, 15);
+        }, 1000);
+    }, [map]);
 
     const calculateDirection = async () => {
         const directionService = new google.maps.DirectionsService();
@@ -85,25 +106,21 @@ const Map = () => {
     };
 
     const onMapLoad = (map) => {
-        // calculateDirection();
-        map.panTo(defaultCenter);
-        if (map.getZoom() !== 10) {
-            map.setZoom(9);
-        }
+        calculateDirection();
         setMap(map);
         chonburiShape.forEach((shape) => {
             const polyline = new google.maps.Polygon({
                 fillColor: "#fff",
-                fillOpacity: 0.2,
+                fillOpacity: 0.3,
                 path: [
                     ...shape.map((e) => ({
                         lat: parseFloat(e[1]),
                         lng: parseFloat(e[0]),
                     })),
                 ],
-                strokeColor: "#4d4d4d",
-                strokeOpacity: 1,
-                strokeWeight: 1.5,
+                strokeColor: "#4f4f4f",
+                strokeOpacity: 0.6,
+                strokeWeight: 2,
             });
             polyline.setMap(map);
         });
@@ -113,8 +130,8 @@ const Map = () => {
         isLoaded &&
         defaultCenter && (
             <GoogleMap
-                center={defaultCenter}
-                zoom={15}
+                center={tempLocation}
+                zoom={8}
                 mapContainerStyle={{
                     width: "100%",
                     height: "100%",
@@ -133,22 +150,20 @@ const Map = () => {
                     streetViewControl: false,
                     mapTypeControl: false,
                     zoomControl: false,
-                    zoomControlOptions: {
-                        position: google.maps.ControlPosition.LEFT_CENTER,
-                    },
                     fullscreenControl: false,
                     styles: mapStyles,
                 }}
                 onLoad={onMapLoad}
             >
                 {userLocation && (
-                    <Marker
-                        options={{ optimized: true }}
-                        position={userLocation}
-                        animation={google.maps.Animation.DROP}
-                    >
-                        children={<div>หัวดอเอ้ย</div>}
-                    </Marker>
+                    <>
+                        {/* <Marker
+                            position={userLocation}
+                            options={{ optimized: true }}
+                            animation={google.maps.Animation.DROP}
+                        ></Marker> */}
+                        <UserLocationMarker position={userLocation} />
+                    </>
                 )}
                 {tempLocation && (
                     <Marker
@@ -157,68 +172,62 @@ const Map = () => {
                         animation={google.maps.Animation.DROP}
                     />
                 )}
-                <OtherPlaces />
-                <DirectionRouteDisplay />
+                {selectedMode === OTHERPLACE_MODE && <OtherPlaces />}
+                {activeDirectionCoord && selectedMode === DIRECTION_MODE && (
+                    <>
+                        <DirectionsRenderer
+                            options={{
+                                suppressMarkers: true,
+                                preserveViewport: true,
+                            }}
+                            directions={direction}
+                        />
+                        <DirectionRouteMarker />
+                    </>
+                )}
             </GoogleMap>
         )
     );
 };
 
 const OtherPlaces = () => {
-    const { selectedMode } = useSelectorContext();
     const { distanceSortedPost, posts } = usePostsContext();
     const { activeOtherPlace } = useActiveOtherPlace();
+    const { map } = useMapContext();
+
+    const [isHideDetail, setIsHideDetail] = useState(false);
+    console.log("rerenderred");
 
     useEffect(() => {
-        console.log("distanceSortedPost: ", distanceSortedPost);
-    }, [distanceSortedPost]);
+        const listener = map.addListener("zoom_changed", () => {
+            if (map.getZoom() < 10) {
+                setIsHideDetail(true);
+            } else {
+                setIsHideDetail(false);
+            }
+        });
+        return ()=> {
+            google.maps.event.removeListener(listener)
+        }
+    }, [map]);
 
-    return activeOtherPlace.map(
-        (post, index) =>
-            selectedMode === "สถานที่อื่นๆ" && (
-                <Overlay key={post._id} post={post} index={index} />
-            )
-    );
-};
+    useEffect(() => {
+        if (activeOtherPlace?.length <= 0) return;
+        const newBounds = new google.maps.LatLngBounds();
+        activeOtherPlace.forEach((place) => {
+            newBounds.extend({ lat: place.coords.lat, lng: place.coords.lng });
+        });
+        map.fitBounds(newBounds);
+    }, [activeOtherPlace]);
 
-const DirectionRouteDisplay = () => {
-    const { activeDirectionCoord } = useActiveDirection();
-    const { direction } = useDirectionContext();
-    const { selectedMode } = useSelectorContext();
-
-    return (
-        activeDirectionCoord &&
-        selectedMode === "เส้นทาง" && (
-            <>
-                <OverlayView
-                    onLoad={() => {
-                        gsap.from(".overlay-ref", {
-                            yPercent: 100,
-                        });
-                    }}
-                    position={activeDirectionCoord}
-                    mapPaneName={OverlayView.OVERLAY_MOUSE_TARGET}
-                >
-                    <div className="overlay-ref  absolute top-0 left-0 flex  w-32  flex-col rounded-md  border bg-white p-3 py-2 text-sm  text-text opacity-100 shadow-md">
-                        <div className="">ควย</div>
-                    </div>
-                </OverlayView>
-                <OverlayView
-                    position={activeDirectionCoord}
-                    mapPaneName={OverlayView.MARKER_LAYER}
-                >
-                    <div className="absolute top-1/2 left-1/2 h-[10px] w-[10px] -translate-x-1/2 -translate-y-1/2 rounded-full border-2 bg-white"></div>
-                </OverlayView>
-                <DirectionsRenderer
-                    options={{
-                        suppressMarkers: true,
-                        preserveViewport: true,
-                    }}
-                    directions={direction}
-                />
-            </>
-        )
-    );
+    return activeOtherPlace.map((post, index) => (
+        <Overlay
+            isHideDetail={isHideDetail}
+            key={post._id}
+            post={post}
+            index={index}
+        />
+    ));
 };
 
 export default Map;

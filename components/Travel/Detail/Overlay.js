@@ -1,15 +1,15 @@
 import React, { useEffect, useRef, useState } from "react";
-
-// import dependencies
+import { OverlayView } from "@react-google-maps/api";
 import gsap from "gsap/dist/gsap";
 
-// import google map stuff
-import { OverlayView } from "@react-google-maps/api";
+// import icons
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faMuseum } from "@fortawesome/free-solid-svg-icons";
 
-const Overlay = ({ post, index }) => {
-    const { coords, title } = post;
+// import constants
+import { getRestaurantTypeProperties } from "../../../utils/typeUtils";
+
+const Overlay = ({ post, index, isHideDetail }) => {
+    const { coords, title, locationType } = post;
     // onClick stuff
     const [isOpen, setIsOpen] = useState(false);
 
@@ -32,7 +32,6 @@ const Overlay = ({ post, index }) => {
     };
 
     useEffect(() => {
-        console.log('hi');
         if (isLoad) {
             timeline.current = gsap.timeline();
             if (!markerRef.current) return;
@@ -61,13 +60,20 @@ const Overlay = ({ post, index }) => {
             <div
                 onClick={() => setIsOpen((e) => !e)}
                 ref={markerRef}
-                className="relative flex max-w-[100px]  items-center whitespace-nowrap rounded-full border bg-white py-2 px-2 hover:border-blue-400"
+                className="relative flex max-w-[150px] items-center whitespace-nowrap rounded-full bg-white py-[4px]  px-[4px] font-sarabun shadow-big hover:border-blue-400"
             >
-                <FontAwesomeIcon
-                    icon={faMuseum}
-                    className="mr-2 text-[#FF3B8B]"
-                />
-                <div className="ellipsis">{title}</div>
+                <Type locationType={locationType} />
+                {!isHideDetail && (
+                    <div className="flex min-w-0 flex-col ml-2 mr1">
+                        <div className="flex items-center text-[10px] text-text-lighterr ">
+                            <span>ร้านอาหาร</span>{" "}
+                            <span className="h-[2.5px] w-[2.5px] shrink-0 rounded-full bg-text-lighterr mx-1"></span>
+                            <span>3 รีวิว</span>
+                        </div>
+                        <div className="ellipsis">{title}</div>
+                    </div>
+                )}
+
                 {isOpen && <Popup post={post} />}
             </div>
         </OverlayView>
@@ -77,10 +83,6 @@ const Overlay = ({ post, index }) => {
 const Popup = ({ post }) => {
     const popupRef = useRef(null);
     const animation = useRef(null);
-
-    useEffect(() => {
-        console.log(post);
-    }, [post]);
 
     useEffect(() => {
         animation.current = gsap.timeline();
@@ -96,6 +98,17 @@ const Popup = ({ post }) => {
         <div className="absolute top-0 left-0 h-10 w-10 rounded-md bg-white shadow-md">
             <div className="">this is popup</div>
         </div>
+    );
+};
+
+const Type = ({ locationType }) => {
+    const { color, icon, name } = getRestaurantTypeProperties(locationType);
+    return (
+        <FontAwesomeIcon
+            icon={icon}
+            className=" aspect-square rounded-full p-[7px] text-white "
+            style={{ color: "white", backgroundColor: color }}
+        />
     );
 };
 

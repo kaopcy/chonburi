@@ -34,6 +34,10 @@ export const getRestaurantTypeProperties = (locationType) => {
         คาเฟ่: faCake,
         บาร์: faBeerMugEmpty,
         ร้านกาแฟ: faMugHot,
+        ประวัติศาสตร์: faMuseum,
+        ธรรมชาติ: faTree,
+        วัฒนธรรม: faVihara,
+        เชิงนิเวศ: faLeaf,
     };
 
     return {

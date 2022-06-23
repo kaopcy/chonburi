@@ -13,6 +13,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 // import constants
 import { maneuverMap } from "../../../utils/ManeuverMap";
+import { DIRECTION_MODE , OTHERPLACE_MODE ,TRAVEL_MODE } from "../../../config/selectorConstant";
 
 // import hooks
 import useIsTouchDevice from "../../../composables/useIsTouchDevice";
@@ -20,47 +21,27 @@ import { useActiveDirection } from "../../../context/DirectionContext";
 import { useUserLocation } from "../../../context/UserLocationContext";
 import { useDirectionContext } from "../../../context/DirectionContext";
 
-// routes={direction?.routes[0].legs[0]}
+// currentRoutes={direction?.currentRoutes[0].legs[0]}
 
 const RouteDetail = ({ setIsOpen }) => {
     const isTouch = useIsTouchDevice();
     const { userLocation, userLocationError } = useUserLocation();
-    const { direction } = useDirectionContext();
+    const { currentRoutes , shapedRoutes } = useDirectionContext();
     const endPoint = useRouter().query.slug;
-    const routes = useMemo(() => direction?.routes[0].legs[0], [direction]);
-    const { setActiveDirectionNumber } = useActiveDirection();
+    const { setActiveDirectionNumber, activeDirectionNumber } =
+        useActiveDirection();
 
-    if (!routes)
+    if (!currentRoutes)
         return (
             <div
                 className="flex h-full w-full shrink-0 flex-col overflow-y-auto bg-blue-100 lg:pr-8"
-                id="เส้นทาง-detail"
+                id={`${DIRECTION_MODE}-detail`}
             ></div>
         );
 
-    const [active, setActive] = useState(routes ? 0 : null);
+    
 
-    const shapedRoutes = useMemo(() => {
-        const getSplitRoute = (s) => {
-            const regex = /(<([^>]+)>)/gi;
-            let splitIndex = null;
-            splitIndex = s.indexOf("<div");
-            if (splitIndex === -1) return { text: s.replace(regex, "") };
-            return {
-                text: s.slice(0, splitIndex).replace(regex, ""),
-                extra: s.slice(splitIndex).replace(regex, ""),
-            };
-        };
-
-        return routes
-            ? routes.steps.map((e) => ({
-                  key: e.encoded_lat_lngs,
-                  distance: e.distance?.text,
-                  icon: maneuverMap(e.maneuver),
-                  ...getSplitRoute(e.instructions),
-              }))
-            : null;
-    }, [routes]);
+    
 
     useEffect(() => {
         const height = gsap.getProperty(".text-box-active", "height");
@@ -88,19 +69,13 @@ const RouteDetail = ({ setIsOpen }) => {
             height: `${height + 10}px`,
             overwrite: true,
         });
-    }, [active, isTouch]);
+    }, [activeDirectionNumber, isTouch]);
 
     return (
         <div
-            className="flex h-full w-full shrink-0 flex-col overflow-y-auto  "
-            id="เส้นทาง-detail"
+            className="flex h-full w-full shrink-0 flex-col overflow-y-auto  overflow-x-hidden"
+            id={`${DIRECTION_MODE}-detail`}
         >
-            {/* <div className="my-2 mt-6 flex items-center px-[7px] text-xl font-semibold text-text">
-                เส้นทาง
-                <span className="ml-4 text-base font-light text-text-lighter">
-                    ระยะทางรวม {routes.distance.text}
-                </span>
-            </div> */}
 
             <div className="mb-4 flex w-full flex-col">
                 <div className="mt-2 flex items-center space-x-2">
@@ -111,7 +86,7 @@ const RouteDetail = ({ setIsOpen }) => {
                     <div className="flex w-full justify-between text-base font-light text-text">
                         {userLocationError ? "จากกรุงเทพ" : "ตำแหน่งของคุณ"}{" "}
                         <span className="text-text-lighter">
-                            ห่าง {routes.distance.text}
+                            ห่าง {currentRoutes.distance.text}
                         </span>
                     </div>
                 </div>
@@ -137,27 +112,31 @@ const RouteDetail = ({ setIsOpen }) => {
             {shapedRoutes.map((route, index) => (
                 <div
                     key={route.key}
-                    className={`relative flex cursor-pointer flex-col sm:transition-all sm:duration-500 ${
-                        active === index && "!py-4"
+                    className={`relative flex cursor-pointer flex-col sm:transition-all sm:duration-500   ${
+                        activeDirectionNumber === index && "!py-4"
                     }`}
                     onClick={() => {
-                        setActive(index);
                         setActiveDirectionNumber(index);
                         isTouch && setIsOpen(false);
                     }}
                 >
                     <div className="relative z-10   mb-2 flex h-10 items-center  justify-between rounded-full  p-[7px] text-sm font-light text-text sm:text-base">
                         <div
-                            className={`absolute top-0 left-0 h-full w-full rounded-full bg-[#C8C8C81A] transition-colors ${
-                                active === index && "!bg-white "
+                            className={`group absolute top-0 left-0 h-full w-full rounded-full  bg-[#C8C8C81A] transition-colors hover:border-2 hover:border-primary ${
+                                activeDirectionNumber === index && "!bg-white "
                             }`}
                         ></div>
-                        <div className="z-10 flex min-w-0 items-center">
-                            <div className="relative mr-2  flex items-center">
+                        <div
+                            className={`flex min-w-0 items-center  ${
+                                activeDirectionNumber === index && "z-10"
+                            }`}
+                        >
+                            <div className="relative mr-2  flex items-center ">
                                 <FontAwesomeIcon
                                     icon={route?.icon}
                                     className={` aspect-square shrink-0 rounded-full bg-[#DDDDDD] p-2 text-white ${
-                                        active === index && "!bg-green-500"
+                                        activeDirectionNumber === index &&
+                                        "!bg-green-500"
                                     }`}
                                 />
                                 {/* <div className="absolute top-0 h-full  w-[2px] bg-zinc-300 left-1/2"></div> */}
@@ -165,7 +144,8 @@ const RouteDetail = ({ setIsOpen }) => {
 
                             <div
                                 className={`${
-                                    active !== index && "ellipsis font-normal"
+                                    activeDirectionNumber !== index &&
+                                    "ellipsis font-normal"
                                 } font-semibold text-gray-800`}
                             >
                                 {route?.text}
@@ -174,19 +154,22 @@ const RouteDetail = ({ setIsOpen }) => {
                         <FontAwesomeIcon
                             icon={faChevronDown}
                             className={`z-10 px-3 text-text-lighter ${
-                                active === index &&
+                                activeDirectionNumber === index &&
                                 "rotate-180 transition-transform"
                             }`}
                         />
                     </div>
                     <div
                         className={`relative h-0 w-[90%] self-end overflow-hidden  ${
-                            active === index ? "active " : "inactive"
+                            activeDirectionNumber === index
+                                ? "active "
+                                : "inactive"
                         }`}
                     >
                         <div
                             className={`absolute top-0 left-0 flex flex-col items-start font-light text-text ${
-                                active === index && "text-box-active"
+                                activeDirectionNumber === index &&
+                                "text-box-active"
                             }`}
                         >
                             <div className="">- ระยะทาง: {route.distance}</div>

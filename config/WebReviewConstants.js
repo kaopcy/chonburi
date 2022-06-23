@@ -1,0 +1,5 @@
+export const FOURSQUARE = "FOURSQUARE"
+export const RETTY = "RETTY"
+export const WONGNAI = "WONGNAI"
+export const RESTAURANTGURU = "RESTAURANTGURU"
+export const OPENRICE = "OPENRICE"

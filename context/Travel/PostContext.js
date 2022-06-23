@@ -27,6 +27,7 @@ export const usePostContext = () => useContext(PostContext);
 export const usePostsContext = () => {
     const { userLocation } = useUserLocation();
     const { posts, setPosts } = useContext(PostsContext);
+    const { post } = useContext(PostContext);
 
     const distanceSortedPost = useMemo(() =>
         posts
@@ -38,6 +39,29 @@ export const usePostsContext = () => {
                       ...e,
                   }))
                   .sort((a, b) => a.distance - b.distance)
+                  .filter(
+                      (e) =>
+                          e.title.toLowerCase().trim() !==
+                          post.title.toLowerCase().trim()
+                  )
+            : null
+    );
+
+    const distanceSortedByCurrentLocationPost = useMemo(() =>
+        posts
+            ? posts
+                  .map((e) => ({
+                      distance: post.coords
+                          ? getDistance(post.coords, e.coords)
+                          : null,
+                      ...e,
+                  }))
+                  .sort((a, b) => a.distance - b.distance)
+                  .filter(
+                      (e) =>
+                          e.title.toLowerCase().trim() !==
+                          post.title.toLowerCase().trim()
+                  )
             : null
     );
 
@@ -45,5 +69,6 @@ export const usePostsContext = () => {
         posts,
         setPosts,
         distanceSortedPost,
+        distanceSortedByCurrentLocationPost,
     };
 };
