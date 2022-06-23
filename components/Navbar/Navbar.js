@@ -55,7 +55,7 @@ const Navbar = () => {
             ref={navbarRef}
             className="fixed z-[100] flex  h-[70px] w-full flex-col border-b-2 lg:h-[100px]"
         >
-            <div className="relative hidden h-full w-full  max-w-[1300px] items-center justify-between self-center px-20 text-xl  font-medium text-text lg:flex 2xl:px-3">
+            <div className="relative hidden h-full w-full  max-w-[1500px] items-center justify-between self-center px-20 text-xl  font-medium text-text lg:flex 2xl:px-5">
                 <div className="absolute top-0 left-0 z-10 h-full w-full bg-white opacity-80"></div>
                 <Link href={"/"} passHref>
                     <div className="relative z-20 w-24" ref={iconRef}>
@@ -143,9 +143,9 @@ const Navbar = () => {
             >
                 <div className="absolute top-0 left-0 z-10 h-full w-full bg-white opacity-80"></div>
                 <Link href={"/"} passHref>
-                    <h1 className="z-20  cursor-pointer text-3xl font-semibold ">
-                        ชลบุรี
-                    </h1>
+                    <div className="relative z-20 w-16" ref={iconRef}>
+                        <SvgChonburi2 />
+                    </div>
                 </Link>
                 <FontAwesomeIcon
                     icon={faBars}

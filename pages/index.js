@@ -51,7 +51,7 @@ const Home = ({ posts, restaurants }) => {
 
     return (
         <div className="flex min-h-screen w-full flex-col bg-white px-3 text-text sm:px-16">
-                <div className="h-[100px]"></div>
+            <div className="h-[100px]"></div>
 
             <div
                 ref={parallaxTrigger}
@@ -78,7 +78,11 @@ const Home = ({ posts, restaurants }) => {
                             แหล่งท่องเที่ยว
                         </div>
                         <div className="self-end font-kanit">
-                            ใน" <span className="text-[#5ABDFF] font-kanit">ชลบุรี</span> "
+                            ใน"{" "}
+                            <span className="font-kanit text-[#5ABDFF]">
+                                ชลบุรี
+                            </span>{" "}
+                            "
                         </div>
                     </div>
                 </div>
@@ -90,9 +94,6 @@ const Home = ({ posts, restaurants }) => {
             <LocationList posts={posts} />
             <RestaurantList restaurants={restaurants} />
             <div className="h-screen" />
-            {/* <div className="flex-col-cen h-screen w-full">
-                <RouteDisplay routes={routes} />
-            </div> */}
         </div>
     );
 };

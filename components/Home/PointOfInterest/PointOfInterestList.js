@@ -13,19 +13,23 @@ const LocationList = ({ posts }) => {
     const { slider } = useDraggable();
 
     return (
-        <div className="mx-auto mt-10 sm:mt-20 flex w-full max-w-[1300px] flex-col items-start">
+        <div className="mx-auto mt-10 flex w-full max-w-[1300px] flex-col items-start sm:mt-20">
             <div className="mb-0 flex w-full items-center justify-between">
-                <span className="text-lg sm:text-2xl font-semibold text-text lg:text-3xl flex items-center">
+                <span className="flex items-center text-lg font-semibold text-text sm:text-2xl lg:text-3xl">
                     แหล่งท่องเที่ยวแนะนำ
-                    <FontAwesomeIcon icon={faMountain} className="text-text-lightest  ml-3"/>
+                    <FontAwesomeIcon
+                        icon={faMountain}
+                        className="ml-3  text-text-lightest"
+                    />
                 </span>
                 <Link href={"/travel"} passHref>
-                    <span className="text-sm text-primary underline sm:text-base cursor-pointer ">
+                    <span className="cursor-pointer text-sm text-primary underline sm:text-base ">
                         ดูเพิ่มเติม...
                     </span>
                 </Link>
             </div>
             <div className="relative w-full overflow-hidden">
+                <div className="gradient-white absolute top-0 right-0 z-10 h-full w-10"></div>
                 <div className="absolute top-[97%] left-0 z-10 h-5 w-full bg-white "></div>
                 <div
                     className="relative flex w-full overflow-x-auto "
