@@ -4,6 +4,7 @@ import React, {
     useRef,
     useImperativeHandle,
     forwardRef,
+    useCallback,
 } from "react";
 import Image from "next/image";
 
@@ -17,6 +18,7 @@ import {
 // import contexts
 import { usePostsContext } from "../../../context/Travel/PostContext";
 import { useActiveOtherPlace } from "../../../context/Travel/ActiveOtherPlaceContext";
+import useDraggable from "../../../composables/useDraggable";
 
 // import config
 import { urlFor } from "../../../lib/sanity";
@@ -25,6 +27,8 @@ import { useUserLocation } from "../../../context/UserLocationContext";
 // import constants
 import { getRestaurantTypeProperties } from "../../../utils/typeUtils";
 import { OTHERPLACE_MODE } from "../../../config/selectorConstant";
+import * as filterConst from "../../../config/otherplaceFilterConstant";
+import { useMemo } from "react";
 
 const OtherPlaceDetail = () => {
     const { posts, distanceSortedPost, distanceSortedByCurrentLocationPost } =
@@ -36,20 +40,33 @@ const OtherPlaceDetail = () => {
 
     const cardsRef = useRef([]);
 
-    useEffect(() => {
-        const callActiveOtherPlace = () => {
-            const newActiveOtherPlace = cardsRef.current
-                .map((cardRef) =>
-                    cardRef.onScroll(
-                        containerRef.current.scrollTop,
-                        containerRef.current.clientHeight
-                    )
+    const [filter, setFilter] = useState(filterConst.NEAR_ME);
+    const filteredPost = useMemo(() => {
+        switch (filter) {
+            case filterConst.NEAR_ME:
+                return distanceSortedPost;
+            case filterConst.NEAR_PLACE:
+                return distanceSortedByCurrentLocationPost;
+            default:
+                return null;
+        }
+    }, [filter]);
+
+    const callActiveOtherPlace = useCallback(() => {
+        const newActiveOtherPlace = cardsRef.current
+            .map((cardRef) =>
+                cardRef?.onScroll(
+                    containerRef.current.scrollTop,
+                    containerRef.current.clientHeight
                 )
-                .filter((e) => e);
-            if (activeOtherPlace == newActiveOtherPlace) return;
-            setActiveOtherPlace([]);
-            setActiveOtherPlace(newActiveOtherPlace);
-        };
+            )
+            .filter((e) => e);
+        if (activeOtherPlace == newActiveOtherPlace) return;
+        setActiveOtherPlace([]);
+        setActiveOtherPlace(newActiveOtherPlace);
+    },[]);
+    
+    useEffect(() => {
         const onScroll = () => {
             if (timer.current !== null) {
                 clearTimeout(timer.current);
@@ -68,17 +85,21 @@ const OtherPlaceDetail = () => {
                 );
             }
         };
-    }, [userLocation]);
+    }, []);
 
+    useEffect(()=>{
+        callActiveOtherPlace()
+    },[filter])
+    
     return (
         <div
             ref={containerRef}
             className="flex h-full w-full shrink-0 flex-col overflow-y-auto p-3 lg:pl-0 lg:pr-8"
             id={`${OTHERPLACE_MODE}-detail`}
         >
-            {/* <div className="w-full h-10 bg-black shrink-0"></div> */}
-            {distanceSortedByCurrentLocationPost &&
-                distanceSortedByCurrentLocationPost.map((post, index) => (
+            <FilterSlider filter={filter} setFilter={setFilter} />
+            {filteredPost &&
+                filteredPost.map((post, index) => (
                     <Card
                         ref={(e) => (cardsRef.current[index] = e)}
                         key={post._id}
@@ -122,7 +143,7 @@ const Card = forwardRef(({ post }, ref) => {
 
     return (
         <div
-            className={`my-3 flex h-28 w-full  min-w-0 shrink-0  items-center whitespace-nowrap border-b  text-text transition-transform sm:h-32`}
+            className={`my-3 flex h-28 w-full  min-w-0 shrink-0  items-center whitespace-nowrap border-b pb-4 text-text transition-transform sm:h-36`}
             ref={cardRef}
         >
             <div className="relative aspect-[12/9] h-full shrink-0 overflow-hidden rounded-xl  shadow-md sm:aspect-[11/9] md:aspect-[12/9]">
@@ -194,6 +215,29 @@ const Type = ({ locationType }) => {
                 style={{ color: "white", backgroundColor: color }}
             />
             <div className=" text-text-lighter">{name}</div>
+        </div>
+    );
+};
+
+const FilterSlider = ({ filter, setFilter }) => {
+    const { slider } = useDraggable();
+    const match = (cur) => filter === cur;
+    return (
+        <div className="relative w-full shrink-0 overflow-hidden">
+            <div className="absolute top-[81%] left-0 z-10 h-5 w-full bg-white "></div>
+            <div
+                className="relative flex w-full space-x-3 overflow-x-auto pb-2"
+                ref={slider}
+            >
+                {Object.values(filterConst).map((e) => (
+                    <div
+                        onClick={() => setFilter(e)}
+                        className={`whitespace-nowrap rounded-full border  border-text-lighterr  px-3 py-1 text-sm  text-text-lighter hover:bg-text hover:text-white ${match(e) && '!bg-text !text-white'}`}
+                    >
+                        {e}
+                    </div>
+                ))}
+            </div>
         </div>
     );
 };

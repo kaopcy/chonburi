@@ -27,7 +27,7 @@ const TravelDetail = () => {
             id={`${TRAVEL_MODE}-detail`}
         >
             <div className="mt-2 text-text-lighterr">ร้านอาหาร</div>
-            <div className="mb-2 text-2xl font-bold leading-4 text-text">
+            <div className="mb-2 text-2xl font-bold leading-6 text-text">
                 {post.title}
             </div>
             <div className="my-5 h-[1px]  w-full shrink-0 bg-text-lightest"></div>

@@ -33,6 +33,7 @@ const RestaurantList = ({ restaurants }) => {
                     </span>
                 </Link>
             </div>
+            
             <div className="relative w-full overflow-hidden">
                 <div className="absolute top-[97%] left-0 z-10 h-5 w-full bg-white "></div>
                 <div

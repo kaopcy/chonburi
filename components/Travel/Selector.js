@@ -20,7 +20,7 @@ const Selector = ({ setIsOpen, isOpen }) => {
     const containerRef = useRef(null);
     return (
         <div
-            className={`relative flex  justify-center rounded-none bg-white pb-2 transition-all container-type-size md:w-full  md:justify-end ${
+            className={`relative flex  justify-center rounded-none bg-white pb-2 pt-2 transition-all  container-type-size md:w-full md:justify-end  md:pt-0 ${
                 !isOpen && "w-[300px] self-center !rounded-full shadow-big"
             }`}
             ref={containerRef}
@@ -42,7 +42,9 @@ const Selector = ({ setIsOpen, isOpen }) => {
                 isOpen={isOpen}
                 icon={faRoute}
                 text={DIRECTION_MODE}
-            />
+            >
+                <div className="absolute w-3 h-3 rounded-full bg-red-400 -top-2 right-0"></div>
+            </Icon>
             <Highlighter isOpen={isOpen} containerRef={containerRef} />
         </div>
     );
@@ -77,7 +79,7 @@ const Highlighter = ({ containerRef, isOpen }) => {
     );
 };
 
-const Icon = ({ icon, text, isOpen, setIsOpen }) => {
+const Icon = ({ icon, text, isOpen, setIsOpen, children }) => {
     const { setSelectedMode, selectedMode } = useSelectorContext();
     return (
         <div
@@ -90,6 +92,7 @@ const Icon = ({ icon, text, isOpen, setIsOpen }) => {
                 setSelectedMode(text);
             }}
         >
+            {children}
             <FontAwesomeIcon
                 icon={icon}
                 className={`mb-1 text-xl md:text-3xl ${
