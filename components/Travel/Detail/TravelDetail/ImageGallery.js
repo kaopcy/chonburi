@@ -21,10 +21,10 @@ const ImageGallery = () => {
                     priority="low"
                     layout="fill"
                     objectFit="cover"
-                    src={urlFor(post.mainImage[0]).url()}
-                    // src={
-                    //     "https://lh5.googleusercontent.com/p/AF1QipOIDX0klFrjG2ToSTKL2zLeSYbdRfuZ3HVUWWTt=s1024"
-                    // }
+                    // src={urlFor(post.mainImage[0]).url()}
+                    src={
+                        "https://lh5.googleusercontent.com/p/AF1QipOIDX0klFrjG2ToSTKL2zLeSYbdRfuZ3HVUWWTt=s1024"
+                    }
                     className=""
                 />
             </div>
@@ -38,10 +38,10 @@ const ImageGallery = () => {
                         priority="low"
                         layout="fill"
                         objectFit="cover"
-                        // src={
-                        //     "https://lh5.googleusercontent.com/p/AF1QipOu6Z1t7MHv5KCbRyeo4KmGDV0AWduu2Y-627uL=s451-k-no"
-                        // }
-                        src={urlFor(post.mainImage[2]).url()}
+                        src={
+                            "https://lh5.googleusercontent.com/p/AF1QipOu6Z1t7MHv5KCbRyeo4KmGDV0AWduu2Y-627uL=s451-k-no"
+                        }
+                        // src={urlFor(post.mainImage[2]).url()}
                         className=""
                     />
                 </div>
@@ -51,8 +51,8 @@ const ImageGallery = () => {
                             priority="low"
                             layout="fill"
                             objectFit="cover"
-                            src={urlFor(post.mainImage[1]).url()}
-                            // src="https://lh3.ggpht.com/p/AF1QipM_Iwr6GBCLAyz7jglsGeTNfIQ94qodO7IHtb0s=s1024"
+                            // src={urlFor(post.mainImage[1]).url()}
+                            src="https://lh3.ggpht.com/p/AF1QipM_Iwr6GBCLAyz7jglsGeTNfIQ94qodO7IHtb0s=s1024"
                             // className=""
                         />
                     )}

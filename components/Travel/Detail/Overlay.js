@@ -65,16 +65,16 @@ const Overlay = ({ post, index, isHideDetail }) => {
                 <Type locationType={locationType} />
                 {!isHideDetail && (
                     <div className="flex min-w-0 flex-col ml-2 mr-1">
+                        <div className="ellipsis font-bold">{title}</div>
                         <div className="flex items-center text-[10px] text-text-lighterr ">
                             <span>ร้านอาหาร</span>{" "}
-                            <span className="h-[2.5px] w-[2.5px] shrink-0 rounded-full bg-text-lighterr mx-1"></span>
+                            <span className="h-[2.5px] w-[2.5px] shrink-0 rounded-full bg-text-lighter font-light mx-1"></span>
                             <span>3 รีวิว</span>
                         </div>
-                        <div className="ellipsis">{title}</div>
                     </div>
                 )}
-
                 {isOpen && <Popup post={post} />}
+
             </div>
         </OverlayView>
     );

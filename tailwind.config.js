@@ -33,7 +33,9 @@ module.exports = {
             },
             animation: {
                 "bounce-once": "bounce 2s linear",
-                "gps-pulse" : "gps-pulse 2s infinite"
+                "gps-pulse" : "gps-pulse 2s infinite",
+                "gps-pulse-2" : "gps-pulse 2s infinite 1s",
+                "gps-pulse-3" : "gps-pulse 2s infinite 2s",
             },
             boxShadow: {
                 big: "0px 1px 6px  rgba(0, 0, 0, 0.16)",
@@ -47,7 +49,7 @@ module.exports = {
                     },
                     "70%": {
                         transform: "scale(1)",
-                        boxShadow: "0 0 0 25px rgba(245,66,66, 0)",
+                        boxShadow: "0 0 0 20px rgba(245,66,66, 0)",
                     },
                     "100%": {
                         transform: "scale(0.95)",
