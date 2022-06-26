@@ -108,57 +108,57 @@ const Map = () => {
     const onMapLoad = (map) => {
         // calculateDirection();
         setMap(map);
-        // chonburiShape.forEach((shape) => {
-        //     const polyline = new google.maps.Polygon({
-        //         fillColor: "#000000",
-        //         fillOpacity: 0.5,
-        //         path: [
-        //             ...shape.map(
-        //                 (e) =>
-        //                     new google.maps.LatLng(
-        //                         parseFloat(e[1]),
-        //                         parseFloat(e[0])
-        //                     )
-        //             ),
-        //         ],
-        //         strokeColor: "#4f4f4f",
-        //         strokeOpacity: 0.6,
-        //         strokeWeight: 2,
-        //     });
-        //     polyline.setMap(map);
-        // });
-        var geojson = {
-            type: "FeatureCollection",
-            features: [
-                {
-                    type: "Feature",
-                    geometry: {
-                        type: "Polygon",
-                        coordinates: [
-                            [
-                                [0, 90],
-                                [180, 90],
-                                [180, -90],
-                                [0, -90],
-                                [-180, -90],
-                                [-180, 0],
-                                [-180, 90],
-                                [0, 90],
-                            ],
-                            [
-                                    chonburiShape[1].map((e) => ([
-                                        parseFloat(e[0]),
-                                        parseFloat(e[1]),
-                                    ])),
-                            ],
-                        ],
-                    },
-                    properties: {},
-                },
-            ],
-        };
+        chonburiShape.forEach((shape) => {
+            const polyline = new google.maps.Polygon({
+                fillColor: "#000000",
+                fillOpacity: 0.5,
+                path: [
+                    ...shape.map(
+                        (e) =>
+                            new google.maps.LatLng(
+                                parseFloat(e[1]),
+                                parseFloat(e[0])
+                            )
+                    ),
+                ],
+                strokeColor: "#4f4f4f",
+                strokeOpacity: 0.6,
+                strokeWeight: 2,
+            });
+            polyline.setMap(map);
+        });
+        // var geojson = {
+        //     type: "FeatureCollection",
+        //     features: [
+        //         {
+        //             type: "Feature",
+        //             geometry: {
+        //                 type: "Polygon",
+        //                 coordinates: [
+        //                     [
+        //                         [0, 90],
+        //                         [180, 90],
+        //                         [180, -90],
+        //                         [0, -90],
+        //                         [-180, -90],
+        //                         [-180, 0],
+        //                         [-180, 90],
+        //                         [0, 90],
+        //                     ],
+        //                     [
+        //                             chonburiShape[1].map((e) => ([
+        //                                 parseFloat(e[0]),
+        //                                 parseFloat(e[1]),
+        //                             ])),
+        //                     ],
+        //                 ],
+        //             },
+        //             properties: {},
+        //         },
+        //     ],
+        // };
 
-        map.data.addGeoJson(geojson);
+        // map.data.addGeoJson(geojson);
     };
 
     return (

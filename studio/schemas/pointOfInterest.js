@@ -52,12 +52,7 @@ export default {
                 },
             ],
         },
-        {
-            name: "placeID",
-            title: "placeID",
-            type: "string",
-            validation: (rule) => rule.required(),
-        },
+       
         {
             name: "amphoe",
             title: "อำเภอ",
@@ -76,7 +71,12 @@ export default {
                 type: "tambon",
             },
         },
-
+        {
+            name: "placeID",
+            title: "placeID",
+            type: "string",
+            validation: (rule) => rule.required(),
+        },
         {
             name: "mainImage",
             type: "array",
