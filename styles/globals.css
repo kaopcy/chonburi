@@ -61,7 +61,7 @@ body {
         height: 100%;
         width: 100%;
         position: fixed;
-        overflow-y: scroll;
+        overflow-y: auto;
         -webkit-overflow-scrolling: touch;
     }
 }
