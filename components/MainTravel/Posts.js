@@ -1,23 +1,18 @@
-import React, { useEffect, useState, useMemo } from "react";
-import Image from "next/image";
+import React, { useEffect, useRef } from "react";
 import { v4 as uuid } from "uuid";
 
 // import contexts
-import { usePostsContext } from '../../context/MainTravel/PostContext';
-import { useMapContext } from '../../context/MainTravel/MapContext';
+import { usePostsContext } from "../../context/MainTravel/PostContext";
+import { useMapContext } from "../../context/MainTravel/MapContext";
 
 // import icons
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-    faLocationDot,
-    faMagnifyingGlass,
-    faStar,
-    faXmark,
-} from "@fortawesome/free-solid-svg-icons";
+import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 import { faMountain } from "@fortawesome/free-solid-svg-icons";
 
 // import components
 import OpenButton from "./OpenButton";
+import PostCard from "./PostCard";
 
 const Posts = () => {
     const { amphoeArr, postsArr } = usePostsContext();
@@ -27,6 +22,27 @@ const Posts = () => {
         console.log(postsArr);
     }, [postsArr]);
 
+    const eachAmphoreRef = useRef([]);
+    const rootRef = useRef(null);
+    const testRef = useRef(null);
+    // useEffect(() => {
+    //     setTimeout(() => {
+    //         const observer = new IntersectionObserver(
+    //             (entries) => {
+    //                 console.log("entries:", entries);
+    //             },
+    //             { root: rootRef.current, rootMargin: "0px", threshold: 0 }
+    //         );
+    //         eachAmphoreRef.current.forEach((amphoe) => {
+    //             observer.observe(amphoe);
+    //         });
+    //     }, 1000);
+    //     // observer.observe(testRef.current);
+    //     return () => {
+    //         observer.disconnect();
+    //     };
+    // }, []);
+
     return (
         <div
             className={`relative h-full w-full  ${
@@ -35,14 +51,15 @@ const Posts = () => {
         >
             <OpenButton />
             <div
-                className={` h-full w-full flex-wrap justify-center overflow-y-scroll bg-white px-4  ${
+                ref={rootRef}
+                className={` h-full w-full flex-wrap justify-center overflow-x-hidden overflow-y-scroll bg-white px-6  ${
                     isOpen ? "hidden md:flex" : "flex "
                 }`}
             >
-                <div className="w-full sm:w-auto flex flex-col ">
+                <div className="flex w-full flex-col sm:w-auto ">
                     <div className="group sticky top-0  z-10 mt-4 flex items-center justify-between py-4 ">
                         <div className="absolute inset-0 bg-white opacity-80"></div>
-                        <div className="z-10 text-text whitespace-nowrap">
+                        <div className="z-10 whitespace-nowrap text-text">
                             <span
                                 className={`mr-2 text-[27px] font-semibold ${
                                     isOpen
@@ -50,7 +67,13 @@ const Posts = () => {
                                         : "text-[18px] sm:text-[22px] lg:text-[27px] "
                                 }`}
                             >
-                                แหล่งท่องเที่ยว<span className="group-focus-within:hidden inline">ในชลบุรี</span>
+                                แหล่งท่องเที่ยว
+                                <span
+                                    className="inline group-focus-within:hidden"
+                                    ref={testRef}
+                                >
+                                    ในชลบุรี
+                                </span>
                             </span>
                             <FontAwesomeIcon
                                 icon={faMountain}
@@ -62,7 +85,7 @@ const Posts = () => {
                         ${
                             isOpen
                                 ? "w-40 text-sm  xl:w-44 xl:text-base"
-                                : "w-24 sm:w-40 text-xs md:w-60 md:text-base group-focus-within:w-40"
+                                : "w-24 text-xs group-focus-within:w-40 sm:w-40 sm:group-focus-within:w-24 md:w-60 md:text-base"
                         }`}
                         >
                             <FontAwesomeIcon
@@ -77,19 +100,23 @@ const Posts = () => {
                         </div>
                     </div>
                     {postsArr.map((post, index) => (
-                        <div className="mt-6 mb-10 flex flex-col" key={uuid()}>
+                        <div
+                            ref={(e) => (eachAmphoreRef.current[index] = e)}
+                            className="mt-6 mb-10 flex flex-col"
+                            key={uuid()}
+                        >
                             <div className=" flex items-center text-xl font-medium text-text">
                                 <span className="">
                                     อำเภอ{amphoeArr[index]}
                                 </span>
                                 <div className="mx-3 h-[4px] w-[4px] rounded-full bg-primary"></div>
-                                <span className="text-primary-lighter">
+                                <span className="text-lg font-light text-text-lighterr">
                                     {postsArr[index].length} สถานที่
                                 </span>
                             </div>
                             <div className="mb-6 h-[1.5px] w-full bg-[#EFEFEF]"></div>
                             <div
-                                className={`w-full grid grid-cols-1 gap-x-10 gap-y-10  ${
+                                className={`grid w-full grid-cols-1 gap-x-10 gap-y-10  ${
                                     isOpen
                                         ? "grid-cols-1 lg:grid-cols-2"
                                         : "sm:grid-cols-2 lg:grid-cols-3  xl:grid-cols-4"
@@ -99,64 +126,14 @@ const Posts = () => {
                                         : "sm:grid-cols-2 lg:grid-cols-3  xl:grid-cols-4"
                                 }`}
                             >
-                                {post.map((e) => (
-                                    <div
-                                        className={`flex flex-col overflow-hidden    text-text ${
-                                            isOpen
-                                                ? "w-[200px] lg:w-[220px] xl:w-[260px] 2xl:w-[290px]"
-                                                : "w-full  2xl:w-[290px]"
-                                        }`}
-                                        key={e.placeID}
-                                    >
-                                        <div
-                                            className="relative mb-2 aspect-[13/9] w-full shrink-0 overflow-hidden rounded-xl"
-                                            key={e.imageURL[0]._key}
-                                        >
-                                            <Image
-                                                priority="low"
-                                                layout="fill"
-                                                objectFit="cover"
-                                                src={e.imageURL[0].url}
-                                                className=""
+                                {post.map(
+                                    (e, index) =>
+                                            <PostCard
+                                                key={e.placeID}
+                                                {...e}
+                                                isOpen={isOpen}
                                             />
-                                            <div className=""></div>
-                                        </div>
-                                        <div className="flex items-center justify-between">
-                                            <div className="font-medium">
-                                                {e.title}
-                                            </div>
-                                            <div className="flex items-center">
-                                                <span className="mr-1 text-sm">
-                                                    4.6
-                                                </span>
-                                                <FontAwesomeIcon
-                                                    className="text-xs text-yellow-200"
-                                                    icon={faStar}
-                                                />
-                                            </div>
-                                        </div>
-                                        <div className="flex justify-between text-text-lighter">
-                                            <span className="text-xs ">
-                                                <FontAwesomeIcon
-                                                    icon={faLocationDot}
-                                                    className="mr-[6px] text-red-400"
-                                                />
-                                                <span className="">
-                                                    ระยะห่าง 90 กิโลเมคร
-                                                </span>
-                                            </span>
-
-                                            <span className="text-xs ">
-                                                <span className=" mr-1">
-                                                    อ. {e.amphoe.name}
-                                                </span>
-                                                <span className="">
-                                                    ต. {e.tambon.name}
-                                                </span>
-                                            </span>
-                                        </div>
-                                    </div>
-                                ))}
+                                )}
                             </div>
                         </div>
                     ))}
@@ -166,4 +143,4 @@ const Posts = () => {
     );
 };
 
-export default Posts
+export default Posts;

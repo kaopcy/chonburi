@@ -7,16 +7,12 @@ import { useMapContext } from "../../context/MainTravel/MapContext";
 
 const Map = () => {
     const { isOpen, setMap } = useMapContext();
-    const { isLoaded } = useJsApiLoader({
-        region: "th",
-        language: "th",
-        googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAP_API_KEY,
-    });
+    // const { isLoaded } = useJsApiLoader({
+    //     region: "th",
+    //     language: "th",
+    //     googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAP_API_KEY,
+    // });
     const [isShowMap, setIsShowMap] = useState(false);
-
-    useEffect(() => {
-        console.log("isloaded", isLoaded);
-    }, [isLoaded]);
 
     useEffect(() => {
         const mapRef = document.getElementById("map");
@@ -44,7 +40,7 @@ const Map = () => {
             {isOpen && !isShowMap && (
                 <div className=" h-20 w-20 animate-spin rounded-full rounded-tl-none border-2 border-red-400 "></div>
             )}
-            {isShowMap && isLoaded && (
+            {/* {isShowMap && isLoaded && (
                 <GoogleMap
                     onLoad={onMapLoad}
                     center={new google.maps.LatLng(13, 102)}
@@ -71,7 +67,7 @@ const Map = () => {
                         styles: mapStyles,
                     }}
                 ></GoogleMap>
-            )}
+            )} */}
         </div>
     );
 };
