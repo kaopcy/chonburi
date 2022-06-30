@@ -31,6 +31,9 @@ module.exports = {
                     DEFAULT: "#5ABDFF",
                 },
             },
+            transitionProperty: {
+                'opacity-transform': 'opacity, transform',
+            },
             animation: {
                 "bounce-once": "bounce 2s linear",
                 "gps-pulse" : "gps-pulse 2s infinite",

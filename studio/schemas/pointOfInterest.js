@@ -52,7 +52,7 @@ export default {
                 },
             ],
         },
-       
+
         {
             name: "amphoe",
             title: "อำเภอ",
@@ -78,6 +78,11 @@ export default {
             validation: (rule) => rule.required(),
         },
         {
+            name: "star",
+            title: "ดาว",
+            type: "number",
+        },
+        {
             name: "mainImage",
             type: "array",
             title: "รูปภาพประกอบ-IMAGE",
@@ -89,6 +94,38 @@ export default {
                     options: {
                         hotspot: true,
                     },
+                },
+            ],
+        },
+        {
+            name: "reviews",
+            type: "object",
+            title: "รีวิว",
+            fields: [
+                {
+                    name: "wongnai",
+                    type: "url",
+                    title: "wongnai",
+                },
+                {
+                    name: "restaurantguru",
+                    type: "url",
+                    title: "restaurantguru",
+                },
+                {
+                    name: "openrice",
+                    type: "url",
+                    title: "openrice",
+                },
+                {
+                    name: "foursquare",
+                    type: "url",
+                    title: "foursquare",
+                },
+                {
+                    name: "retty",
+                    type: "url",
+                    title: "retty",
                 },
             ],
         },
@@ -112,7 +149,7 @@ export default {
                             type: "string",
                             title: "source",
                         },
-                    ]
+                    ],
                 },
             ],
         },

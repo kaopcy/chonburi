@@ -8,10 +8,20 @@ import {
     faLocationDot,
     faStar,
     faChevronRight,
+    faPencilAlt,
 } from "@fortawesome/free-solid-svg-icons";
 import { useRef } from "react";
 
-const PostCard = ({ placeID, imageURL, title, amphoe, tambon, isOpen }) => {
+const PostCard = ({
+    placeID,
+    imageURL,
+    title,
+    amphoe,
+    tambon,
+    isOpen,
+    reviews,
+    star
+}) => {
     const imageCount = useMemo(
         () => (imageURL ? imageURL.length : 0),
         [imageURL]
@@ -77,7 +87,7 @@ const PostCard = ({ placeID, imageURL, title, amphoe, tambon, isOpen }) => {
         <div
             className={`flex flex-col overflow-hidden    text-text ${
                 isOpen
-                    ? "w-[200px] lg:w-[220px] xl:w-[260px] 2xl:w-[290px]"
+                    ? "w-full xl:w-[260px] 2xl:w-[290px]"
                     : "w-full  2xl:w-[290px]"
             }`}
             key={placeID}
@@ -108,11 +118,21 @@ const PostCard = ({ placeID, imageURL, title, amphoe, tambon, isOpen }) => {
                     imageCount={imageCount}
                 />
                 <Indicator imageCount={imageCount} curIndex={curIndex} />
+                <div className="absolute top-4 right-0   z-20    flex items-center overflow-hidden rounded-l-lg px-2 py-[3px] text-white">
+                    <div className="absolute inset-0 z-0 bg-black opacity-40"></div>
+                    <span className="z-30 mr-1 text-sm font-light ">
+                        {reviews ? Object.keys(reviews).length : 0} รีวิว
+                    </span>
+                    <FontAwesomeIcon
+                        className="z-30 -rotate-45 text-xs"
+                        icon={faPencilAlt}
+                    />
+                </div>
             </div>
             <div className="flex items-center justify-between">
                 <div className="font-medium">{title}</div>
                 <div className="flex items-center">
-                    <span className="mr-1 text-sm">4.6</span>
+                    <span className="mr-1 text-sm">{star}</span>
                     <FontAwesomeIcon
                         className="text-xs text-yellow-200"
                         icon={faStar}
@@ -125,10 +145,10 @@ const PostCard = ({ placeID, imageURL, title, amphoe, tambon, isOpen }) => {
                         icon={faLocationDot}
                         className="mr-[6px] text-red-400"
                     />
-                    <span className="">ระยะห่าง 90 กิโลเมคร</span>
+                    <span className="">ระยะห่าง 90 กม.</span>
                 </span>
 
-                <span className="text-xs ">
+                <span className="text-xs ellipsis">
                     <span className=" mr-1">อ. {amphoe.name}</span>
                     <span className="">ต. {tambon.name}</span>
                 </span>

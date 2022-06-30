@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import groq from "groq";
 
 // import configs
@@ -16,6 +16,10 @@ import Posts from "../../components/MainTravel/Posts";
 import Map from "../../components/MainTravel/Map";
 
 const Travel = ({ posts }) => {
+    useEffect(() => {
+        console.log(posts);
+    }, [posts]);
+
     const isTouch = useIsTouchDevice();
     return (
         <MapContextProvider>
@@ -45,25 +49,29 @@ const postsQuery = groq`
   coords,
   placeID,
   imageURL,
+  reviews,
+  star,
 }`;
 
 export async function getStaticProps({ params, preview = false }) {
     const posts = await getClient(preview).fetch(postsQuery);
-
+    console.log(typeof posts);
     return {
         props: {
-            posts: posts.reduce((prev, cur) => {
-                if (prev[cur.amphoe.name]) {
-                    return {
-                        ...prev,
-                        [cur.amphoe.name]: [
-                            ...prev[cur.amphoe.name],
-                            { ...cur },
-                        ],
-                    };
-                }
-                return { ...prev, [cur.amphoe.name]: [{ ...cur }] };
-            }, {}),
+            posts: posts
+                .sort((a, b) => b.star - a.star)
+                .reduce((prev, cur) => {
+                    if (prev[cur.amphoe.name]) {
+                        return {
+                            ...prev,
+                            [cur.amphoe.name]: [
+                                ...prev[cur.amphoe.name],
+                                { ...cur },
+                            ],
+                        };
+                    }
+                    return { ...prev, [cur.amphoe.name]: [{ ...cur }] };
+                }, {}),
         },
     };
 }
