@@ -32,17 +32,19 @@ module.exports = {
                 },
             },
             transitionProperty: {
-                'opacity-transform': 'opacity, transform',
+                "opacity-transform": "opacity, transform",
+                "font-size": "font-size, transform",
             },
             animation: {
                 "bounce-once": "bounce 2s linear",
-                "gps-pulse" : "gps-pulse 2s infinite",
-                "gps-pulse-2" : "gps-pulse 2s infinite 1s",
-                "gps-pulse-3" : "gps-pulse 2s infinite 2s",
+                "gps-pulse": "gps-pulse 2s infinite",
+                "gps-pulse-2": "gps-pulse 2s infinite 1s",
+                "gps-pulse-3": "gps-pulse 2s infinite 2s",
             },
             boxShadow: {
                 big: "0px 1px 6px  rgba(0, 0, 0, 0.16)",
                 icon: "2px 2px 10px  rgba(0, 0, 0, 0.16)",
+                blue: "0px 0px 8px  rgba(154, 215, 255, 0.61)",
             },
             keyframes: {
                 "gps-pulse": {
@@ -62,5 +64,8 @@ module.exports = {
             },
         },
     },
-    plugins: [require("tailwindcss-container-query")],
+    plugins: [
+        require("tailwindcss-nested-groups"),
+        require("tailwindcss-container-query"),
+    ],
 };

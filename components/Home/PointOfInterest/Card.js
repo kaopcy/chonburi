@@ -19,8 +19,10 @@ import { getDistance } from "geolib";
 import { getTypeProperties } from "../../../utils/typeUtils";
 
 import useIsTouchDevice from "../../../composables/useIsTouchDevice";
+import { useUserLocation } from "../../../context/UserLocationContext";
 
-const Card = ({ post, currentLocation, isUserLocation }) => {
+const Card = ({ post }) => {
+    const { userLocation } = useUserLocation();
     const [index, setIndex] = useState(0);
     const container = useRef(null);
     const timeOut = useRef(null);
@@ -50,12 +52,12 @@ const Card = ({ post, currentLocation, isUserLocation }) => {
     // }, [index, isTouch]);
 
     const distance = useMemo(() => {
-        if (!currentLocation || !post.coords) return null;
-        const temp = getDistance(currentLocation, post.coords);
+        if (!userLocation || !post.coords) return null;
+        const temp = getDistance(userLocation, post.coords);
         return temp > 1000
             ? `${(temp / 1000).toFixed(2)} กิโลเมตร`
             : `${temp} เมตร`;
-    }, [currentLocation, post.coords]);
+    }, [userLocation, post.coords]);
 
     return (
         <div className="relative mr-5 mb-4  flex h-full w-[230px] shrink-0   flex-col justify-between bg-white py-8 md:w-[300px]">
@@ -117,7 +119,7 @@ const Card = ({ post, currentLocation, isUserLocation }) => {
                 </div>
                 {/* <Indicator index={index} postNum={post.mainImage.length} /> */}
                 <div className="mt-5 flex w-full min-w-0 items-center justify-between">
-                    <div className="ellipsis text-xs md:text-sm text-text-lighter">
+                    <div className="ellipsis text-xs text-text-lighter md:text-sm">
                         {post.location}
                     </div>
                     <Type locationType={post.locationType} />
@@ -157,7 +159,7 @@ const Type = ({ locationType }) => {
     const { color, icon, name } = getTypeProperties(locationType);
     return (
         <div
-            className="flex items-center space-x-1 whitespace-nowrap rounded-l-full border bg-gray-200 px-[8px] py-[3px]  text-xxs md:text-xs text-text-dark"
+            className="flex items-center space-x-1 whitespace-nowrap rounded-l-full border bg-gray-200 px-[8px] py-[3px]  text-xxs text-text-dark md:text-xs"
             style={{
                 backgroundColor: color,
             }}

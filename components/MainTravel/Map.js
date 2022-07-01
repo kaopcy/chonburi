@@ -11,6 +11,13 @@ import { mapStyles } from "../../config/mapConstants/mapStyles";
 
 // import components
 
+// import icons
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+    faMountain,
+    faMagnifyingGlass,
+} from "@fortawesome/free-solid-svg-icons";
+
 const Map = () => {
     const { postByActiveAmphoe } = usePostsContext();
     const { isOpen, setMap, map } = useMapContext();
@@ -39,9 +46,9 @@ const Map = () => {
     };
 
     useEffect(() => {
+        console.log("postByActiveAmphoe: ", postByActiveAmphoe);
         if (!map) return;
         if (!postByActiveAmphoe || postByActiveAmphoe === undefined) return;
-        console.log("postByActiveAmphoe: ", postByActiveAmphoe);
         const newBounds = new google.maps.LatLngBounds();
         postByActiveAmphoe.forEach((place) => {
             console.log(place);
@@ -60,6 +67,49 @@ const Map = () => {
                 isOpen ? "!w-[100%] md:!w-[55%] " : "w-0"
             }`}
         >
+            <div className="group absolute top-0  z-10 flex w-full items-center justify-between py-4 md:hidden ">
+                <div className="absolute inset-0 bg-white opacity-80"></div>
+                <div className="z-10 whitespace-nowrap text-text">
+                    {
+                        <>
+                            <span
+                                className={`mr-2 text-[27px] font-semibold ${
+                                    isOpen
+                                        ? "text-[20px] xl:text-[27px]"
+                                        : "text-[18px] sm:text-[22px] lg:text-[27px] "
+                                }`}
+                            >
+                                แหล่งท่องเที่ยว
+                                <span className="inline group-focus-within:hidden sm:group-focus-within:inline">
+                                    ในชลบุรี
+                                </span>
+                            </span>
+                            <FontAwesomeIcon
+                                icon={faMountain}
+                                className="text-2xl text-primary-lighter"
+                            />
+                        </>
+                    }
+                </div>
+                <div
+                    className={`z-10 flex w-60 items-center rounded-lg border-2 border-text-lighterr py-1 px-2   
+                        ${
+                            isOpen
+                                ? "w-40 text-sm  xl:w-44 xl:text-base"
+                                : "w-24 text-xs group-focus-within:w-24 sm:w-40 sm:group-focus-within:w-40 md:w-60 md:text-base md:group-focus-within:w-60"
+                        }`}
+                >
+                    <FontAwesomeIcon
+                        icon={faMagnifyingGlass}
+                        className="mr-2 text-text-lightest "
+                    />
+                    <input
+                        type="text"
+                        className="w-full bg-transparent placeholder:text-text-lighterr focus:outline-none"
+                        placeholder="ค้นหา..."
+                    />
+                </div>
+            </div>
             {isOpen && !isShowMap && (
                 <div className=" h-20 w-20 animate-spin rounded-full rounded-tl-none border-2 border-red-400 "></div>
             )}
@@ -90,7 +140,7 @@ const Map = () => {
                         styles: mapStyles,
                     }}
                 >
-                    {postByActiveAmphoe.map((post, index) => (
+                    {postByActiveAmphoe?.map((post, index) => (
                         <Overlay key={post.placeID} post={post} index={index} />
                     ))}
                 </GoogleMap>
@@ -99,7 +149,7 @@ const Map = () => {
     );
 };
 
-const Overlay = ({ post , index }) => {
+const Overlay = ({ post, index }) => {
     const isLoad = useRef(false);
     const markerRef = useRef(null);
     const timeline = useRef(null);

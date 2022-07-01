@@ -1,15 +1,15 @@
-import React, { useEffect, useRef } from "react";
+import React from "react";
 import Link from "next/dist/client/link";
 
 import { faChevronRight, faMountain } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import PointOfInterestCard from "./Card";
-import useGeolocation from "../../../composables/useGeolocation";
+
+// import hooks
 import useDraggable from "../../../composables/useDraggable";
 
 const LocationList = ({ posts }) => {
-    const { currentLocation, error } = useGeolocation();
     const { slider } = useDraggable();
 
     return (
@@ -37,12 +37,7 @@ const LocationList = ({ posts }) => {
                 >
                     {posts.map((post) => {
                         return (
-                            <PointOfInterestCard
-                                post={post}
-                                key={post?._id}
-                                currentLocation={currentLocation}
-                                isUserLocation={error && true}
-                            />
+                            <PointOfInterestCard post={post} key={post?._id} />
                         );
                     })}
                     <Link href={"/travel"} passHref>

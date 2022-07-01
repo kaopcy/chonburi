@@ -16,15 +16,12 @@ import { faMountain } from "@fortawesome/free-solid-svg-icons";
 // import components
 import OpenButton from "./OpenButton";
 import PostCard from "./PostCard";
+import AmphoeSelector from "./AmphoeSelector";
 
 const Posts = () => {
-    const {
-        amphoeArr,
-        postsArr,
-        activeAmphoe,
-        setActiveAmphoe,
-        postByActiveAmphoe,
-    } = usePostsContext();
+    const { amphoeArr, postsArr, activeAmphoe, setActiveAmphoe, isScrollTo } =
+        usePostsContext();
+
     const [extraAmphoe, setExtraAmphoe] = useState(postsArr.map(() => 1));
 
     const { isOpen } = useMapContext();
@@ -34,16 +31,33 @@ const Posts = () => {
     const rootRef = useRef(null);
     const testRef = useRef(null);
 
+    const scrollTimeout = useRef(null);
+
+    const scrollTo = () => {};
+
     useEffect(() => {
+        const scrollEvnt = () => {
+            if (!isScrollTo.current) return;
+            if (!scrollTimeout.current) {
+                scrollTimeout.current = setTimeout(() => {
+                    scrollTimeout.current = null;
+                    isScrollTo.current = false;
+                    console.log("timeout");
+                }, 1000);
+            }
+        };
+        rootRef.current.addEventListener("scroll", scrollEvnt);
+
         let observeArr = [];
 
         const options = {
             root: rootRef.current,
-            threshold: 0.2,
-            rootMargin: "0px",
+            threshold: 0,
+            rootMargin: "-40% 0px -40% 0px",
         };
 
         const onIntersect = (entries) => {
+            if (isScrollTo.current) return;
             entries.forEach((entry) => {
                 if (!entry.isIntersecting) {
                     observeArr = observeArr.filter((e) => e !== entry.target);
@@ -51,7 +65,7 @@ const Posts = () => {
             });
             const activeAmphoe =
                 observeArr[observeArr.length - 1]?.dataset?.amphoe;
-            setActiveAmphoe(activeAmphoe);
+            setActiveAmphoe((e) => (activeAmphoe ? activeAmphoe : e));
         };
 
         const observer = new IntersectionObserver(onIntersect, options);
@@ -78,20 +92,24 @@ const Posts = () => {
                     isOpen ? "hidden md:flex" : "flex "
                 }`}
             >
-                <div className="flex w-full flex-col sm:w-auto ">
-                    <div className="group sticky top-0  z-10 mt-4 flex items-center justify-between py-4 ">
+                <div
+                    className={`flex  flex-col   ${
+                        isOpen ? "w-full xl:w-auto" : " w-full sm:w-auto"
+                    }`}
+                >
+                    <div className="group sticky top-0  z-20  mt-4 flex w-full items-center justify-between gap-3 py-2  md:py-4">
                         <div className="absolute inset-0 bg-white opacity-80"></div>
-                        <div className="z-10 whitespace-nowrap text-text">
+                        <div className="z-10 w-full whitespace-nowrap text-text">
                             {activeAmphoe ? (
-                                <span
-                                    className={`mr-2 text-[27px] font-semibold ${
+                                <div
+                                    className={`mr-2 w-full text-[27px] font-semibold ${
                                         isOpen
-                                            ? "text-[20px] xl:text-[27px]"
-                                            : "text-[18px] sm:text-[22px] lg:text-[27px] "
+                                            ? "text-[20px] xl:text-[18px]"
+                                            : "text-[18px] sm:text-[22px] lg:text-[22px] "
                                     }`}
                                 >
-                                    {activeAmphoe}
-                                </span>
+                                    <AmphoeSelector />
+                                </div>
                             ) : (
                                 <>
                                     <span
@@ -117,11 +135,11 @@ const Posts = () => {
                             )}
                         </div>
                         <div
-                            className={`z-10 flex w-60 items-center rounded-lg border-2 border-text-lighterr py-1 px-2   
+                            className={`z-10 flex  h-[47px] w-full   max-w-[250px] items-center rounded-lg border-2 border-text-lighterr py-1 px-2 md:rounded-xl   
                         ${
                             isOpen
-                                ? "w-40 text-sm  xl:w-44 xl:text-base"
-                                : "w-24 text-xs group-focus-within:w-24 sm:w-40 sm:group-focus-within:w-40 md:w-60 md:text-base md:group-focus-within:w-60"
+                                ? "w-full text-sm   xl:text-base"
+                                : "w-full  text-xs group-focus-within:w-24 sm:w-40 sm:group-focus-within:w-40 md:w-60 md:text-base md:group-focus-within:w-60"
                         }`}
                         >
                             <FontAwesomeIcon
@@ -137,15 +155,13 @@ const Posts = () => {
                     </div>
                     {postsArr.map((posts, index) => (
                         <div
+                            id={`${amphoeArr[index]}`}
                             data-amphoe={amphoeArr[index]}
                             ref={(e) => (eachAmphoreRef.current[index] = e)}
-                            className="mb-10 flex flex-col pt-6"
+                            className="mb-10 flex scroll-my-14 flex-col  pt-6"
                             key={amphoeArr[index]}
                         >
-                            <div
-                                className=" flex items-center text-xl  text-text"
-                                onClick={() => {}}
-                            >
+                            <div className=" flex items-center text-xl  text-text">
                                 <span className="font-medium">
                                     อำเภอ{amphoeArr[index]}
                                 </span>
@@ -177,7 +193,7 @@ const Posts = () => {
                                         )
                                 )}
                             </div>
-                            {posts.length >= extraAmphoe[index] * 4 ? (
+                            {posts.length > extraAmphoe[index] * 4 ? (
                                 <div className="flex-cen mt-6 w-full">
                                     <div className="h-[1px] w-full bg-zinc-200"></div>
 
@@ -187,7 +203,6 @@ const Posts = () => {
                                             setExtraAmphoe((old) => {
                                                 const newC = old;
                                                 newC[index] += 1;
-                                                console.log(newC);
                                                 return [...newC];
                                             })
                                         }
@@ -208,10 +223,10 @@ const Posts = () => {
                                         <span
                                             className="group relative mx-3 shrink-0 cursor-pointer text-sm font-light text-text-lighterr"
                                             onClick={() => {
+                                                isScrollTo.current = true;
                                                 setExtraAmphoe((old) => {
                                                     const newC = old;
                                                     newC[index] = 1;
-                                                    console.log(newC);
                                                     return [...newC];
                                                 });
                                                 eachAmphoreRef.current[

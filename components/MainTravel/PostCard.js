@@ -20,7 +20,7 @@ const PostCard = ({
     tambon,
     isOpen,
     reviews,
-    star
+    star,
 }) => {
     const imageCount = useMemo(
         () => (imageURL ? imageURL.length : 0),
@@ -118,7 +118,7 @@ const PostCard = ({
                     imageCount={imageCount}
                 />
                 <Indicator imageCount={imageCount} curIndex={curIndex} />
-                <div className="absolute top-4 right-0   z-20    flex items-center overflow-hidden rounded-l-lg px-2 py-[3px] text-white">
+                <div className="absolute top-4 right-0 z-10 flex items-center overflow-hidden rounded-l-lg px-2 py-[3px] text-white">
                     <div className="absolute inset-0 z-0 bg-black opacity-40"></div>
                     <span className="z-30 mr-1 text-sm font-light ">
                         {reviews ? Object.keys(reviews).length : 0} รีวิว
@@ -148,7 +148,7 @@ const PostCard = ({
                     <span className="">ระยะห่าง 90 กม.</span>
                 </span>
 
-                <span className="text-xs ellipsis">
+                <span className="ellipsis text-xs">
                     <span className=" mr-1">อ. {amphoe.name}</span>
                     <span className="">ต. {tambon.name}</span>
                 </span>
@@ -196,7 +196,7 @@ const Controller = ({ increase, decrease, imageCount, curIndex }) => {
             <button
                 disabled={curIndex === imageCount - 1}
                 onClick={() => increase()}
-                className="flex-cen group absolute top-1/2 right-2   z-20 h-8 w-8 -translate-y-1/2  cursor-pointer overflow-hidden rounded-full border-white text-white hover:border-2 disabled:hidden"
+                className="flex-cen group absolute top-1/2 right-2   z-10 h-8 w-8 -translate-y-1/2  cursor-pointer overflow-hidden rounded-full border-white text-white hover:border-2 disabled:hidden"
             >
                 <div className="absolute inset-0 hidden bg-black opacity-40 group-hover:block"></div>
                 <FontAwesomeIcon className="z-10" icon={faChevronRight} />
@@ -204,7 +204,7 @@ const Controller = ({ increase, decrease, imageCount, curIndex }) => {
             <button
                 disabled={curIndex === 0}
                 onClick={() => decrease()}
-                className="flex-cen group absolute top-1/2 left-2 z-20 h-8 w-8 -translate-y-1/2  cursor-pointer overflow-hidden rounded-full border-white text-white hover:border-2 disabled:hidden"
+                className="flex-cen group absolute top-1/2 left-2 z-10 h-8 w-8 -translate-y-1/2  cursor-pointer overflow-hidden rounded-full border-white text-white hover:border-2 disabled:hidden"
             >
                 <div className="absolute inset-0 hidden bg-black opacity-40 group-hover:block"></div>
                 <FontAwesomeIcon

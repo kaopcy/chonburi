@@ -4,14 +4,11 @@ import Link from "next/dist/client/link";
 import { faChevronRight, faMugHot } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-import useGeolocation from "../../../composables/useGeolocation";
 import useDraggable from "../../../composables/useDraggable";
 import RestaurantCard from "./Card";
 
 const RestaurantList = ({ restaurants }) => {
-    const { currentLocation, error } = useGeolocation();
     const { slider } = useDraggable();
-
     return (
         <div className="mx-auto mt-10 flex w-full max-w-[1300px] flex-col items-start">
             <div className="mb-0 flex w-full items-center justify-between">
@@ -33,7 +30,7 @@ const RestaurantList = ({ restaurants }) => {
                     </span>
                 </Link>
             </div>
-            
+
             <div className="relative w-full overflow-hidden">
                 <div className="absolute top-[97%] left-0 z-10 h-5 w-full bg-white "></div>
                 <div
@@ -45,7 +42,6 @@ const RestaurantList = ({ restaurants }) => {
                             <RestaurantCard
                                 post={restaurant}
                                 key={restaurant?._id}
-                                currentLocation={currentLocation}
                             />
                         );
                     })}

@@ -15,9 +15,13 @@ import { faQuestionCircle } from "@fortawesome/free-regular-svg-icons";
 
 import { getDistance } from "geolib";
 import { getRestaurantTypeProperties } from "../../../utils/typeUtils";
-import useIsTouchDevice from "../../../composables/useIsTouchDevice";
 
-const RestaurantCard = ({ post, currentLocation }) => {
+// import hooks
+import useIsTouchDevice from "../../../composables/useIsTouchDevice";
+import { useUserLocation } from "../../../context/UserLocationContext";
+
+const RestaurantCard = ({ post }) => {
+    const { userLocation } = useUserLocation();
     const [index, setIndex] = useState(0);
     const container = useRef(null);
     const timeOut = useRef(null);
@@ -44,12 +48,12 @@ const RestaurantCard = ({ post, currentLocation }) => {
     // }, [index]);
 
     const distance = useMemo(() => {
-        if (!currentLocation || !post.coords) return null;
-        const temp = getDistance(currentLocation, post.coords);
+        if (!userLocation || !post.coords) return null;
+        const temp = getDistance(userLocation, post.coords);
         return temp > 1000
             ? `${(temp / 1000).toFixed(2)} กิโลเมตร`
             : `${temp} เมตร`;
-    }, [currentLocation, post.coords]);
+    }, [userLocation, post.coords]);
 
     return (
         <div className="relative mr-5 mb-4  flex h-full w-[230px] shrink-0  flex-col justify-between overflow-hidden bg-white py-8 md:w-[300px]">
