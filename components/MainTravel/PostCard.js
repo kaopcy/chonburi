@@ -88,7 +88,7 @@ const PostCard = ({
             className={`flex flex-col overflow-hidden    text-text ${
                 isOpen
                     ? "w-full xl:w-[260px] 2xl:w-[290px]"
-                    : "w-full  2xl:w-[290px]"
+                    : "w-full md:w-[260px] 2xl:w-[290px]"
             }`}
             key={placeID}
         >

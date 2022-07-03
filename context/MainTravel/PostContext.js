@@ -1,4 +1,4 @@
-import { useMemo , useRef } from "react";
+import { useMemo, useRef } from "react";
 import { useContext } from "react";
 import { createContext, useState } from "react";
 
@@ -9,8 +9,9 @@ const PostsContext = createContext({
     activeAmphoe: null,
     setActiveAmphoe: () => {},
     postByActiveAmphoe: null,
-    isScrollTo: null
-
+    isScrollTo: null,
+    filter: null,
+    setFilter: () => {},
 });
 
 export const PostsContextProvider = ({ initPosts, children }) => {
@@ -18,15 +19,27 @@ export const PostsContextProvider = ({ initPosts, children }) => {
     const isScrollTo = useRef(false);
     const [activeAmphoe, setActiveAmphoe] = useState(null);
 
+    const [filter, setFilter] = useState("");
+
     const amphoeArr = useMemo(() => (posts ? Object.keys(posts) : []), [posts]);
     const postsArr = useMemo(
-        () => (posts ? Object.values(posts) : []),
-        [posts]
+        () =>
+            posts
+                ? Object.values(posts).map((amphoe) =>
+                      amphoe.filter((post) => post.title.includes(filter))
+                  )
+                : [],
+        [posts, filter]
     );
 
     const postByActiveAmphoe = useMemo(
-        () => posts[activeAmphoe],
-        [activeAmphoe]
+        () =>
+            posts[activeAmphoe]
+                ? posts[activeAmphoe].filter((post) =>
+                      post.title.includes(filter)
+                  )
+                : null,
+        [activeAmphoe, filter]
     );
 
     return (
@@ -38,7 +51,9 @@ export const PostsContextProvider = ({ initPosts, children }) => {
                 activeAmphoe,
                 setActiveAmphoe,
                 postByActiveAmphoe,
-                isScrollTo
+                isScrollTo,
+                filter,
+                setFilter,
             }}
         >
             {children}

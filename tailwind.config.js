@@ -34,6 +34,7 @@ module.exports = {
             transitionProperty: {
                 "opacity-transform": "opacity, transform",
                 "font-size": "font-size, transform",
+                "font-size-width": "font-size, transform, width, height",
             },
             animation: {
                 "bounce-once": "bounce 2s linear",
