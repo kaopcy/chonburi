@@ -1,5 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
-import { v4 as uuid } from "uuid";
+import React, { useEffect, useRef, useState, useMemo } from "react";
 
 // import contexts
 import { usePostsContext } from "../../context/MainTravel/PostContext";
@@ -7,10 +6,7 @@ import { useMapContext } from "../../context/MainTravel/MapContext";
 
 // import icons
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-    faChevronDown,
-    faMagnifyingGlass,
-} from "@fortawesome/free-solid-svg-icons";
+import { faChevronDown } from "@fortawesome/free-solid-svg-icons";
 import { faMountain } from "@fortawesome/free-solid-svg-icons";
 
 // import components
@@ -20,7 +16,7 @@ import AmphoeSelector from "./AmphoeSelector";
 import SearchBar from "./SearchBar";
 
 const Posts = () => {
-    const { amphoeArr, postsArr, activeAmphoe, setActiveAmphoe, isScrollTo } =
+    const { amphoeArr, postsArr, setActiveAmphoe, isScrollTo, filter } =
         usePostsContext();
 
     const [extraAmphoe, setExtraAmphoe] = useState(postsArr.map(() => 1));
@@ -33,8 +29,6 @@ const Posts = () => {
     const testRef = useRef(null);
 
     const scrollTimeout = useRef(null);
-
-    const scrollTo = () => {};
 
     useEffect(() => {
         const scrollEvnt = () => {
@@ -98,13 +92,35 @@ const Posts = () => {
                         isOpen ? "w-full xl:w-auto" : " w-full sm:w-auto"
                     }`}
                 >
+                    <span
+                        className={`mr-2 mt-10 text-[27px] font-semibold text-text  ${
+                            isOpen
+                                ? "text-[20px] xl:text-[27px]"
+                                : "text-[18px] sm:text-[22px] lg:text-[27px] "
+                        }`}
+                    >
+                        {filter ? (
+                            <div className="">ผลการค้นหาสำหรับ "{filter}"</div>
+                        ) : (
+                            <>
+                                แหล่งท่องเที่ยว
+                                <span className="mr-5  inline" ref={testRef}>
+                                    ในชลบุรี
+                                </span>
+                                <FontAwesomeIcon
+                                    icon={faMountain}
+                                    className="text-2xl text-primary-lighter"
+                                />
+                            </>
+                        )}
+                    </span>
                     <div className="group sticky top-0  z-20  mt-4 flex w-full items-center justify-between gap-3 py-2  md:py-4">
                         <div className="absolute inset-0 bg-white opacity-80"></div>
                         <AmphoeSelector />
                         <SearchBar />
                     </div>
-                    {postsArr.every(e=> e.length <= 0 )  ? (
-                        <NoPost />
+                    {postsArr.every((e) => e.length <= 0) ? (
+                        <NoPost isOpen={isOpen} />
                     ) : (
                         postsArr.map(
                             (posts, index) =>
@@ -127,7 +143,7 @@ const Posts = () => {
                                                 {postsArr[index].length} สถานที่
                                             </span>
                                         </div>
-                                        <div className="mb-6 h-[1.5px] w-full bg-[#EFEFEF]"></div>
+                                        <div className="mb-6 mt-3 h-[1.5px] w-full bg-[#EFEFEF]"></div>
                                         <div
                                             className={`grid w-full grid-cols-1 gap-x-10 gap-y-10  ${
                                                 isOpen
@@ -154,72 +170,21 @@ const Posts = () => {
                                         </div>
                                         {posts.length >
                                         extraAmphoe[index] * 4 ? (
-                                            <div className="flex-cen mt-6 w-full">
-                                                <div className="h-[1px] w-full bg-zinc-200"></div>
-
-                                                <span
-                                                    className="group relative mx-3 shrink-0 cursor-pointer text-sm font-light text-text-lighterr"
-                                                    onClick={() =>
-                                                        setExtraAmphoe(
-                                                            (old) => {
-                                                                const newC =
-                                                                    old;
-                                                                newC[
-                                                                    index
-                                                                ] += 1;
-                                                                return [
-                                                                    ...newC,
-                                                                ];
-                                                            }
-                                                        )
-                                                    }
-                                                >
-                                                    แสดงเพิ่มเติม
-                                                    <FontAwesomeIcon
-                                                        className="absolute top-full left-1/2 -translate-y-full -translate-x-1/2 text-xs text-text-lightest opacity-0 transition-opacity-transform group-hover:translate-y-full group-hover:opacity-100"
-                                                        icon={faChevronDown}
-                                                    />
-                                                </span>
-                                                <div className="h-[1px] w-full bg-zinc-200"></div>
-                                            </div>
+                                            <MoreButton
+                                                amphoeIndex={index}
+                                                setExtraAmphoe={setExtraAmphoe}
+                                            />
                                         ) : (
                                             posts.length > 4 && (
-                                                <div className="flex-cen mt-6 w-full">
-                                                    <div className="h-[1px] w-full bg-zinc-200"></div>
-
-                                                    <span
-                                                        className="group relative mx-3 shrink-0 cursor-pointer text-sm font-light text-text-lighterr"
-                                                        onClick={() => {
-                                                            isScrollTo.current = true;
-                                                            setExtraAmphoe(
-                                                                (old) => {
-                                                                    const newC =
-                                                                        old;
-                                                                    newC[
-                                                                        index
-                                                                    ] = 1;
-                                                                    return [
-                                                                        ...newC,
-                                                                    ];
-                                                                }
-                                                            );
-                                                            eachAmphoreRef.current[
-                                                                index
-                                                            ].scrollIntoView({
-                                                                behavior:
-                                                                    "smooth",
-                                                                block: "start",
-                                                            });
-                                                        }}
-                                                    >
-                                                        แสดงน้อยลง
-                                                        <FontAwesomeIcon
-                                                            className="absolute top-full left-1/2 -translate-y-full -translate-x-1/2 text-xs text-text-lightest opacity-0 transition-opacity-transform group-hover:translate-y-full group-hover:opacity-100"
-                                                            icon={faChevronDown}
-                                                        />
-                                                    </span>
-                                                    <div className="h-[1px] w-full bg-zinc-200"></div>
-                                                </div>
+                                                <LessButton
+                                                    amphoeIndex={index}
+                                                    eachAmphoreRef={
+                                                        eachAmphoreRef
+                                                    }
+                                                    setExtraAmphoe={
+                                                        setExtraAmphoe
+                                                    }
+                                                />
                                             )
                                         )}
                                     </div>
@@ -232,10 +197,97 @@ const Posts = () => {
     );
 };
 
-const NoPost = () => {
-    return <div className="w-full bg-black flex flex-col">
-        <div className="w-[260px] h-[300px] bg-red-500"></div>
-    </div>;
+const NoPost = ({ isOpen }) => {
+    const { posts } = usePostsContext();
+    const post = useMemo(() => posts["เมือง"][0], [posts]);
+    return (
+        <>
+            <div
+                className={`grid w-full grid-cols-1 gap-x-10 gap-y-10  sm:grid-cols-2 lg:grid-cols-3  xl:grid-cols-4`}
+            >
+                <div className="flex w-full flex-col bg-black">
+                    <div
+                        className={
+                            isOpen
+                                ? "w-full xl:w-[260px] 2xl:w-[290px]"
+                                : "w-full md:w-[260px] 2xl:w-[290px]"
+                        }
+                    ></div>
+                </div>
+            </div>
+            <div className="">
+                
+            </div>
+        </>
+    );
+};
+
+const MoreButton = ({ setExtraAmphoe, amphoeIndex }) => {
+    return (
+        <div className="flex-cen mt-6 w-full">
+            <div className="h-[1px] w-full bg-zinc-200"></div>
+            <div
+                className="flex-col-cen group relative mx-3 aspect-square shrink-0 cursor-pointer rounded-full border-[1.5px] border-text-lightest text-sm   font-light text-text-lighter hover:!border-primary hover:!shadow-blue"
+                onClick={() =>
+                    setExtraAmphoe((old) => {
+                        const newC = old;
+                        newC[amphoeIndex] += 1;
+                        return [...newC];
+                    })
+                }
+            >
+                <span className="mx-2 font-medium text-text">เพิ่มเติม</span>
+                <div className="-mb-[7px] flex flex-col text-xs">
+                    <FontAwesomeIcon
+                        className="-mb-[7px] text-text-lighter"
+                        icon={faChevronDown}
+                    />
+                    <FontAwesomeIcon
+                        className="text-text-lighter "
+                        icon={faChevronDown}
+                    />
+                </div>
+            </div>
+            <div className="h-[1px] w-full bg-zinc-200"></div>
+        </div>
+    );
+};
+
+const LessButton = ({ setExtraAmphoe, amphoeIndex, eachAmphoreRef }) => {
+    const { isScrollTo } = usePostsContext();
+    return (
+        <div className="flex-cen mt-6 w-full">
+            <div className="h-[1px] w-full bg-zinc-200"></div>
+            <div
+                className="flex-col-cen group relative mx-3 aspect-square shrink-0 cursor-pointer rounded-full border-[1.5px] border-text-lightest text-sm   font-light text-text-lighter hover:!border-primary hover:!shadow-blue"
+                onClick={() => {
+                    isScrollTo.current = true;
+                    setExtraAmphoe((old) => {
+                        const newC = old;
+                        newC[amphoeIndex] = 1;
+                        return [...newC];
+                    });
+                    eachAmphoreRef.current[amphoeIndex].scrollIntoView({
+                        behavior: "smooth",
+                        block: "start",
+                    });
+                }}
+            >
+                <div className="-mt-[7px] flex flex-col text-xs">
+                    <FontAwesomeIcon
+                        className="-mb-[7px] rotate-180 text-text-lighter "
+                        icon={faChevronDown}
+                    />
+                    <FontAwesomeIcon
+                        className="rotate-180  text-text-lighter "
+                        icon={faChevronDown}
+                    />
+                </div>
+                <span className="mx-2 font-medium text-text">น้อยลง</span>
+            </div>
+            <div className="h-[1px] w-full bg-zinc-200"></div>
+        </div>
+    );
 };
 
 export default Posts;

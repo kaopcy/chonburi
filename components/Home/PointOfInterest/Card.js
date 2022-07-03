@@ -85,7 +85,7 @@ const Card = ({ post }) => {
                     <div className="absolute inset-0 bg-black opacity-0 transition-opacity duration-500 group-hover:opacity-40"></div>
                     <Link href={`/travel/${post.slug.current}`}>
                         <div className="abs-center pointer-events-none z-20 flex translate-y-full  items-center text-2xl text-white opacity-0  transition-all duration-500 group-hover:pointer-events-auto group-hover:-translate-y-1/2 group-hover:opacity-100">
-                            <div className="relative">
+                            <div className="relative shrink-0 whitespace-nowrap">
                                 เข้าชม
                                 <div className="absolute bottom-0 h-[2px] w-full origin-left scale-x-0 bg-white delay-200 duration-700 ease-out group-hover:scale-x-100"></div>
                             </div>

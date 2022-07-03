@@ -1,19 +1,96 @@
-import React from "react";
+import React, { useEffect } from "react";
+import gsap from "gsap/dist/gsap";
 
 // import contexts
 import { useMapContext } from "../../context/MainTravel/MapContext";
-
-// import hooks
-import useIsTouchDevice from "../../composables/useIsTouchDevice";
+import { usePostsContext } from "../../context/MainTravel/PostContext";
 
 // import icons
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
 import { faMap } from "@fortawesome/free-regular-svg-icons";
+import { useRef } from "react";
 
 const OpenButton = () => {
     const { isOpen, setIsOpen } = useMapContext();
-    const isTouch = useIsTouchDevice();
+    const { activeAmphoe , postByActiveAmphoe } = usePostsContext();
+
+    const redIconRef = useRef(null);
+    const buttonRef = useRef(null)
+    const textRef = useRef(null)
+
+    useEffect(() => {
+        gsap.timeline().fromTo(
+            redIconRef.current,
+            {
+                scale: 1,
+            },
+            {
+                overwrite: true,
+                duration: 1,
+                scale: 2,
+                ease: "elastic.out",
+            }
+        ).fromTo(
+            redIconRef.current,
+            {
+                scale: 2,
+            },
+            {
+                overwrite: true,
+                duration: 1,
+                scale: 1,
+                ease: "elastic.out",
+            }
+        );
+        gsap.timeline().fromTo(
+            buttonRef.current,
+            {
+                scale: 1,
+            },
+            {
+                overwrite: true,
+                duration: 1,
+                scale: 1.2,
+                ease: "elastic.out",
+            }
+        ).fromTo(
+            buttonRef.current,
+            {
+                scale: 1.2,
+            },
+            {
+                overwrite: true,
+                duration: 1,
+                scale: 1,
+                ease: "elastic.out",
+            }
+        );
+        gsap.timeline().fromTo(
+            textRef.current,
+            {
+                yPercent: 0,
+            },
+            {
+                overwrite: true,
+                duration: 1,
+                yPercent: 100,
+                ease: "elastic.out",
+            }
+        ).fromTo(
+            textRef.current,
+            {
+                yPercent: 50,
+            },
+            {
+                overwrite: true,
+                duration: 1,
+                yPercent: 0,
+                ease: "elastic.out",
+            }
+        );
+    }, [activeAmphoe]);
+
     return (
         <div
             className={`absolute top-[80%] right-0 z-50 flex -translate-y-1/2 scale-75 cursor-pointer flex-col items-center transition-transform duration-1000  ease-in-out sm:top-1/2 md:scale-100 ${
@@ -21,19 +98,24 @@ const OpenButton = () => {
             }`}
             onClick={() => setIsOpen((e) => !e)}
         >
-            <div className="flex-cen absolute top-0 right-0 h-[15px] w-[15px] rounded-full bg-red-500 text-[9px] text-white">
-                5
-            </div>
-            <div className="flex h-16 w-16 flex-col items-center justify-center rounded-full border-2 border-text bg-white text-text transition-colors hover:bg-text hover:text-white">
+            
+            <div ref={buttonRef} className="flex h-16 w-16 flex-col items-center justify-center rounded-full border-2 border-text bg-white text-text transition-colors hover:bg-text hover:text-white">
                 <FontAwesomeIcon
                     className="text-lg"
                     icon={isOpen ? faXmark : faMap}
                 />
                 <div className="">แผนที่</div>
             </div>
+            <div
+                ref={redIconRef}
+                className="flex-cen absolute top-0 right-0 h-[15px] w-[15px] rounded-full bg-red-500 text-[9px] text-white"
+            >
+                {postByActiveAmphoe?.length}
+            </div>
             <div className="mt-1 h-[6px]  w-[6px] rounded-full border-2 border-text-lighterr"></div>
             <div className="mt-1 h-[6px]  w-[6px] rounded-full border-2 border-text-lighterr"></div>
             <div className="mt-1 h-[6px]  w-[6px] rounded-full border-2 border-text-lighterr"></div>
+            <div ref={textRef} className="text-text text-xs mt-1">{activeAmphoe}</div>
         </div>
     );
 };

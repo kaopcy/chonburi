@@ -10,7 +10,7 @@ import { useMapContext } from "../../context/MainTravel/MapContext";
 import { useEffect } from "react";
 
 const AmphoeSelector = () => {
-    const { activeAmphoe, posts } = usePostsContext();
+    const { activeAmphoe, posts, postByActiveAmphoe } = usePostsContext();
     const { isOpen: isMapOpen } = useMapContext();
     const [isOpen, setIsOpen] = useState(false);
 
@@ -30,12 +30,11 @@ const AmphoeSelector = () => {
     return (
         <div
             ref={inputRef}
-            className={`relative z-10  flex h-[47px] w-full max-w-[250px] items-center rounded-lg border-2 border-text-lighterr bg-white px-4 py-2 md:rounded-xl ${
-                (isOpen && "border-primary  shadow-blue",
+            className={`relative z-10 flex  h-[47px] w-full max-w-[250px] items-center rounded-lg border-2 border-text-lighterr bg-white px-4 py-2 text-text md:rounded-xl ${
                 isMapOpen
                     ? "text-[20px] xl:text-[18px]"
-                    : "text-[18px] sm:text-[22px] lg:text-[22px] ")
-            }`}
+                    : "text-[18px] sm:text-[22px] lg:text-[22px] "
+            } ${isOpen && "!border-primary  !shadow-blue "}`}
         >
             <div
                 onClick={() => setIsOpen(true)}
@@ -43,8 +42,11 @@ const AmphoeSelector = () => {
                     isOpen && "translate-y-1/3 text-[16px]"
                 }`}
             >
-                {activeAmphoe}{" "}
-                <Length length={posts[activeAmphoe]?.length} isOpen={isOpen} />
+                {activeAmphoe?.length > 0 ? activeAmphoe : "--"}{" "}
+                <Length
+                    length={postByActiveAmphoe ? postByActiveAmphoe?.length : 0}
+                    isOpen={isOpen}
+                />
             </div>
             <div
                 className={`absolute top-1 left-4  text-[10px] text-text-lighterr  ${
@@ -70,42 +72,48 @@ const ChevronUpDown = ({ isOpen }) => (
 );
 
 const Dropdown = ({ setIsOpen }) => {
-    const { amphoeArr, posts, setActiveAmphoe, activeAmphoe, isScrollTo } =
+    const { amphoeArr, setActiveAmphoe, activeAmphoe, isScrollTo, postsArr } =
         usePostsContext();
     return (
         <div className=" absolute top-[120%] left-0 z-50 flex max-h-[200px] w-full flex-col overflow-y-scroll rounded-xl bg-white px-2  py-2 shadow-lg">
-            {amphoeArr.map((e, index) => (
-                <div
-                    key={e}
-                    onClick={() => {
-                        setActiveAmphoe(e);
-                        isScrollTo.current = true;
-                        setIsOpen(false);
-                        document
-                            .getElementById(amphoeArr[index])
-                            .scrollIntoView({
-                                behavior: "smooth",
-                                block: "start",
-                            });
-                    }}
-                    className={`flex w-full  min-w-0 cursor-pointer items-center justify-between rounded-lg py-2 px-2 text-sm font-light hover:bg-[#5ABDFF22] ${
-                        activeAmphoe === e && "!cursor-default !bg-[#5ABDFF55]"
-                    }`}
-                >
-                    <div className=" flex items-center text-text">
-                        <span className="ellipsis mr-3">{e}</span>
-                        {activeAmphoe === e && (
-                            <FontAwesomeIcon
-                                className="mt-[2px] text-[10px] text-primary"
-                                icon={faCheck}
-                            />
-                        )}
-                    </div>
-                    <div className="text-[11px] text-text-lighterr">
-                        {posts[e].length} สถานที่
-                    </div>
-                </div>
-            ))}
+            {postsArr.map(
+                (e, index) =>
+                    e.length > 0 && (
+                        <div
+                            key={e[0].placeID}
+                            onClick={() => {
+                                setActiveAmphoe(amphoeArr[index]);
+                                isScrollTo.current = true;
+                                setIsOpen(false);
+                                document
+                                    .getElementById(amphoeArr[index])
+                                    .scrollIntoView({
+                                        behavior: "smooth",
+                                        block: "start",
+                                    });
+                            }}
+                            className={`flex w-full  min-w-0 cursor-pointer items-center justify-between rounded-lg py-2 px-2 text-sm font-light hover:bg-[#5ABDFF22] ${
+                                activeAmphoe === amphoeArr[index] &&
+                                "!cursor-default !bg-[#5ABDFF55]"
+                            }`}
+                        >
+                            <div className=" flex items-center text-text">
+                                <span className="ellipsis mr-3">
+                                    {amphoeArr[index]}
+                                </span>
+                                {activeAmphoe === amphoeArr[index] && (
+                                    <FontAwesomeIcon
+                                        className="mt-[2px] text-[10px] text-primary"
+                                        icon={faCheck}
+                                    />
+                                )}
+                            </div>
+                            <div className="text-[11px] text-text-lighterr">
+                                {e.length} สถานที่
+                            </div>
+                        </div>
+                    )
+            )}
         </div>
     );
 };

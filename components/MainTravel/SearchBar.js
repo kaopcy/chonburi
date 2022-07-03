@@ -12,6 +12,10 @@ const SearchBar = () => {
     const { isOpen } = useMapContext();
     const { filter, setFilter } = usePostsContext();
 
+    useEffect(() => {
+        inputRef.current.value = filter;
+    }, [filter]);
+
     const inputRef = useRef(null);
     const timerRef = useRef(null);
     const onSearchQueryChange = (e) => {
@@ -31,7 +35,7 @@ const SearchBar = () => {
 
     return (
         <div
-            className={`z-10 flex h-[47px] max-w-[250px] items-center rounded-lg border-2 border-text-lighterr bg-white py-1 px-2 md:rounded-xl   
+            className={`group z-10 flex h-[47px] max-w-[250px] items-center  rounded-lg  border-2 border-text-lighterr bg-white py-1 px-2 group-focus-within:!border-primary group-focus-within:!shadow-blue md:rounded-xl   
                         ${
                             isOpen
                                 ? "w-full text-sm xl:text-base"
@@ -46,7 +50,7 @@ const SearchBar = () => {
                 ref={inputRef}
                 onChange={onSearchQueryChange}
                 type="text"
-                className="w-full bg-transparent px-1 placeholder:text-text-lighterr focus:outline-none"
+                className="w-full bg-transparent px-1 placeholder:text-text-lighterr focus:outline-none focus:placeholder:text-opacity-0"
                 placeholder="ค้นหาสถานที่..."
             />
             <FontAwesomeIcon

@@ -36,7 +36,7 @@ export const PostsContextProvider = ({ initPosts, children }) => {
         () =>
             posts[activeAmphoe]
                 ? posts[activeAmphoe].filter((post) =>
-                      post.title.includes(filter)
+                      post.title.trim().includes(filter.trim())
                   )
                 : null,
         [activeAmphoe, filter]
