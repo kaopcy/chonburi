@@ -14,7 +14,10 @@ class MyDocument extends Document {
                         httpEquiv="Content-Type"
                         content="text/html; charset=utf-8"
                     />
-                    
+                    <meta
+                        name="google-site-verification"
+                        content="LzC3GCz62hnVNL1wRrnnOntQfhMgi3p2CDMIebXSY2g"
+                    />
                     <link
                         rel="preconnect"
                         href="https://fonts.googleapis.com"
