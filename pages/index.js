@@ -2,6 +2,7 @@ import React, { useEffect, useRef } from "react";
 import Image from "next/image";
 import groq from "groq";
 import gsap from "gsap/dist/gsap";
+import Head from "next/head";
 
 // import hooks
 import { getClient } from "../lib/sanity.server";
@@ -50,7 +51,11 @@ const Home = ({ posts, restaurants }) => {
     }, [isTouch]);
 
     return (
-        <div className="flex min-h-screen w-full flex-col bg-white px-3 text-text sm:px-16">
+        <main className="flex min-h-screen w-full flex-col bg-white px-3 text-text sm:px-16">
+            <Head>
+                <title>Chonburi</title>
+                <meta name="description" content="chonburi travel history เมืองชลบุรี แหล่งท่องเที่ยว ท่องเที่ยวในชลบุรี" />
+            </Head>
             <div className="h-[100px]"></div>
 
             <div
@@ -63,11 +68,13 @@ const Home = ({ posts, restaurants }) => {
                         ref={imageRef}
                     >
                         <Image
-                            priority="low"
+                            alt="ชลบุรี เกาะ หาด"
                             src={chonburiImage}
                             layout="fill"
                             className="object-cover "
                             quality="100"
+                            blurDataURL="URL"
+                            placeholder="blur"
                         />
                     </div>
                     <div
@@ -94,7 +101,7 @@ const Home = ({ posts, restaurants }) => {
             <LocationList posts={posts} />
             <RestaurantList restaurants={restaurants} />
             <div className="h-screen" />
-        </div>
+        </main>
     );
 };
 

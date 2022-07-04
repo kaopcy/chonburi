@@ -1,5 +1,3 @@
-const { ScaleControl } = require("mapbox-gl");
-
 module.exports = {
     content: [
         "./pages/**/*.{js,ts,jsx,tsx}",

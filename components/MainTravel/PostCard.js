@@ -106,7 +106,11 @@ const PostCard = ({
                     className="absolute top-0 left-0 flex  aspect-[13/9] w-full flex-nowrap transition-all duration-700 "
                 >
                     {imageURL.map((e) => (
-                        <ImageComponent imageURL={e} key={e._key} />
+                        <ImageComponent
+                            imageURL={e}
+                            key={e._key}
+                            title={title}
+                        />
                     ))}
                     {/* <ImageComponent imageURL={imageURL[0]} />
                         <ImageComponent imageURL={imageURL[0]} /> */}
@@ -157,13 +161,14 @@ const PostCard = ({
     );
 };
 
-const ImageComponent = ({ imageURL }) => {
+const ImageComponent = ({ imageURL, title }) => {
     return (
         <div
             className="relative  aspect-[13/9] w-full shrink-0 overflow-hidden"
             key={imageURL._key}
         >
             <Image
+                alt={title}
                 quality="low"
                 layout="fill"
                 objectFit="cover"
@@ -194,14 +199,7 @@ const Controller = ({ increase, decrease, imageCount, curIndex }) => {
     return (
         <>
             <button
-                disabled={curIndex === imageCount - 1}
-                onClick={() => increase()}
-                className="flex-cen group absolute top-1/2 right-2   z-10 h-8 w-8 -translate-y-1/2  cursor-pointer overflow-hidden rounded-full border-white text-white hover:border-2 disabled:hidden"
-            >
-                <div className="absolute inset-0 hidden bg-black opacity-40 group-hover:block"></div>
-                <FontAwesomeIcon className="z-10" icon={faChevronRight} />
-            </button>
-            <button
+                name="ย้อนกลับ"
                 disabled={curIndex === 0}
                 onClick={() => decrease()}
                 className="flex-cen group absolute top-1/2 left-2 z-10 h-8 w-8 -translate-y-1/2  cursor-pointer overflow-hidden rounded-full border-white text-white hover:border-2 disabled:hidden"
@@ -211,6 +209,15 @@ const Controller = ({ increase, decrease, imageCount, curIndex }) => {
                     className="z-10 rotate-180"
                     icon={faChevronRight}
                 />
+            </button>
+            <button
+                name="ถัดไป"
+                disabled={curIndex === imageCount - 1}
+                onClick={() => increase()}
+                className="flex-cen group absolute top-1/2 right-2   z-10 h-8 w-8 -translate-y-1/2  cursor-pointer overflow-hidden rounded-full border-white text-white hover:border-2 disabled:hidden"
+            >
+                <div className="absolute inset-0 hidden bg-black opacity-40 group-hover:block"></div>
+                <FontAwesomeIcon className="z-10" icon={faChevronRight} />
             </button>
         </>
     );

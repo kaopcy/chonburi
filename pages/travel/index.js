@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import groq from "groq";
+import Head from "next/head";
 
 // import configs
 import { getClient } from "../../lib/sanity.server";
@@ -24,17 +25,24 @@ const Travel = ({ posts }) => {
     return (
         <MapContextProvider>
             <PostsContextProvider initPosts={posts}>
-                <div
+                <main
                     className={`relative flex   w-full flex-col overflow-hidden  ${
                         isTouch ? "h-[calc(100vh-70px)]" : "h-screen"
                     }`}
                 >
+                    <Head>
+                        <title>ร้านอาหารในชลบุรี</title>
+                        <meta
+                            name="description"
+                            content="chonburi restaurant  เมืองชลบุรี ร้านอาหาร ร้านอาหารในชลบุรี"
+                        />
+                    </Head>
                     <div className="h-[70px] w-full shrink-0 md:h-[100px]"></div>
                     <div className="flex h-full w-full overflow-hidden">
                         <Posts />
                         <Map />
                     </div>
-                </div>
+                </main>
             </PostsContextProvider>
         </MapContextProvider>
     );

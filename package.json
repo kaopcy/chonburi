@@ -24,7 +24,6 @@
         "geolib": "^3.3.3",
         "groq": "^2.29.3",
         "gsap": "^3.10.4",
-        "mapbox-gl": "^2.8.2",
         "moment": "^2.29.3",
         "next": "12.1.5",
         "next-sanity": "^0.5.2",
@@ -33,7 +32,7 @@
         "react-device-detect": "^2.2.2",
         "react-dom": "17.0.2",
         "react-moment": "^1.1.2",
-        "sharp": "^0.30.4",
+        "sharp": "^0.30.7",
         "tailwindcss-container-query": "^1.0.1",
         "tailwindcss-scoped-groups": "^2.0.0",
         "uuid": "^8.3.2"

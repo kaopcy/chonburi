@@ -67,11 +67,13 @@ const RestaurantCard = ({ post }) => {
                                     className=" relative  aspect-[16/12] w-full  shrink-0 overflow-hidden  shadow-md "
                                 >
                                     <Image
-                                        priority="low"
+                                        alt={post.slug.current}
+                                        quality="low"
                                         layout="fill"
                                         objectFit="cover"
                                         src={urlFor(image).url()}
-                                        className=""
+                                        blurDataURL="URL"
+                                        placeholder="blur"
                                     />
                                     {/* <div className="inner-shadow absolute top-0 left-0 z-10 h-full w-full"></div> */}
                                 </div>

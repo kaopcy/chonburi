@@ -1,4 +1,5 @@
 import Image from "next/dist/client/image";
+import Head from "next/head";
 import dynamic from "next/dynamic";
 import { useEffect } from "react";
 import "../styles/globals.css";
@@ -30,10 +31,15 @@ const ProgressBar = dynamic(() => import("../components/ProgressBar"), {
 
 gsap.registerPlugin(ScrollTrigger);
 
-
 function MyApp({ Component, pageProps }) {
     return (
         <UserLocationProvider>
+            <Head>
+                <meta
+                    name="viewport"
+                    content="width=device-width, initial-scale=1"
+                />
+            </Head>
             <PortableTextComponentsProvider components={CustomPortableText}>
                 <div className="w-full">
                     <ProgressBar />
