@@ -54,7 +54,10 @@ const Home = ({ posts, restaurants }) => {
         <main className="flex min-h-screen w-full flex-col bg-white px-3 text-text sm:px-16">
             <Head>
                 <title>Chonburi x Travel | หน้าหลัก</title>
-                <meta name="description" content="ท่องเที่ยวที่ชลบุรี ค้นหาแหล่งท่องเที่ยวและร้านอาหารชื่อดงัที่ไม่ควรพลาดในจังหวัดชลบุรี, ประเทศไทย " />
+                <meta
+                    name="description"
+                    content="ท่องเที่ยวที่ชลบุรี ค้นหาแหล่งท่องเที่ยวและร้านอาหารชื่อดงัที่ไม่ควรพลาดในจังหวัดชลบุรี, ประเทศไทย "
+                />
             </Head>
             <div className="h-[100px]"></div>
 
@@ -105,6 +108,19 @@ const Home = ({ posts, restaurants }) => {
     );
 };
 
+const restaurantQuery = groq`
+*[(_type == "pointOfInterest") && defined(slug.current)][0...7] | order(star desc , title desc){
+  amphoe-> { name },
+  tambon-> { name },
+  title,
+  slug,
+  coords,
+  placeID,
+  imageURL,
+  reviews,
+  star,
+}`;
+
 export const getStaticProps = async (context) => {
     const posts = await getClient(context.preview).fetch(groq`
         *[_type == "post" && publishedAt < now()][0...5] | order(publishedAt desc , title desc){
@@ -123,19 +139,7 @@ export const getStaticProps = async (context) => {
         }
     `);
 
-    const restaurants = await getClient(context.preview).fetch(groq`
-        *[_type == "restaurant" && publishedAt < now()][0...5] | order(publishedAt asc , title desc){
-            _id,
-            title,
-            "tag": tag[]->{_id, name},
-            mainImage,
-            slug,
-            publishedAt,
-            coords,
-            location,
-            locationType,
-        }
-    `);
+    const restaurants = await getClient(context.preview).fetch(restaurantQuery);
     return {
         props: {
             posts,

@@ -86,6 +86,7 @@ const ChevronUpDown = ({ isOpen }) => (
 );
 
 const Dropdown = ({ setIsOpen }) => {
+    const { isOpen: isMapOpen } = useMapContext();
     const { amphoeArr, setActiveAmphoe, activeAmphoe, isScrollTo, postsArr } =
         usePostsContext();
     return (
@@ -101,7 +102,7 @@ const Dropdown = ({ setIsOpen }) => {
                                         document.body.clientWidth;
                                     setActiveAmphoe(amphoeArr[index]);
                                     setIsOpen(false);
-                                    if (clientWidth > 767) {
+                                    if (clientWidth > 767 || !isMapOpen) {
                                         isScrollTo.current = true;
                                         document
                                             .getElementById(amphoeArr[index])
@@ -109,12 +110,13 @@ const Dropdown = ({ setIsOpen }) => {
                                                 behavior: "smooth",
                                                 block: "start",
                                             });
+                                    } else {
+                                        document
+                                            .getElementById(amphoeArr[index])
+                                            .scrollIntoView({
+                                                block: "start",
+                                            });
                                     }
-                                    document
-                                        .getElementById(amphoeArr[index])
-                                        .scrollIntoView({
-                                            block: "start",
-                                        });
                                 }}
                                 className={`flex w-full  min-w-0 cursor-pointer items-center justify-between rounded-lg py-2 px-2 text-sm font-light hover:bg-[#5ABDFF22] ${
                                     activeAmphoe === amphoeArr[index] &&

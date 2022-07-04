@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import groq from "groq";
 import Head from "next/head";
+import { useRouter } from 'next/router'
 
 // import configs
 import { getClient } from "../../lib/sanity.server";
@@ -17,9 +18,14 @@ import Posts from "../../components/MainTravel/Posts";
 import Map from "../../components/MainTravel/Map";
 
 const Travel = ({ posts }) => {
-    useEffect(() => {
-        console.log(posts);
-    }, [posts]);
+    // const router = useRouter()
+    // const { query } = router
+    // useEffect(()=> {
+    //     if(query.map !== undefined) return 
+    //     router.push('?map',undefined , { shallow: true })
+    //     console.log('query' , query);
+    // },[])
+    
 
     const isTouch = useIsTouchDevice();
     return (
@@ -63,7 +69,6 @@ const postsQuery = groq`
 
 export async function getStaticProps({ params, preview = false }) {
     const posts = await getClient(preview).fetch(postsQuery);
-    console.log(typeof posts);
     return {
         props: {
             posts: posts

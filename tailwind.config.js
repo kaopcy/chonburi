@@ -41,6 +41,7 @@ module.exports = {
                 "gps-pulse-3": "gps-pulse 2s infinite 2s",
             },
             boxShadow: {
+                small: '0px 3px 5px rgba(0,0,0,0.07)',
                 big: "0px 1px 6px  rgba(0, 0, 0, 0.16)",
                 icon: "2px 2px 10px  rgba(0, 0, 0, 0.16)",
                 blue: "0px 0px 8px  rgba(154, 215, 255, 0.61)",

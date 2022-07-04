@@ -63,7 +63,7 @@ const Map = () => {
                 isOpen ? "!w-[100%] md:!w-[55%] " : "w-0"
             }`}
         >
-            <div className="group absolute top-0 z-20  flex w-full  items-center justify-between gap-3 px-2 py-2 md:hidden  md:py-4">
+            <div className=" group absolute left-0 top-0 z-20  flex w-full  items-center justify-between gap-3 px-2 py-2 md:hidden  md:py-4">
                 <div className="absolute inset-0 bg-white opacity-80"></div>
                 <AmphoeSelector />
                 <SearchBar />

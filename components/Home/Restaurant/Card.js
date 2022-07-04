@@ -1,204 +1,174 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import Link from "next/link";
-
-import gsap from "gsap";
-
+import React, { useState, useMemo, useEffect } from "react";
 import Image from "next/image";
-import { urlFor } from "../../../lib/sanity";
-
 import { v4 as uuid } from "uuid";
-import "moment/locale/th";
 
+// import icons
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCheck, faLocationDot } from "@fortawesome/free-solid-svg-icons";
-import { faQuestionCircle } from "@fortawesome/free-regular-svg-icons";
+import {
+    faLocationDot,
+    faStar,
+    faChevronRight,
+    faPencilAlt,
+} from "@fortawesome/free-solid-svg-icons";
+import { useRef } from "react";
 
-import { getDistance } from "geolib";
-import { getRestaurantTypeProperties } from "../../../utils/typeUtils";
+const PostCard = ({
+    placeID,
+    imageURL,
+    title,
+    amphoe,
+    tambon,
+    isOpen,
+    reviews,
+    star,
+}) => {
+    const imageCount = useMemo(
+        () => (imageURL ? imageURL.length : 0),
+        [imageURL]
+    );
+    const imageContainerRef = useRef(null);
+    const [curIndex, setCurIndex] = useState(0);
 
-// import hooks
-import useIsTouchDevice from "../../../composables/useIsTouchDevice";
-import { useUserLocation } from "../../../context/UserLocationContext";
-
-const RestaurantCard = ({ post }) => {
-    const { userLocation } = useUserLocation();
-    const [index, setIndex] = useState(0);
-    const container = useRef(null);
-    const timeOut = useRef(null);
-    const isTouch = useIsTouchDevice();
+    const increase = () => {
+        setCurIndex((old) => (old >= imageCount - 1 ? old : old + 1));
+    };
+    const decrease = () => {
+        setCurIndex((old) => (old <= 0 ? old : old - 1));
+    };
 
     useEffect(() => {
-        const width = container.current.clientWidth;
-        gsap.to(container.current, {
-            left: `-${width * index}px`,
-            ease: "expo.inOut",
-            duration: 1,
-        });
-    }, [index]);
-
-    // useEffect(() => {
-    //     if (isTouch || isTouch === null) return;
-    //     timeOut.current = setTimeout(() => {
-    //         setIndex((e) => (e + 1) % post.mainImage.length);
-    //     }, 5000);
-
-    //     return () => {
-    //         clearTimeout(timeOut.current);
-    //     };
-    // }, [index]);
-
-    const distance = useMemo(() => {
-        if (!userLocation || !post.coords) return null;
-        const temp = getDistance(userLocation, post.coords);
-        return temp > 1000
-            ? `${(temp / 1000).toFixed(2)} กิโลเมตร`
-            : `${temp} เมตร`;
-    }, [userLocation, post.coords]);
+        imageContainerRef.current.style.left = `${
+            curIndex * -imageContainerRef.current.clientWidth
+        }px`;
+    }, [curIndex]);
 
     return (
-        <div className="relative mr-5 mb-4  flex h-full w-[230px] shrink-0  flex-col justify-between overflow-hidden bg-white py-8 md:w-[300px]">
-            <div className="flex flex-col">
-                <div className="group relative aspect-[16/12] w-full overflow-hidden rounded-xl">
-                    <div className="absolute inset-0 overflow-hidden rounded-xl transition-transform duration-500 group-hover:scale-125">
-                        <div className="absolute flex w-full  " ref={container}>
-                            {post.mainImage.map((image) => (
-                                <div
-                                    key={image._key}
-                                    className=" relative  aspect-[16/12] w-full  shrink-0 overflow-hidden  shadow-md "
-                                >
-                                    <Image
-                                        alt={post.slug.current}
-                                        quality="low"
-                                        layout="fill"
-                                        objectFit="cover"
-                                        src={urlFor(image).url()}
-                                        blurDataURL="URL"
-                                        placeholder="blur"
-                                    />
-                                    {/* <div className="inner-shadow absolute top-0 left-0 z-10 h-full w-full"></div> */}
-                                </div>
-                            ))}
-                        </div>
-                    </div>
-                    <div className="absolute inset-0 bg-black opacity-0 transition-opacity duration-500 group-hover:opacity-40"></div>
-                    <Link href={`/restaurant/${post.slug.current}`}>
-                        <div className="abs-center pointer-events-none z-20 flex translate-y-full  items-center text-2xl text-white opacity-0  transition-all duration-500 group-hover:pointer-events-auto group-hover:-translate-y-1/2 group-hover:opacity-100">
-                            <div className="relative">
-                                เข้าชม
-                                <div className="absolute bottom-0 h-[2px] w-full origin-left scale-x-0 bg-white delay-200 duration-700 ease-out group-hover:scale-x-100"></div>
-                            </div>
-                            <svg
-                                className="ml-2   w-5 -translate-x-[200%] opacity-0 duration-700 group-hover:translate-x-0 group-hover:opacity-100"
-                                viewBox="0 0 24 24"
-                                fill="none"
-                                xmlns="http://www.w3.org/2000/svg"
-                            >
-                                <path
-                                    d="M12 20L20 12L12 4"
-                                    stroke="white"
-                                    strokeWidth="2"
-                                    strokeLinecap="square"
-                                    strokeLinejoin="round"
-                                ></path>
-                                <line
-                                    x1="1"
-                                    y1="-1"
-                                    x2="17"
-                                    y2="-1"
-                                    transform="matrix(-1 0 0 1 20 13)"
-                                    stroke="white"
-                                    strokeWidth="2"
-                                    strokeLinecap="square"
-                                    strokeLinejoin="round"
-                                ></line>
-                            </svg>
-                        </div>
-                    </Link>
+        <div
+            className={`mr-5 flex w-[230px]  shrink-0  flex-col overflow-hidden text-text md:w-[300px]`}
+            key={placeID}
+        >
+            <div
+                className="relative mb-2 aspect-[13/9] w-full shrink-0 overflow-hidden  rounded-xl"
+                key={imageURL[0]._key}
+            >
+                <div
+                    ref={imageContainerRef}
+                    className="absolute top-0 left-0 flex  aspect-[13/9] w-full flex-nowrap transition-all duration-700 "
+                >
+                    {imageURL.map((e) => (
+                        <ImageComponent
+                            imageURL={e}
+                            key={e._key}
+                            title={title}
+                        />
+                    ))}
                 </div>
-                {/* <Indicator index={index} postNum={post.mainImage.length} /> */}
-                <div className="mt-5 flex w-full min-w-0 items-center justify-between text-sm">
-                    <div className="ellipsis text-xs text-text-lighter md:text-sm">
-                        {post.location}
-                    </div>
-                    <Type locationType={post.locationType} />
+                <Controller
+                    increase={increase}
+                    decrease={decrease}
+                    curIndex={curIndex}
+                    imageCount={imageCount}
+                />
+                <Indicator imageCount={imageCount} curIndex={curIndex} />
+                <div className="absolute top-4 right-0 z-10 flex items-center overflow-hidden rounded-l-lg px-2 py-[3px] text-white">
+                    <div className="absolute inset-0 z-0 bg-black opacity-40"></div>
+                    <span className="z-30 mr-1 text-sm font-light ">
+                        {reviews ? Object.keys(reviews).length : 0} รีวิว
+                    </span>
+                    <FontAwesomeIcon
+                        className="z-30 -rotate-45 text-xs"
+                        icon={faPencilAlt}
+                    />
                 </div>
-                <div className=" mt-1 flex min-w-0 items-center justify-between">
-                    <h1 className="ellipsis  text-xl font-semibold text-text md:text-2xl">
-                        {post.title}
-                    </h1>
+            </div>
+            <div className="flex items-center justify-between">
+                <div className="font-medium">{title}</div>
+                <div className="flex items-center">
+                    <span className="mr-1 text-sm">{star}</span>
+                    <FontAwesomeIcon
+                        className="text-xs text-yellow-200"
+                        icon={faStar}
+                    />
                 </div>
-                <div className=" flex items-center font-light text-text-lighter">
-                    {post.tag &&
-                        post.tag.map((tag) => <Tag tag={tag} key={tag._id} />)}
-                </div>
-                <div className=" mt-1 flex items-center text-xs font-light text-text-lighterr md:text-sm">
+            </div>
+            <div className="flex justify-between font-light text-text-lighter">
+                <span className="text-xs ">
                     <FontAwesomeIcon
                         icon={faLocationDot}
-                        className="mr-2 text-xs text-red-500"
+                        className="mr-[6px] text-red-400"
                     />
-                    ระยะห่าง {distance ? distance : "-- เมตร"}
-                    {!distance && (
-                        <div className="group relative">
-                            <FontAwesomeIcon
-                                icon={faQuestionCircle}
-                                className="ml-4 text-sm text-text-lightest"
-                            />
-                            <div className="absolute bottom-full left-0 hidden w-[100px] overflow-hidden rounded-md border px-2 py-1 text-xs group-hover:flex">
-                                <div className="absolute inset-0 bg-white opacity-40"></div>
-                                <div className="z-10">
-                                    คุณไม่ได้เปิดใช้งานตำแหน่ง
-                                </div>
-                            </div>
-                        </div>
-                    )}
-                </div>
+                    <span className="">ระยะห่าง 90 กม.</span>
+                </span>
+
+                <span className="ellipsis text-xs">
+                    <span className=" mr-1">อ. {amphoe.name}</span>
+                    <span className="">ต. {tambon.name}</span>
+                </span>
             </div>
         </div>
     );
 };
 
-const Type = ({ locationType }) => {
-    const { color, icon, name } = getRestaurantTypeProperties(locationType);
+const ImageComponent = ({ imageURL, title }) => {
     return (
-        <div className="flex items-center space-x-1 whitespace-nowrap rounded-l-full px-[8px] py-[3px] text-xxs text-text-dark md:text-sm">
-            <FontAwesomeIcon
-                icon={icon}
-                className="aspect-square rounded-full p-[5px] text-xxs text-white md:text-base"
-                style={{ color: "white", backgroundColor: color }}
+        <div
+            className="relative  aspect-[13/9] w-full shrink-0 overflow-hidden"
+            key={imageURL._key}
+        >
+            <Image
+                alt={title}
+                quality="low"
+                layout="fill"
+                objectFit="cover"
+                src={imageURL.url}
+                blurDataURL="URL"
+                placeholder="blur"
             />
-            <div className=" text-text-lighter">{name}</div>
         </div>
     );
 };
 
-const Tag = ({ tag }) => {
+const Indicator = ({ imageCount, curIndex }) => {
     return (
-        <div className="my-2 mr-2 flex cursor-pointer items-center rounded-full border px-3 py-[2px] text-xxs text-text-lighter hover:bg-gray-100 md:text-xs ">
-            <FontAwesomeIcon icon={faCheck} className="mr-1 text-green-500" />
-            <div className="ellipsis">{tag.name}</div>
-        </div>
-    );
-};
-
-const Indicator = ({ postNum, index }) => {
-    const isActive = useCallback(
-        (i) => {
-            return i === index;
-        },
-        [index]
-    );
-    return (
-        <div className="my-3 flex items-center space-x-2 self-center">
-            {[...Array(postNum)].map((_, i) => (
+        <div className="absolute bottom-2 left-1/2 z-20 flex -translate-x-1/2 items-center">
+            {[...Array(imageCount)].map((_, index) => (
                 <div
-                    key={uuid()}
-                    className={`h-3 w-3 rounded-full border-2 bg-white ${
-                        isActive(i) && "bg-primary-light"
+                    className={`mx-[3px] h-[6px] w-[6px] rounded-full border border-white ${
+                        curIndex === index && "scale-125 bg-white"
                     }`}
+                    key={uuid()}
                 ></div>
             ))}
         </div>
     );
 };
 
-export default RestaurantCard;
+const Controller = ({ increase, decrease, imageCount, curIndex }) => {
+    return (
+        <>
+            <button
+                name="ย้อนกลับ"
+                disabled={curIndex === 0}
+                onClick={() => decrease()}
+                className="flex-cen group absolute top-1/2 left-2 z-10 h-8 w-8 -translate-y-1/2  cursor-pointer overflow-hidden rounded-full border-white text-white hover:border-2 disabled:hidden"
+            >
+                <div className="absolute inset-0 hidden bg-black opacity-40 group-hover:block"></div>
+                <FontAwesomeIcon
+                    className="z-10 rotate-180"
+                    icon={faChevronRight}
+                />
+            </button>
+            <button
+                name="ถัดไป"
+                disabled={curIndex === imageCount - 1}
+                onClick={() => increase()}
+                className="flex-cen group absolute top-1/2 right-2   z-10 h-8 w-8 -translate-y-1/2  cursor-pointer overflow-hidden rounded-full border-white text-white hover:border-2 disabled:hidden"
+            >
+                <div className="absolute inset-0 hidden bg-black opacity-40 group-hover:block"></div>
+                <FontAwesomeIcon className="z-10" icon={faChevronRight} />
+            </button>
+        </>
+    );
+};
+
+export default PostCard;

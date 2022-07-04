@@ -25,24 +25,21 @@ const RestaurantList = ({ restaurants }) => {
                     />
                 </span>
                 <Link href={"/travel"} passHref>
-                    <span className="cursor-pointer text-sm text-primary underline sm:text-base">
+                    <a className="cursor-pointer text-sm text-primary underline sm:text-base">
                         ดูเพิ่มเติม...
-                    </span>
+                    </a>
                 </Link>
             </div>
 
-            <div className="relative w-full overflow-hidden">
-                <div className="absolute top-[97%] left-0 z-10 h-5 w-full bg-white "></div>
+            <div className="relative w-full overflow-hidden mt-8">
+                <div className="absolute top-full left-0 z-10 h-3 w-full -translate-y-full bg-white "></div>
                 <div
-                    className="relative flex w-full overflow-x-auto "
+                    className="relative flex w-full overflow-x-auto"
                     ref={slider}
                 >
                     {restaurants.map((restaurant) => {
                         return (
-                            <RestaurantCard
-                                post={restaurant}
-                                key={restaurant?._id}
-                            />
+                            <RestaurantCard {...restaurant} key={restaurant.placeID} forIndex />
                         );
                     })}
                     <Link href={"/travel"} passHref>

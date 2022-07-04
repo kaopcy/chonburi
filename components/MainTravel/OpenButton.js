@@ -132,10 +132,7 @@ const OpenButton = () => {
             >
                 {postByActiveAmphoe?.length}
             </div>
-            <div className="mt-1 h-[6px]  w-[6px] rounded-full border-2 border-text-lighterr"></div>
-            <div className="mt-1 h-[6px]  w-[6px] rounded-full border-2 border-text-lighterr"></div>
-            <div className="mt-1 h-[6px]  w-[6px] rounded-full border-2 border-text-lighterr"></div>
-            <div ref={textRef} className="absolute bg-white px-2 border-2 py-1 rounded-lg text-xs border-text">
+            <div ref={textRef} className="absolute bg-white px-2 border-2 py-1 rounded-lg text-xs  shadow-blue">
                 {activeAmphoe}
             </div>
         </div>

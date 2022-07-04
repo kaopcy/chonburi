@@ -85,11 +85,11 @@ const PostCard = ({
 
     return (
         <div
-            className={`flex flex-col overflow-hidden    text-text ${
+            className={`flex shrink-0 flex-col  overflow-hidden  text-text ${
                 isOpen
                     ? "w-full xl:w-[260px] 2xl:w-[290px]"
                     : "w-full md:w-[260px] 2xl:w-[290px]"
-            }`}
+            } `}
             key={placeID}
         >
             <div

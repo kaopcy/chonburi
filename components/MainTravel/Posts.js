@@ -83,8 +83,8 @@ const Posts = () => {
             <OpenButton />
             <div
                 ref={rootRef}
-                className={` h-full w-full flex-wrap justify-center overflow-x-hidden overflow-y-scroll bg-white px-6  ${
-                    isOpen ? "hidden md:flex" : "flex "
+                className={` h-full w-full flex-wrap justify-center overflow-x-hidden overflow-y-scroll bg-[#fafafa]   ${
+                    isOpen ? "hidden px-2 md:flex" : "flex px-3 sm:px-6 "
                 }`}
             >
                 <div
@@ -114,7 +114,7 @@ const Posts = () => {
                             </>
                         )}
                     </span>
-                    <div className="group sticky top-0  z-20  mt-4 flex w-full items-center justify-between gap-3 py-2  md:py-4">
+                    <div className="group sticky top-0  z-20  mt-4 mb-4 flex w-full items-center justify-between gap-3 py-2  md:py-4">
                         <div className="absolute inset-0 bg-white opacity-80"></div>
                         <AmphoeSelector />
                         <SearchBar />
@@ -131,7 +131,9 @@ const Posts = () => {
                                         ref={(e) =>
                                             (eachAmphoreRef.current[index] = e)
                                         }
-                                        className="mb-10 flex scroll-my-14 flex-col  pt-6"
+                                        className={`mb-10 flex scroll-my-14 flex-col  rounded-2xl bg-white  py-8 shadow-small  ${
+                                            isOpen ? "px-3 xl:px-4" : "px-4 sm:px-8"
+                                        }`}
                                         key={amphoeArr[index]}
                                     >
                                         <div className=" flex items-center text-xl  text-text">
@@ -139,7 +141,7 @@ const Posts = () => {
                                                 อำเภอ{amphoeArr[index]}
                                             </span>
                                             <div className="mx-3 h-[4px] w-[4px] rounded-full bg-primary"></div>
-                                            <span className="text-lg font-light text-text-lighterr">
+                                            <span className="text-lg font-light text-primary-lighter ">
                                                 {postsArr[index].length} สถานที่
                                             </span>
                                         </div>
@@ -215,9 +217,7 @@ const NoPost = ({ isOpen }) => {
                     ></div>
                 </div>
             </div>
-            <div className="text-text">
-                ไม่พบผลลัพธ์ที่ต้องการค้นหา
-            </div>
+            <div className="text-text">ไม่พบผลลัพธ์ที่ต้องการค้นหา</div>
         </>
     );
 };

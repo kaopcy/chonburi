@@ -14,6 +14,7 @@ class MyDocument extends Document {
                         httpEquiv="Content-Type"
                         content="text/html; charset=utf-8"
                     />
+                    <link rel="shortcut icon" href="/favicon.ico"></link>
                     <meta
                         name="google-site-verification"
                         content="LzC3GCz62hnVNL1wRrnnOntQfhMgi3p2CDMIebXSY2g"
