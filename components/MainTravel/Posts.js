@@ -215,8 +215,8 @@ const NoPost = ({ isOpen }) => {
                     ></div>
                 </div>
             </div>
-            <div className="">
-                
+            <div className="text-text">
+                ไม่พบผลลัพธ์ที่ต้องการค้นหา
             </div>
         </>
     );

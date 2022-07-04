@@ -1,5 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from "react";
-import { useRouter } from "next/dist/client/router";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 
 import gsap from "gsap/dist/gsap";
@@ -20,7 +19,6 @@ import SvgChonburi2 from "../../icons/new/Chonburi2";
 import MatchLink from "../Utils/MatchLink";
 
 const Navbar = () => {
-    const router = useRouter();
     const navbarRef = useRef(null);
     const iconRef = useRef(null);
     const animation = useRef(null);
@@ -42,7 +40,7 @@ const Navbar = () => {
             })
             .to(
                 iconRef.current,
-                { ease: "expo.inOut", width: '72px', duration: 0.7 },
+                { ease: "expo.inOut", width: "72px", duration: 0.7 },
                 "<"
             );
     }, []);
@@ -68,18 +66,20 @@ const Navbar = () => {
                         <MatchLink path="/">
                             {({ isMatch }) => (
                                 <div
-                                    className={` cursor-pointer  px-4 ${
+                                    className={`group cursor-pointer  px-4 ${
                                         isMatch ? "text-primary" : "text-text"
                                     }`}
                                 >
                                     <span className="">หน้าแรก</span>
-                                    {isMatch && (
-                                        <div className="h-[3px] w-full bg-primary"></div>
-                                    )}
+                                    <div
+                                        className={`h-[3px] w-full origin-left scale-x-0 bg-primary opacity-20 transition-transform group-hover:scale-x-100  ${
+                                            isMatch && "!scale-x-100"
+                                        }`}
+                                    ></div>
                                 </div>
                             )}
                         </MatchLink>
-                        <PoiDropdown />
+                        {/* <PoiDropdown /> */}
                     </div>
                     <div className="group relative py-4">
                         <MatchLink path="/travel">
@@ -89,20 +89,16 @@ const Navbar = () => {
                                         isMatch ? "text-primary" : "text-text"
                                     }`}
                                 >
-                                    <span className="mr-2">
-                                        แหล่งท่องเที่ยว
-                                    </span>
-                                    <FontAwesomeIcon
-                                        icon={faChevronDown}
-                                        className="text-sm  text-text-lighter transition-transform group-hover:rotate-180 "
-                                    />
-                                    {isMatch && (
-                                        <div className="h-[3px] w-full bg-primary"></div>
-                                    )}
+                                    <span className="">แหล่งท่องเที่ยว</span>
+                                    <div
+                                        className={`h-[3px] w-full origin-left scale-x-0 bg-primary opacity-20 transition-transform group-hover:scale-x-100  ${
+                                            isMatch && "!scale-x-100"
+                                        }`}
+                                    ></div>
                                 </div>
                             )}
                         </MatchLink>
-                        <PoiDropdown />
+                        {/* <PoiDropdown /> */}
                     </div>
                     <div className="group relative py-4">
                         <MatchLink path="/restaurant">
@@ -115,17 +111,15 @@ const Navbar = () => {
                                     <span className="mr-2">
                                         ร้านอาหาร & กาแฟ
                                     </span>
-                                    <FontAwesomeIcon
-                                        icon={faChevronDown}
-                                        className="text-sm  text-text-lighter transition-transform group-hover:rotate-180 "
-                                    />
-                                    {isMatch && (
-                                        <div className="h-[3px] w-full bg-primary"></div>
-                                    )}
+                                    <div
+                                        className={`h-[3px] w-full origin-left scale-x-0 bg-primary opacity-20 transition-transform group-hover:scale-x-100  ${
+                                            isMatch && "!scale-x-100"
+                                        }`}
+                                    ></div>
                                 </div>
                             )}
                         </MatchLink>
-                        <RestaurantDropdown />
+                        {/* <RestaurantDropdown /> */}
                     </div>
                 </div>
 

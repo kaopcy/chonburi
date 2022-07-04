@@ -13,82 +13,100 @@ import { useRef } from "react";
 
 const OpenButton = () => {
     const { isOpen, setIsOpen } = useMapContext();
-    const { activeAmphoe , postByActiveAmphoe } = usePostsContext();
+    const { activeAmphoe, postByActiveAmphoe } = usePostsContext();
 
     const redIconRef = useRef(null);
-    const buttonRef = useRef(null)
-    const textRef = useRef(null)
+    const buttonRef = useRef(null);
+    const textRef = useRef(null);
 
     useEffect(() => {
-        gsap.timeline().fromTo(
-            redIconRef.current,
-            {
-                scale: 1,
-            },
-            {
-                overwrite: true,
-                duration: 1,
-                scale: 2,
-                ease: "elastic.out",
-            }
-        ).fromTo(
-            redIconRef.current,
-            {
-                scale: 2,
-            },
-            {
-                overwrite: true,
-                duration: 1,
-                scale: 1,
-                ease: "elastic.out",
-            }
-        );
-        gsap.timeline().fromTo(
-            buttonRef.current,
-            {
-                scale: 1,
-            },
-            {
-                overwrite: true,
-                duration: 1,
-                scale: 1.2,
-                ease: "elastic.out",
-            }
-        ).fromTo(
-            buttonRef.current,
-            {
-                scale: 1.2,
-            },
-            {
-                overwrite: true,
-                duration: 1,
-                scale: 1,
-                ease: "elastic.out",
-            }
-        );
-        gsap.timeline().fromTo(
-            textRef.current,
-            {
-                yPercent: 0,
-            },
-            {
-                overwrite: true,
-                duration: 1,
-                yPercent: 100,
-                ease: "elastic.out",
-            }
-        ).fromTo(
-            textRef.current,
-            {
-                yPercent: 50,
-            },
-            {
-                overwrite: true,
-                duration: 1,
-                yPercent: 0,
-                ease: "elastic.out",
-            }
-        );
+        gsap.timeline()
+            .fromTo(
+                redIconRef.current,
+                {
+                    scale: 1,
+                },
+                {
+                    overwrite: true,
+                    duration: 1,
+                    scale: 2,
+                    ease: "elastic.out",
+                }
+            )
+            .fromTo(
+                redIconRef.current,
+                {
+                    scale: 2,
+                },
+                {
+                    overwrite: true,
+                    duration: 1,
+                    scale: 1,
+                    ease: "elastic.out",
+                }
+            );
+        gsap.timeline()
+            .fromTo(
+                buttonRef.current,
+                {
+                    scale: 1,
+                },
+                {
+                    overwrite: true,
+                    duration: 1,
+                    scale: 1.2,
+                    ease: "elastic.out",
+                }
+            )
+            .fromTo(
+                buttonRef.current,
+                {
+                    scale: 1.2,
+                },
+                {
+                    overwrite: true,
+                    duration: 1,
+                    scale: 1,
+                    ease: "elastic.out",
+                }
+            );
+        gsap.timeline()
+            .fromTo(
+                textRef.current,
+                {
+                    yPercent: 0,
+                },
+                {
+                    overwrite: true,
+                    duration: 1,
+                    yPercent: -130,
+                    ease: "elastic.out",
+                }
+            )
+            .fromTo(
+                textRef.current,
+                {
+                    yPercent: -130,
+                },
+                {
+                    delay: 0.4,
+                    duration: 1,
+                    yPercent: 0,
+                    ease: "power1.inOut",
+                }
+            )
+            .fromTo(
+                textRef.current,
+                {
+                    opacity: 1,
+                },
+                {
+                    duration: 0.4,
+                    opacity: 0,
+                    ease: "linear",
+                },
+                "<"
+            );
     }, [activeAmphoe]);
 
     return (
@@ -98,8 +116,10 @@ const OpenButton = () => {
             }`}
             onClick={() => setIsOpen((e) => !e)}
         >
-            
-            <div ref={buttonRef} className="flex h-16 w-16 flex-col items-center justify-center rounded-full border-2 border-text bg-white text-text transition-colors hover:bg-text hover:text-white">
+            <div
+                ref={buttonRef}
+                className="flex h-16 w-16 flex-col items-center justify-center rounded-full border-2 border-text bg-white text-text transition-colors hover:bg-text hover:text-white"
+            >
                 <FontAwesomeIcon
                     className="text-lg"
                     icon={isOpen ? faXmark : faMap}
@@ -115,7 +135,9 @@ const OpenButton = () => {
             <div className="mt-1 h-[6px]  w-[6px] rounded-full border-2 border-text-lighterr"></div>
             <div className="mt-1 h-[6px]  w-[6px] rounded-full border-2 border-text-lighterr"></div>
             <div className="mt-1 h-[6px]  w-[6px] rounded-full border-2 border-text-lighterr"></div>
-            <div ref={textRef} className="text-text text-xs mt-1">{activeAmphoe}</div>
+            <div ref={textRef} className="absolute bg-white px-2 border-2 py-1 rounded-lg text-xs border-text">
+                {activeAmphoe}
+            </div>
         </div>
     );
 };

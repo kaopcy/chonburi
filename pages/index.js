@@ -53,8 +53,8 @@ const Home = ({ posts, restaurants }) => {
     return (
         <main className="flex min-h-screen w-full flex-col bg-white px-3 text-text sm:px-16">
             <Head>
-                <title>Chonburi</title>
-                <meta name="description" content="chonburi travel history เมืองชลบุรี แหล่งท่องเที่ยว ท่องเที่ยวในชลบุรี" />
+                <title>Chonburi x Travel | หน้าหลัก</title>
+                <meta name="description" content="ท่องเที่ยวที่ชลบุรี ค้นหาแหล่งท่องเที่ยวและร้านอาหารชื่อดงัที่ไม่ควรพลาดในจังหวัดชลบุรี, ประเทศไทย " />
             </Head>
             <div className="h-[100px]"></div>
 

@@ -34,7 +34,7 @@ const Travel = ({ posts }) => {
                         <title>ร้านอาหารในชลบุรี</title>
                         <meta
                             name="description"
-                            content="chonburi restaurant  เมืองชลบุรี ร้านอาหาร ร้านอาหารในชลบุรี"
+                            content="ค้นหาร้านอาหารชื่อดังมากมายในชลบุรี รวมไปถึงแสดงแผนที่และเส้นทางในการเดินทาง"
                         />
                     </Head>
                     <div className="h-[70px] w-full shrink-0 md:h-[100px]"></div>
