@@ -134,7 +134,9 @@ const PostCard = ({
                 </div>
             </div>
             <div className="flex items-center justify-between">
-                <div className="font-medium">{title}</div>
+                <Link href={`/restaurant/${slug.current}`} passHref>
+                    <div className="font-medium">{title}</div>
+                </Link>
                 <div className="flex items-center">
                     <span className="mr-1 text-sm">{star}</span>
                     <FontAwesomeIcon
@@ -168,11 +170,11 @@ const ImageComponent = ({ imageURL, title }) => {
             key={imageURL._key}
         >
             <Image
-                alt={title}
-                quality="low"
                 layout="fill"
                 objectFit="cover"
                 src={imageURL.url}
+                alt={title}
+                quality="low"
                 blurDataURL="URL"
                 placeholder="blur"
             />

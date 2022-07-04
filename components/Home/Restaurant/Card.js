@@ -1,5 +1,6 @@
 import React, { useState, useMemo, useEffect } from "react";
 import Image from "next/image";
+import Link from 'next/link'
 import { v4 as uuid } from "uuid";
 
 // import icons
@@ -13,6 +14,7 @@ import {
 import { useRef } from "react";
 
 const PostCard = ({
+    slug,
     placeID,
     imageURL,
     title,
@@ -82,7 +84,9 @@ const PostCard = ({
                 </div>
             </div>
             <div className="flex items-center justify-between">
-                <div className="font-medium">{title}</div>
+                <Link href={`/restaurant/${slug.current}`} passHref>
+                    <div className="font-medium">{title}</div>
+                </Link>
                 <div className="flex items-center">
                     <span className="mr-1 text-sm">{star}</span>
                     <FontAwesomeIcon

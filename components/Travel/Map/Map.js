@@ -81,19 +81,19 @@ const Map = () => {
         smoothlyAnimatePanTo(destCoords, 15);
     }, [selectedMode === TRAVEL_MODE]);
 
-    const firstRender = useRef(false);
-    useEffect(() => {
-        if (!map || firstRender.current) return;
-        firstRender.current = true;
-        setTimeout(() => {
-            const destCoords = new google.maps.LatLng(
-                tempLocation.lat,
-                tempLocation.lng
-            );
-            console.log(destCoords.lat(), destCoords.lng());
-            smoothlyAnimatePanTo(destCoords, 15);
-        }, 1000);
-    }, [map]);
+    // const firstRender = useRef(false);
+    // useEffect(() => {
+    //     if (!map || firstRender.current) return;
+    //     firstRender.current = true;
+    //     setTimeout(() => {
+    //         const destCoords = new google.maps.LatLng(
+    //             tempLocation.lat,
+    //             tempLocation.lng
+    //         );
+    //         console.log(destCoords.lat(), destCoords.lng());
+    //         smoothlyAnimatePanTo(destCoords, 15);
+    //     }, 1000);
+    // }, [map]);
 
     const calculateDirection = async () => {
         const directionService = new google.maps.DirectionsService();
@@ -106,12 +106,12 @@ const Map = () => {
     };
 
     const onMapLoad = (map) => {
-        // calculateDirection();
+        calculateDirection();
         setMap(map);
         chonburiShape.forEach((shape) => {
             const polyline = new google.maps.Polygon({
-                fillColor: "#000000",
-                fillOpacity: 0.5,
+                fillColor: "#fff",
+                fillOpacity: 0.2,
                 path: [
                     ...shape.map(
                         (e) =>
@@ -165,7 +165,12 @@ const Map = () => {
         isLoaded &&
         defaultCenter && (
             <GoogleMap
-                center={tempLocation}
+                center={
+                    new google.maps.LatLng({
+                        lat: parseFloat(tempLocation.lat) || 13,
+                        lng: parseFloat(tempLocation.lng) || 102,
+                    })
+                }
                 zoom={8}
                 mapContainerStyle={{
                     width: "100%",
@@ -173,15 +178,15 @@ const Map = () => {
                 }}
                 options={{
                     gestureHandling: "greedy",
-                    // restriction: {
-                    //     latLngBounds: {
-                    //         north: 20.4178496363,
-                    //         south: 5.67,
-                    //         west: 97.3758964376,
-                    //         east: 105.589038527,
-                    //     },
-                    //     strictBounds: false,
-                    // },
+                    restriction: {
+                        latLngBounds: {
+                            north: 20.4178496363,
+                            south: 5.67,
+                            west: 97.3758964376,
+                            east: 105.589038527,
+                        },
+                        strictBounds: false,
+                    },
                     streetViewControl: false,
                     mapTypeControl: false,
                     zoomControl: false,

@@ -147,14 +147,13 @@ export const useMapSmoothPan = () => {
     const smoothlyAnimatePanTo = useCallback(
         (destLatLng, zoom) => {
             console.log("called from hook , isPanning: ", isPanning);
-            if (isPanning) return;
             if (willAnimatePanTo(destLatLng)) {
                 normalPanZoom(destLatLng, zoom || map.getZoom());
             } else {
                 smoothlyAnimatePanToWorkaround(destLatLng, zoom);
             }
         },
-        [isPanning, map]
+        [map]
     );
     return {
         smoothlyAnimatePanTo,

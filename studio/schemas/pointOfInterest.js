@@ -41,13 +41,13 @@ export default {
                 {
                     title: "ละติจูด",
                     name: "lat",
-                    type: "string",
+                    type: "number",
                     validation: (rule) => rule.required(),
                 },
                 {
                     title: "ลองจิจูด",
                     name: "lng",
-                    type: "string",
+                    type: "number",
                     validation: (rule) => rule.required(),
                 },
             ],

@@ -157,7 +157,7 @@ const Detail = () => {
 export async function getStaticPaths() {
     const path = await getClient().fetch(
         groq`
-            *[(_type == "restaurant") && defined(slug.current)][].slug.current
+            *[(_type == "pointOfInterest") && defined(slug.current)][].slug.current
         `
     );
     return {
@@ -167,7 +167,7 @@ export async function getStaticPaths() {
 }
 
 const postQuery = groq`
-*[(_type == "post" || _type == "restaurant") && slug.current == $slug][0]`;
+*[(_type == "post" || _type == "pointOfInterest") && slug.current == $slug][0]`;
 const postsQuery = groq`
 *[(_type == "post" || _type == "restaurant")] {_id,coords , title , mainImage , location, locationType,}`;
 

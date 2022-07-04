@@ -35,12 +35,15 @@ const TravelDetail = () => {
             <div className="my-5 h-[1px] w-full shrink-0 bg-text-lightest"></div>
 
             <div className="flex flex-col items-start  ">
-                <HighLightDetail
-                    color="#4DD430"
-                    icon={faMuseum}
-                    detail={post.locationType.split("#")[0]}
-                    label="ประเภท"
-                />
+                {post.locationType && (
+                    <HighLightDetail
+                        color="#4DD430"
+                        icon={faMuseum}
+                        detail={post.locationType.split("#")[0]}
+                        label="ประเภท"
+                    />
+                )}
+
                 <HighLightDetail
                     color="#5ABDFF"
                     icon={faEarthAsia}
