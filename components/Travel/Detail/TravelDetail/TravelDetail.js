@@ -23,7 +23,7 @@ const TravelDetail = () => {
     const { post } = usePostContext();
     return (
         <div
-            className="flex h-full w-full shrink-0 flex-col overflow-y-auto py-3 px-3 md:px-0 lg:pr-8"
+            className="flex h-full w-full shrink-0 flex-col overflow-y-auto py-3 px-3 xl:px-5"
             id={`${TRAVEL_MODE}-detail`}
         >
             <div className="mt-2 text-text-lighterr">ร้านอาหาร</div>

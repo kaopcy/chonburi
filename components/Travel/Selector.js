@@ -20,7 +20,7 @@ const Selector = ({ setIsOpen, isOpen }) => {
     const containerRef = useRef(null);
     return (
         <div
-            className={`relative flex  justify-center rounded-none bg-white pb-2 pt-2 transition-all  container-type-size md:w-full md:justify-end  md:pt-0 ${
+            className={`relative flex  justify-center rounded-none  pb-2 pt-3 transition-all container-type-size  md:w-full md:justify-end md:pr-4  ${
                 !isOpen && "w-[300px] self-center !rounded-full shadow-big"
             }`}
             ref={containerRef}
@@ -43,7 +43,7 @@ const Selector = ({ setIsOpen, isOpen }) => {
                 icon={faRoute}
                 text={DIRECTION_MODE}
             >
-                <div className="absolute w-3 h-3 rounded-full bg-red-400 -top-2 right-0"></div>
+                <div className="absolute -top-2 right-0 h-3 w-3 rounded-full bg-red-400"></div>
             </Icon>
             <Highlighter isOpen={isOpen} containerRef={containerRef} />
         </div>

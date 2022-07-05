@@ -35,6 +35,8 @@ import {
 import Overlay from "../Detail/Overlay";
 import DirectionRouteMarker from "./DirectionRouteMarker";
 import UserLocationMarker from "./UserLocationMarker";
+import DestinationOverlay from "./DestinationOverlay";
+import DestinationMarker from "./DestinationMarker";
 
 const Map = () => {
     // not fallback
@@ -106,7 +108,7 @@ const Map = () => {
     };
 
     const onMapLoad = (map) => {
-        calculateDirection();
+        // calculateDirection();
         setMap(map);
         chonburiShape.forEach((shape) => {
             const polyline = new google.maps.Polygon({
@@ -127,38 +129,6 @@ const Map = () => {
             });
             polyline.setMap(map);
         });
-        // var geojson = {
-        //     type: "FeatureCollection",
-        //     features: [
-        //         {
-        //             type: "Feature",
-        //             geometry: {
-        //                 type: "Polygon",
-        //                 coordinates: [
-        //                     [
-        //                         [0, 90],
-        //                         [180, 90],
-        //                         [180, -90],
-        //                         [0, -90],
-        //                         [-180, -90],
-        //                         [-180, 0],
-        //                         [-180, 90],
-        //                         [0, 90],
-        //                     ],
-        //                     [
-        //                             chonburiShape[1].map((e) => ([
-        //                                 parseFloat(e[0]),
-        //                                 parseFloat(e[1]),
-        //                             ])),
-        //                     ],
-        //                 ],
-        //             },
-        //             properties: {},
-        //         },
-        //     ],
-        // };
-
-        // map.data.addGeoJson(geojson);
     };
 
     return (
@@ -171,7 +141,7 @@ const Map = () => {
                         lng: parseFloat(tempLocation.lng) || 102,
                     })
                 }
-                zoom={8}
+                zoom={15}
                 mapContainerStyle={{
                     width: "100%",
                     height: "100%",
@@ -195,7 +165,8 @@ const Map = () => {
                 }}
                 onLoad={onMapLoad}
             >
-                {userLocation && (
+                <DestinationOverlay coords={post.coords} />
+                {userLocation && selectedMode === DIRECTION_MODE && (
                     <>
                         {/* <Marker
                             position={userLocation}
@@ -205,13 +176,7 @@ const Map = () => {
                         <UserLocationMarker position={userLocation} />
                     </>
                 )}
-                {tempLocation && (
-                    <Marker
-                        options={{ optimized: true }}
-                        position={tempLocation}
-                        animation={google.maps.Animation.DROP}
-                    />
-                )}
+                {tempLocation && <DestinationMarker position={tempLocation} />}
                 {selectedMode === OTHERPLACE_MODE && <OtherPlaces />}
                 {activeDirectionCoord && selectedMode === DIRECTION_MODE && (
                     <>

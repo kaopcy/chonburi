@@ -13,7 +13,11 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 // import constants
 import { maneuverMap } from "../../../utils/ManeuverMap";
-import { DIRECTION_MODE , OTHERPLACE_MODE ,TRAVEL_MODE } from "../../../config/selectorConstant";
+import {
+    DIRECTION_MODE,
+    OTHERPLACE_MODE,
+    TRAVEL_MODE,
+} from "../../../config/selectorConstant";
 
 // import hooks
 import useIsTouchDevice from "../../../composables/useIsTouchDevice";
@@ -26,7 +30,7 @@ import { useDirectionContext } from "../../../context/DirectionContext";
 const RouteDetail = ({ setIsOpen }) => {
     const isTouch = useIsTouchDevice();
     const { userLocation, userLocationError } = useUserLocation();
-    const { currentRoutes , shapedRoutes } = useDirectionContext();
+    const { currentRoutes, shapedRoutes } = useDirectionContext();
     const endPoint = useRouter().query.slug;
     const { setActiveDirectionNumber, activeDirectionNumber } =
         useActiveDirection();
@@ -34,14 +38,10 @@ const RouteDetail = ({ setIsOpen }) => {
     if (!currentRoutes)
         return (
             <div
-                className="flex h-full w-full shrink-0 flex-col overflow-y-auto bg-blue-100 lg:pr-8"
+                className="flex h-full w-full shrink-0 flex-col overflow-y-auto bg-blue-100 px-3 xl:px-5"
                 id={`${DIRECTION_MODE}-detail`}
             ></div>
         );
-
-    
-
-    
 
     useEffect(() => {
         const height = gsap.getProperty(".text-box-active", "height");
@@ -76,7 +76,6 @@ const RouteDetail = ({ setIsOpen }) => {
             className="flex h-full w-full shrink-0 flex-col overflow-y-auto  overflow-x-hidden"
             id={`${DIRECTION_MODE}-detail`}
         >
-
             <div className="mb-4 flex w-full flex-col">
                 <div className="mt-2 flex items-center space-x-2">
                     <FontAwesomeIcon

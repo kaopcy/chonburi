@@ -39,6 +39,9 @@ module.exports = {
                 "gps-pulse": "gps-pulse 2s infinite",
                 "gps-pulse-2": "gps-pulse 2s infinite 1s",
                 "gps-pulse-3": "gps-pulse 2s infinite 2s",
+                "gps-pulse-blue": "gps-pulse-blue 2s infinite",
+                "gps-pulse-2-blue": "gps-pulse-blue 2s infinite 1s",
+                "gps-pulse-3-blue": "gps-pulse-blue 2s infinite 2s",
             },
             boxShadow: {
                 small: '0px 3px 5px rgba(0,0,0,0.07)',
@@ -59,6 +62,20 @@ module.exports = {
                     "100%": {
                         transform: "scale(0.95)",
                         boxShadow: "0 0 0 0 rgba(245,66,66, 0)",
+                    },
+                },
+                "gps-pulse-blue": {
+                    "0%": {
+                        transform: "scale(0.95)",
+                        boxShadow: "0 0 0 0 rgba(0,154,255, 0.7)",
+                    },
+                    "70%": {
+                        transform: "scale(1)",
+                        boxShadow: "0 0 0 15px rgba(0,154,255, 0)",
+                    },
+                    "100%": {
+                        transform: "scale(0.95)",
+                        boxShadow: "0 0 0 0 rgba(0,154,255, 0)",
                     },
                 },
             },

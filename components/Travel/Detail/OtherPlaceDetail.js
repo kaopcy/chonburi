@@ -94,7 +94,7 @@ const OtherPlaceDetail = () => {
     return (
         <div
             ref={containerRef}
-            className="flex h-full w-full shrink-0 flex-col overflow-y-auto p-3 lg:pl-0 lg:pr-8"
+            className="flex h-full w-full shrink-0 flex-col overflow-y-auto p-3 px-3 xl:px-5"
             id={`${OTHERPLACE_MODE}-detail`}
         >
             <FilterSlider filter={filter} setFilter={setFilter} />

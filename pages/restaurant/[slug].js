@@ -47,15 +47,17 @@ const Restaurant = ({ post: fetchedPost, posts: fetchedPosts }) => {
         >
             <MapContextProvider>
                 <div
-                    className={`mx-auto  flex h-screen w-full max-w-[1500px] flex-col overflow-hidden p-4 ${
+                    className={`mx-auto  flex h-screen w-full  flex-col overflow-hidden  ${
                         isTouch && "!h-[calc(100vh-70px)] "
                     }`}
                 >
-                    <div className="h-[70px] shrink-0 md:h-[100px]"></div>
+                    <div className="hidden h-[70px] shrink-0 sm:block lg:h-[100px] "></div>
                     <div className="relative flex h-full w-full  overflow-hidden">
                         <ActiveOtherPlaceProvider>
                             <DirectionProvider>
                                 <SelectorContextProvider>
+                                    {/* Detail */}
+                                    <Detail />
                                     {/* Map */}
                                     <div className="h-full w-full">
                                         <div className="relative h-full w-full rounded-lg bg-white">
@@ -64,9 +66,6 @@ const Restaurant = ({ post: fetchedPost, posts: fetchedPosts }) => {
                                             {/* <LoadingOverlay/> */}
                                         </div>
                                     </div>
-
-                                    {/* Detail */}
-                                    <Detail />
                                 </SelectorContextProvider>
                             </DirectionProvider>
                         </ActiveOtherPlaceProvider>
@@ -111,23 +110,12 @@ const Detail = () => {
                 <FontAwesomeIcon icon={faChevronDown} className="text-text" />
             </div>
 
-            {/* desktop control open */}
             <div
-                className={`desktop-md absolute top-1/2   right-full flex h-9 w-10   -translate-y-1/2 items-center justify-center  rounded-md rounded-r-none border  border-r-0 bg-white opacity-0 transition-all  group-hover:translate-x-0 group-hover:opacity-100
-                    ${!isOpen && "!translate-x-0 opacity-100"}
-                `}
-                onClick={() => setIsOpen((e) => !e)}
-            >
-                <FontAwesomeIcon icon={faChevronLeft} className="text-text" />
-            </div>
-
-            <div
-                className={`flex h-full w-full shrink-0  flex-col  rounded-lg bg-white transition-colors  md:pl-8  ${
+                className={`flex h-full w-full shrink-0  flex-col  rounded-lg bg-white transition-colors   ${
                     !isOpen && "!bg-transparent"
                 }`}
             >
                 <Selector setIsOpen={setIsOpen} isOpen={isOpen} />
-
                 <div
                     className={` h-[1.5px] w-full bg-text-lightest ${
                         !isOpen && "!opacity-0"
@@ -166,7 +154,17 @@ export async function getStaticPaths() {
 }
 
 const postQuery = groq`
-*[(_type == "post" || _type == "pointOfInterest") && slug.current == $slug][0]`;
+*[(_type == "post" || _type == "pointOfInterest") && slug.current == $slug][0]{
+  amphoe-> { name },
+  tambon-> { name },
+  title,
+  slug,
+  coords,
+  placeID,
+  imageURL,
+  reviews,
+  star,
+}`;
 const postsQuery = groq`
 *[(_type == "post" || _type == "restaurant")] {_id,coords , title , mainImage , location, locationType,}`;
 
