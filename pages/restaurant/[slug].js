@@ -40,7 +40,6 @@ const Restaurant = ({ post: fetchedPost, posts: fetchedPosts }) => {
     if (router.isFallback) return <div className="">Loading</div>;
 
     const isTouch = useIsTouchDevice();
-    console.log(fetchedPost);
     return (
         <PostContextProvider
             fetchedPost={fetchedPost}

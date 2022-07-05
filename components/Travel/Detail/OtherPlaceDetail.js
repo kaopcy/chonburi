@@ -231,6 +231,7 @@ const FilterSlider = ({ filter, setFilter }) => {
             >
                 {Object.values(filterConst).map((e) => (
                     <div
+                        key={e}
                         onClick={() => setFilter(e)}
                         className={`whitespace-nowrap rounded-full border  border-text-lighterr  px-3 py-1 text-sm  text-text-lighter hover:bg-text hover:text-white ${match(e) && '!bg-text !text-white'}`}
                     >
