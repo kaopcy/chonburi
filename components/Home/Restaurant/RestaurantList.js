@@ -13,12 +13,7 @@ const RestaurantList = ({ restaurants }) => {
         <div className="mx-auto mt-10 flex w-full max-w-[1300px] flex-col items-start">
             <div className="mb-0 flex w-full items-center justify-between">
                 <span className="flex items-center text-lg font-semibold text-text sm:text-2xl lg:text-3xl">
-                    ร้านอาหาร{" "}
-                    <span className="mx-1 font-normal text-text-lightest">
-                        {" "}
-                        &{" "}
-                    </span>{" "}
-                    คาเฟ่
+                    ร้านอาหาร
                     <FontAwesomeIcon
                         icon={faMugHot}
                         className="ml-3 mb-1  text-text-lightest"
