@@ -118,7 +118,7 @@ const Map = () => {
     };
 
     const onMapLoad = (map) => {
-        // calculateDirection();
+        calculateDirection();
         setMap(map);
         chonburiShape.forEach((shape) => {
             const polyline = new google.maps.Polygon({
