@@ -75,77 +75,99 @@ const DestinationOverlay = () => {
     };
 
     return (
-        <OverlayView
-            onLoad={onLoad}
-            position={post.coords}
-            mapPaneName={OverlayView.FLOAT_PANE}
-        >
-            <div
-                ref={containerRef}
-                className={` relative  -translate-x-1/2 translate-y-2 ${
-                    isOpen && "w-[280px]"
-                }`}
-            >
-                <div className="new-triangle relative bottom-full left-1/2 h-3 w-3 -translate-x-1/2"></div>
-                <div
-                    className={`relative w-full rounded-xl bg-[#ffffff77]  font-sarabun text-base shadow-lg ${
-                        isOpen ? "p-2" : "p-1"
-                    }`}
+        <>
+            {isOpen && (
+                <OverlayView
+                    onLoad={onLoad}
+                    position={post.coords}
+                    mapPaneName={OverlayView.FLOAT_PANE}
                 >
                     <div
-                        className={`flex w-full flex-col  rounded-xl bg-white ${
-                            isOpen ? "p-3" : "px-2 py-1 border-2 border-primary "
+                        ref={containerRef}
+                        className={` relative  -translate-x-1/2 translate-y-2 ${
+                            isOpen && "w-[280px]"
                         }`}
                     >
+                        <div className="new-triangle relative bottom-full left-1/2 h-3 w-3 -translate-x-1/2"></div>
                         <div
-                            onClick={() => setIsOpen(true)}
-                            className={` self-center text-text ${
-                                isOpen && "mb-3"
+                            className={`relative w-full rounded-xl bg-[#ffffff77]  font-sarabun text-base shadow-lg ${
+                                isOpen ? "p-2" : "p-1"
                             }`}
                         >
-                            จุดหมาย
+                            <div
+                                className={`flex w-full flex-col  rounded-xl bg-white ${
+                                    isOpen
+                                        ? "p-3"
+                                        : "border-2 border-primary px-2 py-1 "
+                                }`}
+                            >
+                                <div
+                                    className={` self-center text-text ${
+                                        isOpen && "mb-3"
+                                    }`}
+                                >
+                                    จุดหมาย
+                                </div>
+                                {isOpen && (
+                                    <>
+                                        <FontAwesomeIcon
+                                            onClick={() => setIsOpen(false)}
+                                            className="absolute top-6 right-6 text-red-500"
+                                            icon={faXmark}
+                                        />
+                                        <div className="relative mb-3 aspect-[13/9] w-full overflow-hidden rounded-xl">
+                                            <Image
+                                                layout="fill"
+                                                objectFit="cover"
+                                                alt={post.title}
+                                                quality="low"
+                                                blurDataURL="URL"
+                                                placeholder="blur"
+                                                src={post.imageURL[0].url}
+                                                className=""
+                                            />
+                                        </div>
+                                        <div className="mb-2 flex w-full justify-between">
+                                            <Star
+                                                star={post.star}
+                                                ref={starRef}
+                                            />
+                                            <Distance ref={distanceRef} />
+                                        </div>
+                                        <div
+                                            ref={titleRef}
+                                            className="break-words text-base font-bold text-text"
+                                        >
+                                            {post.title}
+                                        </div>
+                                        <div
+                                            ref={locationRef}
+                                            className="text-xs text-text-lighterr"
+                                        >
+                                            อ.{post.amphoe.name} ต.
+                                            {post.tambon.name}
+                                        </div>
+                                    </>
+                                )}
+                            </div>
                         </div>
-                        {isOpen && (
-                            <>
-                                <FontAwesomeIcon
-                                    onClick={() => setIsOpen(false)}
-                                    className="absolute top-6 right-6 text-red-500"
-                                    icon={faXmark}
-                                />
-                                <div className="relative mb-3 aspect-[13/9] w-full overflow-hidden rounded-xl">
-                                    <Image
-                                        layout="fill"
-                                        objectFit="cover"
-                                        alt={post.title}
-                                        quality="low"
-                                        blurDataURL="URL"
-                                        placeholder="blur"
-                                        src={post.imageURL[0].url}
-                                        className=""
-                                    />
-                                </div>
-                                <div className="mb-2 flex w-full justify-between">
-                                    <Star star={post.star} ref={starRef} />
-                                    <Distance ref={distanceRef} />
-                                </div>
-                                <div
-                                    ref={titleRef}
-                                    className="break-words text-base font-bold text-text"
-                                >
-                                    {post.title}
-                                </div>
-                                <div
-                                    ref={locationRef}
-                                    className="text-xs text-text-lighterr"
-                                >
-                                    อ.{post.amphoe.name} ต.{post.tambon.name}
-                                </div>
-                            </>
-                        )}
                     </div>
+                </OverlayView>
+            )}
+            <OverlayView
+                position={post.coords}
+                mapPaneName={OverlayView.FLOAT_PANE}
+            >
+                <div
+                    className="relative transition-transform hover:scale-150"
+                    onClick={() => setIsOpen(true)}
+                >
+                    <div className="absolute right-[-8px] top-[-8px]  h-4 w-4 shrink-0 animate-gps-pulse-blue rounded-full border border-white bg-blue-400  shadow-[0_0_0_0_rgba(0,154,255,1)]"></div>
+                    <div className="absolute right-[-8px] top-[-8px]  h-4 w-4 shrink-0 animate-gps-pulse-2-blue rounded-full border border-white bg-blue-400  shadow-[0_0_0_0_rgba(0,154,255,1)]"></div>
+                    <div className="absolute right-[-8px] top-[-8px]  h-4 w-4 shrink-0 animate-gps-pulse-3-blue rounded-full border border-white bg-blue-400  shadow-[0_0_0_0_rgba(0,154,255,1)]"></div>
                 </div>
-            </div>
-        </OverlayView>
+            </OverlayView>
+        </>
     );
 };
 
@@ -163,14 +185,14 @@ const Star = forwardRef(({ star }, ref) => {
             <div className="mr-2 text-xs font-light text-text">{star}</div>
             {[...Array(fullStar)].map((_, index) => (
                 <FontAwesomeIcon
-                    className="mr-[2px] text-xs text-primary"
+                    className="mr-[2px] text-xs text-yellow-300"
                     icon={faStar}
                     key={index + "-star"}
                 />
             ))}
             {isHalf && (
                 <FontAwesomeIcon
-                    className="mr-[2px] text-xs text-primary"
+                    className="mr-[2px] text-xs text-yellow-300"
                     icon={faStarHalfStroke}
                 />
             )}

@@ -73,18 +73,18 @@ const RouteDetail = ({ setIsOpen }) => {
 
     return (
         <div
-            className="flex h-full w-full shrink-0 flex-col overflow-y-auto  overflow-x-hidden"
+            className="flex h-full w-full shrink-0 flex-col overflow-y-auto  overflow-x-hidden px-3 xl:px-5"
             id={`${DIRECTION_MODE}-detail`}
         >
-            <div className="mb-4 flex w-full flex-col">
+            <div className="my-4 flex w-full flex-col">
                 <div className="mt-2 flex items-center space-x-2">
                     <FontAwesomeIcon
                         className="w-6 shrink-0 text-xs text-primary "
                         icon={faCircle}
                     />
-                    <div className="flex w-full justify-between text-base font-light text-text">
+                    <div className="flex w-full justify-between text-lg font-semibold text-text items-center">
                         {userLocationError ? "จากกรุงเทพ" : "ตำแหน่งของคุณ"}{" "}
-                        <span className="text-text-lighter">
+                        <span className="text-text-lighter font-light text-base">
                             ห่าง {currentRoutes.distance.text}
                         </span>
                     </div>
@@ -92,7 +92,7 @@ const RouteDetail = ({ setIsOpen }) => {
                 <div className="flex items-center space-x-2">
                     <FontAwesomeIcon
                         icon={faEllipsisVertical}
-                        className=" w-6  text-xl text-gray-400"
+                        className=" w-6  text-xl text-text-lighterr"
                     />
                 </div>
                 <div className="flex items-center space-x-2">
@@ -100,7 +100,7 @@ const RouteDetail = ({ setIsOpen }) => {
                         className=" w-6  text-red-500"
                         icon={faLocationDot}
                     />
-                    <div className="text-base font-light text-text">
+                    <div className="text-lg text-text font-semibold">
                         {endPoint}
                     </div>
                 </div>

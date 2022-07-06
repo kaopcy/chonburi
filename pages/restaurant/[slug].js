@@ -47,9 +47,7 @@ const Restaurant = ({ post: fetchedPost, posts: fetchedPosts }) => {
         >
             <MapContextProvider>
                 <div
-                    className={`mx-auto  flex h-screen w-full  flex-col overflow-hidden  ${
-                        isTouch && "!h-[calc(100vh-70px)] "
-                    }`}
+                    className={`mx-auto  flex h-screen w-full  flex-col overflow-hidden  `}
                 >
                     <div className="hidden h-[70px] shrink-0 sm:block lg:h-[100px] "></div>
                     <div className="relative flex h-full w-full  overflow-hidden">
@@ -61,7 +59,7 @@ const Restaurant = ({ post: fetchedPost, posts: fetchedPosts }) => {
                                     {/* Map */}
                                     <div className="h-full w-full">
                                         <div className="relative h-full w-full rounded-lg bg-white">
-                                            <DirectionRouteControl />
+                                            {/* <DirectionRouteControl /> */}
                                             <Map />
                                             {/* <LoadingOverlay/> */}
                                         </div>
@@ -96,7 +94,7 @@ const Detail = () => {
 
     return (
         <div
-            className={`group fixed left-0 bottom-0 z-[1000] flex h-[80%] w-full shrink-0 translate-y-[calc(100%-75px)] flex-col transition-transform duration-[400ms] ease-in-out md:relative  md:h-full md:max-w-[400px]  md:translate-x-full md:translate-y-0 lg:max-w-[500px] ${
+            className={`group fixed left-0 bottom-0 z-[1000] flex h-[80%] w-full shrink-0 translate-y-[calc(100%-75px)] flex-col transition-transform duration-[400ms] ease-in-out md:relative  md:h-full md:max-w-[400px]  md:translate-x-full md:translate-y-0 lg:max-w-[550px] ${
                 isOpen && "!translate-y-0 md:!translate-x-0"
             }`}
         >
@@ -111,16 +109,14 @@ const Detail = () => {
             </div>
 
             <div
-                className={`flex h-full w-full shrink-0  flex-col  rounded-lg bg-white transition-colors   ${
-                    !isOpen && "!bg-transparent"
-                }`}
+                className={`flex h-full w-full shrink-0  flex-col  rounded-lg bg-white transition-colors   `}
             >
                 <Selector setIsOpen={setIsOpen} isOpen={isOpen} />
-                <div
-                    className={` h-[1.5px] w-full bg-text-lightest ${
-                        !isOpen && "!opacity-0"
-                    }`}
-                ></div>
+                <div className="w-full px-3 xl:px-5">
+                    <div
+                        className={` h-[2px] w-full bg-text-lightest `}
+                    ></div>
+                </div>
 
                 <div
                     className={`relative h-full w-full overflow-hidden  ${

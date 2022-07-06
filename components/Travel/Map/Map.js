@@ -2,7 +2,7 @@ import React, { useEffect, useMemo, useRef, useState } from "react";
 import {
     useJsApiLoader,
     GoogleMap,
-    Marker,
+    Polyline,
     DirectionsRenderer,
 } from "@react-google-maps/api";
 import { getCenter, getCenterOfBounds } from "geolib";
@@ -38,6 +38,15 @@ import UserLocationMarker from "./UserLocationMarker";
 import DestinationOverlay from "./DestinationOverlay";
 import DestinationMarker from "./DestinationMarker";
 
+// import icons
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+    faCheck,
+    faLocationCrosshairs,
+    faMinus,
+    faPlus,
+} from "@fortawesome/free-solid-svg-icons";
+
 const Map = () => {
     // not fallback
     const { post } = usePostContext();
@@ -54,7 +63,8 @@ const Map = () => {
 
     const [tempLocation, setTempLocation] = useState(post.coords);
 
-    const { map, setMap, isPanning, setIsPanning } = useMapContext();
+    const { map, setMap } = useMapContext();
+    const [isHighlight, setIsHighlight] = useState(true);
     const { smoothlyAnimatePanTo } = useMapSmoothPan();
 
     const defaultCenter = useMemo(() => {
@@ -114,15 +124,6 @@ const Map = () => {
             const polyline = new google.maps.Polygon({
                 fillColor: "#fff",
                 fillOpacity: 0.2,
-                path: [
-                    ...shape.map(
-                        (e) =>
-                            new google.maps.LatLng(
-                                parseFloat(e[1]),
-                                parseFloat(e[0])
-                            )
-                    ),
-                ],
                 strokeColor: "#4f4f4f",
                 strokeOpacity: 0.6,
                 strokeWeight: 2,
@@ -133,64 +134,89 @@ const Map = () => {
 
     return (
         isLoaded &&
-        defaultCenter && (
-            <GoogleMap
-                center={
-                    new google.maps.LatLng({
-                        lat: parseFloat(tempLocation.lat) || 13,
-                        lng: parseFloat(tempLocation.lng) || 102,
-                    })
-                }
-                zoom={15}
-                mapContainerStyle={{
-                    width: "100%",
-                    height: "100%",
-                }}
-                options={{
-                    gestureHandling: "greedy",
-                    restriction: {
-                        latLngBounds: {
-                            north: 20.4178496363,
-                            south: 5.67,
-                            west: 97.3758964376,
-                            east: 105.589038527,
+        defaultCenter && tempLocation && (
+            <>
+                <GoogleMap
+                    center={tempLocation}
+                    zoom={15}
+                    mapContainerStyle={{
+                        width: "100%",
+                        height: "100%",
+                    }}
+                    options={{
+                        gestureHandling: "greedy",
+                        restriction: {
+                            latLngBounds: {
+                                north: 20.4178496363,
+                                south: 5.67,
+                                west: 97.3758964376,
+                                east: 105.589038527,
+                            },
+                            strictBounds: false,
                         },
-                        strictBounds: false,
-                    },
-                    streetViewControl: false,
-                    mapTypeControl: false,
-                    zoomControl: false,
-                    fullscreenControl: false,
-                    styles: mapStyles,
-                }}
-                onLoad={onMapLoad}
-            >
-                <DestinationOverlay coords={post.coords} />
-                {userLocation && selectedMode === DIRECTION_MODE && (
-                    <>
-                        {/* <Marker
+                        streetViewControl: false,
+                        mapTypeControl: false,
+                        zoomControl: false,
+                        fullscreenControl: false,
+                        styles: mapStyles,
+                    }}
+                    onLoad={onMapLoad}
+                >
+                    <DestinationOverlay coords={post.coords} />
+                    {userLocation && selectedMode === DIRECTION_MODE && (
+                        <>
+                            {/* <Marker
                             position={userLocation}
                             options={{ optimized: true }}
                             animation={google.maps.Animation.DROP}
                         ></Marker> */}
-                        <UserLocationMarker position={userLocation} />
-                    </>
+                            <UserLocationMarker position={userLocation} />
+                        </>
+                    )}
+                    {tempLocation && (
+                        <DestinationMarker position={tempLocation} />
+                    )}
+                    {selectedMode === OTHERPLACE_MODE && <OtherPlaces />}
+                    {activeDirectionCoord && selectedMode === DIRECTION_MODE && (
+                        <>
+                            <DirectionsRenderer
+                                options={{
+                                    suppressMarkers: true,
+                                    preserveViewport: true,
+                                }}
+                                directions={direction}
+                            />
+                            <DirectionRouteMarker />
+                        </>
+                    )}
+                    {isHighlight &&
+                        chonburiShape?.map((shape) => (
+                            <Polyline
+                                options={{
+                                    strokeColor: "#4f4f4f",
+                                    strokeOpacity: 0.6,
+                                    strokeWeight: 2,
+                                }}
+                                path={[
+                                    ...shape.map(
+                                        (e) =>
+                                            new google.maps.LatLng(
+                                                parseFloat(e[1]),
+                                                parseFloat(e[0])
+                                            )
+                                    ),
+                                ]}
+                            />
+                        ))}
+                </GoogleMap>
+                {selectedMode === TRAVEL_MODE && (
+                    <Controller
+                        isHighLight={isHighlight}
+                        setIsHighLight={setIsHighlight}
+                        tempLocation={tempLocation}
+                    />
                 )}
-                {tempLocation && <DestinationMarker position={tempLocation} />}
-                {selectedMode === OTHERPLACE_MODE && <OtherPlaces />}
-                {activeDirectionCoord && selectedMode === DIRECTION_MODE && (
-                    <>
-                        <DirectionsRenderer
-                            options={{
-                                suppressMarkers: true,
-                                preserveViewport: true,
-                            }}
-                            directions={direction}
-                        />
-                        <DirectionRouteMarker />
-                    </>
-                )}
-            </GoogleMap>
+            </>
         )
     );
 };
@@ -233,6 +259,68 @@ const OtherPlaces = () => {
             index={index}
         />
     ));
+};
+
+const Controller = ({ isHighLight, setIsHighLight, tempLocation }) => {
+    const { map } = useMapContext();
+    return (
+        <>
+            <div className="absolute bottom-24 left-3 flex flex-col  space-y-3 md:bottom-3">
+                <div className="relative flex h-24 w-12 flex-col rounded-md bg-white shadow-lg">
+                    <div
+                        className="flex-cen h-full cursor-pointer"
+                        onClick={() => {
+                            map.setZoom(map.getZoom() + 1);
+                        }}
+                    >
+                        <FontAwesomeIcon
+                            className="text-sm text-text"
+                            icon={faPlus}
+                        />
+                    </div>
+                    <div className="absolute top-1/2 left-1/2 h-[1px]  w-[80%] -translate-x-1/2 bg-text-lightest"></div>
+                    <div
+                        className="flex-cen h-full cursor-pointer"
+                        onClick={() => {
+                            map.setZoom(map.getZoom() - 1);
+                        }}
+                    >
+                        <FontAwesomeIcon
+                            className="text-sm text-text"
+                            icon={faMinus}
+                        />
+                    </div>
+                </div>
+                <div
+                    className="flex-cen h-12 w-12 cursor-pointer rounded-md bg-white shadow-lg"
+                    onClick={() => {
+                        map.panTo(
+                            new google.maps.LatLng({
+                                lat: parseFloat(tempLocation.lat) || 13,
+                                lng: parseFloat(tempLocation.lng) || 102,
+                            })
+                        );
+                    }}
+                >
+                    <FontAwesomeIcon
+                        className="text-xl text-text"
+                        icon={faLocationCrosshairs}
+                    />
+                </div>
+            </div>
+            <div className="absolute bottom-24 left-1/2 flex -translate-x-1/2 items-center   rounded-md bg-white px-[8px] py-[6px] shadow-lg md:bottom-3">
+                <div
+                    className={`flex-cen mr-2 h-6 w-6 rounded-md border-2 border-[#008F18] ${
+                        isHighLight ? " bg-[#008F18]" : "bg-white"
+                    }`}
+                    onClick={() => setIsHighLight((e) => !e)}
+                >
+                    <FontAwesomeIcon className="text-white" icon={faCheck} />
+                </div>
+                <div className="text-sm text-text">ขอบจังหวัดชลบุรี</div>
+            </div>
+        </>
+    );
 };
 
 export default Map;

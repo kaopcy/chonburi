@@ -100,7 +100,7 @@ const Icon = ({ icon, text, isOpen, setIsOpen, children }) => {
                 }`}
             />
             <div
-                className={`whitespace-nowrap text-xs   ${
+                className={`whitespace-nowrap text-xs md:text-sm  ${
                     !isOpen && "!text-xxs font-semibold"
                 }`}
             >
