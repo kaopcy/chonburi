@@ -1,6 +1,6 @@
-import React, { useState, useMemo, useEffect } from "react";
+import React, { useState, useMemo, useEffect, forwardRef } from "react";
 import Image from "next/image";
-import Link from 'next/link'
+import Link from "next/link";
 import { v4 as uuid } from "uuid";
 
 // import icons
@@ -13,20 +13,10 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { useRef } from "react";
 
-const PostCard = ({
-    slug,
-    placeID,
-    imageURL,
-    title,
-    amphoe,
-    tambon,
-    isOpen,
-    reviews,
-    star,
-}) => {
+const PostCard = forwardRef(({ post }, ref) => {
     const imageCount = useMemo(
-        () => (imageURL ? imageURL.length : 0),
-        [imageURL]
+        () => (post.imageURL ? post.imageURL.length : 0),
+        [post.imageURL]
     );
     const imageContainerRef = useRef(null);
     const [curIndex, setCurIndex] = useState(0);
@@ -46,22 +36,23 @@ const PostCard = ({
 
     return (
         <div
+            ref={ref}
             className={`mr-5 flex w-[230px]  shrink-0  flex-col overflow-hidden text-text md:w-[300px]`}
-            key={placeID}
+            key={post.placeID}
         >
             <div
                 className="relative mb-2 aspect-[13/9] w-full shrink-0 overflow-hidden  rounded-xl"
-                key={imageURL[0]._key}
+                key={post.imageURL[0]._key}
             >
                 <div
                     ref={imageContainerRef}
                     className="absolute top-0 left-0 flex  aspect-[13/9] w-full flex-nowrap transition-all duration-700 "
                 >
-                    {imageURL.map((e) => (
+                    {post.imageURL.map((e) => (
                         <ImageComponent
                             imageURL={e}
                             key={e._key}
-                            title={title}
+                            title={post.title}
                         />
                     ))}
                 </div>
@@ -75,7 +66,8 @@ const PostCard = ({
                 <div className="absolute top-4 right-0 z-10 flex items-center overflow-hidden rounded-l-lg px-2 py-[3px] text-white">
                     <div className="absolute inset-0 z-0 bg-black opacity-40"></div>
                     <span className="z-30 mr-1 text-sm font-light ">
-                        {reviews ? Object.keys(reviews).length : 0} รีวิว
+                        {post.reviews ? Object.keys(post.reviews).length : 0}{" "}
+                        รีวิว
                     </span>
                     <FontAwesomeIcon
                         className="z-30 -rotate-45 text-xs"
@@ -84,11 +76,11 @@ const PostCard = ({
                 </div>
             </div>
             <div className="flex items-center justify-between">
-                <Link href={`/restaurant/${slug.current}`} passHref>
-                    <div className="font-medium">{title}</div>
+                <Link href={`/restaurant/${post.slug.current}`} passHref>
+                    <div className="font-medium">{post.title}</div>
                 </Link>
                 <div className="flex items-center">
-                    <span className="mr-1 text-sm">{star}</span>
+                    <span className="mr-1 text-sm">{post.star}</span>
                     <FontAwesomeIcon
                         className="text-xs text-yellow-200"
                         icon={faStar}
@@ -105,13 +97,13 @@ const PostCard = ({
                 </span>
 
                 <span className="ellipsis text-xs">
-                    <span className=" mr-1">อ. {amphoe.name}</span>
-                    <span className="">ต. {tambon.name}</span>
+                    <span className=" mr-1">อ. {post.amphoe.name}</span>
+                    <span className="">ต. {post.tambon.name}</span>
                 </span>
             </div>
         </div>
     );
-};
+});
 
 const ImageComponent = ({ imageURL, title }) => {
     return (

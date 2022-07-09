@@ -84,11 +84,11 @@ const NormalLink = ({ link }) => {
                         <div className="flex items-center">
                             <FontAwesomeIcon
                                 icon={link.icon}
-                                className={`mr-4 text-base text-text-lighter  ${
+                                className={`mr-4 text-xl text-text-lighter  ${
                                     isMatch && "!text-primary"
                                 }`}
                             />
-                            <span className="z-10 whitespace-nowrap tracking-tighter">
+                            <span className="z-10 whitespace-nowrap text-xl tracking-tighter">
                                 {link.name}
                             </span>
                             {isMatch && (
@@ -139,11 +139,11 @@ const DropdownLink = ({ link }) => {
                             <div className="flex items-center">
                                 <FontAwesomeIcon
                                     icon={link.icon}
-                                    className={`mr-4 text-base text-text-lighter  ${
+                                    className={`mr-4 text-xl text-text-lighter  ${
                                         isMatch && "!text-primary"
                                     }`}
                                 />
-                                <span className="z-10 whitespace-nowrap tracking-tighter text-text">
+                                <span className="z-10 whitespace-nowrap text-xl tracking-tighter text-text">
                                     {link.name}
                                 </span>
                                 {isMatch && (
@@ -167,16 +167,16 @@ const DropdownLink = ({ link }) => {
             </div>
             <div
                 ref={container}
-                className="relative h-0 w-full overflow-hidden ml-6"
+                className="relative ml-6 h-0 w-full overflow-hidden"
             >
-                <div className="absolute top-0 left-0 w-[2px] h-[calc(100%-15px)] bg-zinc-100"></div>
+                <div className="absolute top-0 left-0 h-[calc(100%-15px)] w-[2px] bg-zinc-100"></div>
                 <div className="absolute bottom-0 left-0" ref={detail}>
                     {dropdownLists.map((dropdown, i) => (
                         <div
-                            className="flex items-center py-1 text-base text-text-lighter pl-4"
+                            className="flex items-center py-1 pl-4 text-base text-text-lighter"
                             key={dropdown.name + i}
                         >
-                            <div className="w-3 h-[3px] bg-zinc-100 absolute left-0"></div>
+                            <div className="absolute left-0 h-[3px] w-3 bg-zinc-100"></div>
                             <div
                                 className="flex-cen  mr-4 aspect-square w-5 rounded-md"
                                 style={{ backgroundColor: dropdown.color }}

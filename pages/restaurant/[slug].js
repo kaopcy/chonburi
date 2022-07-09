@@ -50,7 +50,7 @@ const Restaurant = ({ post: fetchedPost, posts: fetchedPosts }) => {
                     className={`mx-auto  flex h-screen w-full  flex-col overflow-hidden  `}
                 >
                     <div className="hidden h-[70px] shrink-0 sm:block lg:h-[100px] "></div>
-                    <div className="relative flex h-full w-full  overflow-hidden">
+                    <div className="relative flex h-[calc(100%-70px)] w-full overflow-hidden lg:h-full  sm:h-[calc(100%-100px)]">
                         <ActiveOtherPlaceProvider>
                             <DirectionProvider>
                                 <SelectorContextProvider>
@@ -113,9 +113,7 @@ const Detail = () => {
             >
                 <Selector setIsOpen={setIsOpen} isOpen={isOpen} />
                 <div className="w-full px-3 xl:px-5">
-                    <div
-                        className={` h-[2px] w-full bg-text-lightest `}
-                    ></div>
+                    <div className={` h-[2px] w-full bg-text-lightest `}></div>
                 </div>
 
                 <div

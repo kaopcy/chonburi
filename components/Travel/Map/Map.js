@@ -134,9 +134,11 @@ const Map = () => {
 
     return (
         isLoaded &&
-        defaultCenter && tempLocation && (
+        defaultCenter &&
+        tempLocation && (
             <>
                 <GoogleMap
+                    clickableIcons={false}
                     center={tempLocation}
                     zoom={15}
                     mapContainerStyle={{
@@ -144,6 +146,7 @@ const Map = () => {
                         height: "100%",
                     }}
                     options={{
+                        clickableIcons: false,
                         gestureHandling: "greedy",
                         restriction: {
                             latLngBounds: {

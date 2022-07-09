@@ -1,14 +1,38 @@
-import React from "react";
+import React, { useRef, useEffect } from "react";
 import Link from "next/dist/client/link";
 
 import { faChevronRight, faMugHot } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import useDraggable from "../../../composables/useDraggable";
+
+// import components
 import RestaurantCard from "./Card";
+import Indicator  from "./Indicator";
 
 const RestaurantList = ({ restaurants }) => {
     const { slider } = useDraggable();
+
+    const cardArrRef = useRef([]);
+    const containerRef = useRef(null);
+    const observer = useRef();
+
+    useEffect(() => {
+        observer.current = new IntersectionObserver(
+            (entries) => {
+                console.log(entries.filter(e=> e.isIntersecting).map(e=> e.target));
+            },
+            { root: containerRef.current , rootMargin: "0px -40px 0px -40px" }
+        );
+        cardArrRef.current.map((e) => {
+            observer.current.observe(e);
+        });
+
+        return () => {
+            if (observer.current) observer.current.disconnect();
+        };
+    }, []);
+
     return (
         <div className="mx-auto mt-10 flex w-full max-w-[1300px] flex-col items-start">
             <div className="mb-0 flex w-full items-center justify-between">
@@ -26,15 +50,22 @@ const RestaurantList = ({ restaurants }) => {
                 </Link>
             </div>
 
-            <div className="relative w-full overflow-hidden mt-8">
-                <div className="absolute top-full left-0 z-10 h-3 w-full -translate-y-full bg-white "></div>
+            <div
+                ref={containerRef}
+                className="relative mt-8 w-full overflow-hidden "
+            >
+                <div className="absolute top-full left-0 z-10 h-2 w-full -translate-y-full bg-white "></div>
                 <div
-                    className="relative flex w-full overflow-x-auto"
+                    className="relative flex w-full overflow-x-auto pb-5"
                     ref={slider}
                 >
-                    {restaurants.map((restaurant) => {
+                    {restaurants.map((restaurant, i) => {
                         return (
-                            <RestaurantCard {...restaurant} key={restaurant.placeID} forIndex />
+                            <RestaurantCard
+                                ref={(e) => (cardArrRef.current[i] = e)}
+                                post={restaurant}
+                                key={restaurant.placeID}
+                            />
                         );
                     })}
                     <Link href={"/travel"} passHref>

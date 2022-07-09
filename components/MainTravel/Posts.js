@@ -95,8 +95,8 @@ const Posts = () => {
                     <span
                         className={`mr-2 mt-10 text-[27px] font-semibold text-text  ${
                             isOpen
-                                ? "text-[20px] xl:text-[27px]"
-                                : "text-[18px] sm:text-[22px] lg:text-[27px] "
+                                ? " sm:text-[20px] xl:text-[27px]"
+                                : "text-[14px] sm:text-[22px] lg:text-[27px] "
                         }`}
                     >
                         {filter ? (

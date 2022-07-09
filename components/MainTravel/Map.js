@@ -73,6 +73,7 @@ const Map = () => {
             )}
             {isShowMap && isLoaded && (
                 <GoogleMap
+                    clickableIcons={false}
                     onLoad={onMapLoad}
                     center={mockCenter.current}
                     zoom={8}
@@ -81,6 +82,7 @@ const Map = () => {
                         height: "100%",
                     }}
                     options={{
+                        clickableIcons: false,
                         gestureHandling: "greedy",
                         restriction: {
                             latLngBounds: {

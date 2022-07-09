@@ -112,7 +112,7 @@ const DestinationOverlay = () => {
                                     <>
                                         <FontAwesomeIcon
                                             onClick={() => setIsOpen(false)}
-                                            className="absolute top-6 right-6 text-red-500"
+                                            className="absolute top-0 right-0 text-red-500 p-6 "
                                             icon={faXmark}
                                         />
                                         <div className="relative mb-3 aspect-[13/9] w-full overflow-hidden rounded-xl">
