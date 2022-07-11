@@ -306,7 +306,7 @@ const Controller = ({ isHighLight, setIsHighLight, tempLocation }) => {
                     }}
                 >
                     <FontAwesomeIcon
-                        className="text-xl text-text"
+                        className="text-sm md:text-xl text-text"
                         icon={faLocationCrosshairs}
                     />
                 </div>

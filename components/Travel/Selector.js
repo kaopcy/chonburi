@@ -72,7 +72,7 @@ const Highlighter = ({ containerRef, isOpen }) => {
     return (
         <div
             ref={elRef}
-            className={`absolute   h-[2px]  translate-y-full bg-primary  transition-all md:h-[3px] ${
+            className={`absolute z-0  h-[2px]  translate-y-full bg-primary  transition-all md:h-[3px] ${
                 isOpen ? "bottom-0" : "bottom-[calc(100%-2px)] md:bottom-0"
             }`}
         >
@@ -90,7 +90,7 @@ const Icon = ({ icon, text, isOpen, setIsOpen, children }) => {
     return (
         <div
             id={text}
-            className={`relative  mx-3 flex  cursor-pointer  flex-col items-center px-1  text-text-lightest  md:mx-2 ${
+            className={`relative z-10  mx-3 flex  cursor-pointer  flex-col items-center px-1  text-text-lightest  md:mx-2 ${
                 selectedMode === text && "!text-primary "
             }`}
             onClick={() => {
