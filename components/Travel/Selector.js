@@ -20,8 +20,8 @@ const Selector = ({ setIsOpen, isOpen }) => {
     const containerRef = useRef(null);
     return (
         <div
-            className={`relative flex  justify-center rounded-none  pb-2 pt-3 transition-all container-type-size  md:w-full md:justify-end md:pr-4  ${
-                !isOpen && "w-[300px] self-center !rounded-full shadow-big"
+            className={`relative flex  justify-center rounded-none bg-white  pb-2 pt-4 transition-all container-type-size  md:w-full md:justify-end md:pr-4  ${
+                !isOpen && "w-full self-center bg-[#ffffffde]"
             }`}
             ref={containerRef}
         >
@@ -68,13 +68,19 @@ const Highlighter = ({ containerRef, isOpen }) => {
         return () => {
             window.removeEventListener("resize", calPost);
         };
-    }, [selectedMode]);
-    return !isOpen ? null : (
+    }, [selectedMode, isOpen]);
+    return (
         <div
             ref={elRef}
-            className="absolute bottom-0 mt-3 h-[2px] translate-y-full bg-primary  transition-all md:h-[3px]"
+            className={`absolute   h-[2px]  translate-y-full bg-primary  transition-all md:h-[3px] ${
+                isOpen ? "bottom-0" : "bottom-[calc(100%-2px)] md:bottom-0"
+            }`}
         >
-            <div className="gradient-blue absolute bottom-0 h-[10px] w-full"></div>
+            <div
+                className={` absolute md:bottom-0    h-[10px] w-full ${
+                    isOpen ? " bottom-0 gradient-blue" : " top-full !bg-[#5ABDFF14] md:gradient-blue h-[60px]"
+                }`}
+            ></div>
         </div>
     );
 };

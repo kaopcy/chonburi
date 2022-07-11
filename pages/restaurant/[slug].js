@@ -47,10 +47,10 @@ const Restaurant = ({ post: fetchedPost, posts: fetchedPosts }) => {
         >
             <MapContextProvider>
                 <div
-                    className={`mx-auto  flex h-screen w-full  flex-col overflow-hidden  `}
+                    className={`mx-auto  flex inset-0 absolute  flex-col overflow-hidden  `}
                 >
                     <div className="hidden h-[70px] shrink-0 sm:block lg:h-[100px] "></div>
-                    <div className="relative flex h-[calc(100%-70px)] w-full overflow-hidden lg:h-full  sm:h-[calc(100%-100px)]">
+                    <div className="relative flex h-[calc(100%)] w-full overflow-hidden sm:h-[calc(100%-100px)]  lg:h-full">
                         <ActiveOtherPlaceProvider>
                             <DirectionProvider>
                                 <SelectorContextProvider>
@@ -94,13 +94,13 @@ const Detail = () => {
 
     return (
         <div
-            className={`group fixed left-0 bottom-0 z-[1000] flex h-[80%] w-full shrink-0 translate-y-[calc(100%-75px)] flex-col transition-transform duration-[400ms] ease-in-out md:relative  md:h-full md:max-w-[400px]  md:translate-x-full md:translate-y-0 lg:max-w-[550px] ${
+            className={`group fixed left-0 bottom-0 z-[1000] flex h-[80%] w-full shrink-0 translate-y-[calc(100%-60px)] flex-col transition-transform duration-[400ms] ease-in-out md:relative  md:h-full md:max-w-[400px]  md:translate-x-full md:translate-y-0 lg:max-w-[550px] ${
                 isOpen && "!translate-y-0 md:!translate-x-0"
             }`}
         >
             {/* mobile control open */}
             <div
-                className={`mobile-md absolute  bottom-full flex h-8 w-full shrink-0 items-center justify-center rounded-t-full bg-white  ${
+                className={`mobile-md absolute  bottom-[calc(100%-2px)] flex h-8 w-full shrink-0 items-center justify-center rounded-t-full bg-white  ${
                     !isOpen && "!opacity-0"
                 }`}
                 onClick={() => setIsOpen((e) => !e)}
@@ -109,7 +109,7 @@ const Detail = () => {
             </div>
 
             <div
-                className={`flex h-full w-full shrink-0  flex-col  rounded-lg bg-white transition-colors   `}
+                className={`flex h-full w-full shrink-0  flex-col  rounded-lg  transition-colors   ${isOpen ? 'bg-white' : 'bg-transparent'}`}
             >
                 <Selector setIsOpen={setIsOpen} isOpen={isOpen} />
                 <div className="w-full px-3 xl:px-5">
@@ -149,16 +149,17 @@ export async function getStaticPaths() {
 
 const postQuery = groq`
 *[(_type == "post" || _type == "pointOfInterest") && slug.current == $slug][0]{
-  amphoe-> { name },
-  tambon-> { name },
-  title,
-  slug,
-  coords,
-  placeID,
-  imageURL,
-  reviews,
-  star,
+    amphoe-> { name },
+    tambon-> { name },
+    title,
+    slug,
+    coords,
+    placeID,
+    imageURL,
+    reviews,
+    star,
 }`;
+
 const postsQuery = groq`
 *[(_type == "post" || _type == "restaurant")] {_id,coords , title , mainImage , location, locationType,}`;
 

@@ -80,7 +80,7 @@ export const useMapSmoothPan = () => {
                 //here you should (re?)enable only the ui controls that make sense to your app
                 map.setOptions({
                     draggable: true,
-                    zoomControl: true,
+                    zoomControl: false,
                     scrollwheel: true,
                     disableDoubleClickZoom: false,
                 });

@@ -52,8 +52,7 @@ export default {
             options: {
                 source: "title",
                 maxLength: 96,
-                slugify: (input) =>
-                    input.replace(/\s+/g, "-").slice(0, 200),
+                slugify: (input) => input.replace(/\s+/g, "-").slice(0, 200),
             },
         },
         {
