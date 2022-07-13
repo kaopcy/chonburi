@@ -109,7 +109,7 @@ const Detail = () => {
         >
             {/* mobile control open */}
             <div
-                className={`mobile-md absolute bottom-[calc(100%-2px)]  flex  h-8 w-full shrink-0 items-center justify-center rounded-t-full bg-white  ${
+                className={`mobile-md absolute bottom-[calc(100%-2px)]  flex  h-8 w-full shrink-0 items-center justify-center rounded-t-full border-t-2 bg-white  ${
                     !isOpen && "!hidden"
                 }`}
                 onClick={() => setIsOpen((e) => !e)}

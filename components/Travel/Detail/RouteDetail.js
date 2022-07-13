@@ -78,13 +78,12 @@ const RouteDetail = ({ setIsOpen }) => {
         >
             <div className="my-4 flex w-full flex-col">
                 <div className="mt-2 flex items-center space-x-2">
-                    <FontAwesomeIcon
-                        className="w-6 shrink-0 text-xs text-primary "
-                        icon={faCircle}
-                    />
-                    <div className="flex w-full justify-between text-lg font-semibold text-text items-center">
+                    <div className="relative mx-1  h-4 w-4 shrink-0 rounded-full bg-primary">
+                        <div className="absolute inset-[5px] rounded-full bg-white"></div>
+                    </div>
+                    <div className="flex w-full items-center justify-between text-lg font-semibold text-text">
                         {userLocationError ? "จากกรุงเทพ" : "ตำแหน่งของคุณ"}{" "}
-                        <span className="text-text-lighter font-light text-base">
+                        <span className="text-base font-light text-text-lighter">
                             ห่าง {currentRoutes.distance.text}
                         </span>
                     </div>
@@ -100,7 +99,7 @@ const RouteDetail = ({ setIsOpen }) => {
                         className=" w-6  text-red-500"
                         icon={faLocationDot}
                     />
-                    <div className="text-lg text-text font-semibold">
+                    <div className="text-lg font-semibold text-text">
                         {endPoint}
                     </div>
                 </div>

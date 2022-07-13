@@ -6,6 +6,10 @@ import gsap from "gsap/dist/gsap";
 // import contexts
 import { usePostContext } from "../../../context/Travel/PostContext";
 import { useMapContext } from "../../../context/MapContext";
+import { useSelectorContext } from "../../../context/Travel/SelectorContext";
+
+// import constants
+import { TRAVEL_MODE } from "../../../config/selectorConstant";
 
 // import icons
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -19,6 +23,7 @@ import { useEffect } from "react";
 
 const DestinationOverlay = () => {
     const { post } = usePostContext();
+    const { selectedMode } = useSelectorContext();
     const { map } = useMapContext();
 
     const titleRef = useRef();
@@ -32,6 +37,11 @@ const DestinationOverlay = () => {
     const isStart = useRef(false);
 
     const [isHideDetail, setIsHideDetail] = useState(false);
+
+    useEffect(() => {
+        if (selectedMode !== TRAVEL_MODE) setIsOpen(false);
+        else setIsOpen(true);
+    }, [selectedMode]);
 
     useEffect(() => {
         if (!isStart.current) return;
@@ -136,7 +146,7 @@ const DestinationOverlay = () => {
                                                 icon={faXmark}
                                             />
                                         </div>
-                                        <div className="relative mb-3 aspect-[13/7]  w-full overflow-hidden">
+                                        <div className="relative mb-3 aspect-[13/7]  w-full ">
                                             <Image
                                                 layout="fill"
                                                 objectFit="cover"
@@ -145,7 +155,6 @@ const DestinationOverlay = () => {
                                                 blurDataURL="URL"
                                                 placeholder="blur"
                                                 src={post.imageURL[0].url}
-                                                className=""
                                             />
                                         </div>
                                         <div className="mb-2 flex w-full justify-between">

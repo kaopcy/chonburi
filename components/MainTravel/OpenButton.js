@@ -111,14 +111,14 @@ const OpenButton = () => {
 
     return (
         <div
-            className={`absolute top-[80%] right-0 z-50 flex -translate-y-1/2 scale-75 cursor-pointer flex-col items-center transition-transform duration-1000  ease-in-out sm:top-1/2 md:scale-100 ${
+            className={`absolute top-[80%]  right-0 z-50 flex -translate-y-1/2 scale-75 cursor-pointer flex-col items-center transition-transform duration-1000  ease-in-out sm:top-1/2 md:scale-100 ${
                 isOpen ? "translate-x-[120%]" : "-translate-x-[50%]"
             }`}
             onClick={() => setIsOpen((e) => !e)}
         >
             <div
                 ref={buttonRef}
-                className="flex h-16 w-16 flex-col items-center justify-center rounded-full border-2 border-text bg-white text-text transition-colors hover:bg-text hover:text-white"
+                className="flex h-16 w-16 flex-col shadow-big items-center justify-center rounded-full border-2 border-text bg-white text-text transition-colors hover:bg-text hover:text-white"
             >
                 <FontAwesomeIcon
                     className="text-lg"

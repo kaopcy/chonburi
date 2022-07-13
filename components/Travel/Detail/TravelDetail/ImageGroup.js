@@ -30,15 +30,6 @@ const ImageGroup = () => {
                     className=""
                 />
             </div>
-            <div className="absolute bottom-2 right-2 cursor-pointer rounded-full bg-black px-4 py-1 text-white opacity-60 hover:opacity-100">
-                <span
-                    onClick={() => router.push("/travel/[slug]/?image")}
-                    className="mr-2"
-                >
-                    ดูรูปภาพทั้งหมด
-                </span>
-                <FontAwesomeIcon icon={faImage} />
-            </div>
             <div className="flex w-full flex-col space-y-2 lg:space-y-3">
                 <div className="relative aspect-[3/2] h-full overflow-hidden   shadow-big">
                     <Image
@@ -52,7 +43,22 @@ const ImageGroup = () => {
                         className=""
                     />
                 </div>
-                <div className="relative aspect-[3/2] h-full overflow-hidden   shadow-big">
+                <div
+                    className="relative aspect-[3/2] h-full overflow-hidden   shadow-big"
+                    onClick={() =>
+                        router.push(
+                            {
+                                href: "/travel/[slug]/?image",
+                                query: {
+                                    slug: router.query.slug,
+                                    image: true,
+                                },
+                            },
+                            undefined,
+                            { shallow: true }
+                        )
+                    }
+                >
                     {post.imageURL[2] && (
                         <Image
                             layout="fill"
@@ -67,19 +73,7 @@ const ImageGroup = () => {
                     )}
                     <div className="absolute top-0 left-0 h-full w-full cursor-pointer bg-black opacity-60"></div>
                     <div className="abs-center cursor-pointer whitespace-nowrap text-white">
-                        <span
-                            onClick={() =>
-                                router.push(
-                                    {
-                                        href: "/travel/[slug]/?image",
-                                        query: { slug: router.query.slug , image: true },
-                                    },
-                                    undefined,
-                                    { shallow: true }
-                                )
-                            }
-                            className="text-sm underline underline-offset-1"
-                        >
+                        <span className="text-sm underline underline-offset-1">
                             ดูรูปภาพทั้งหมด
                         </span>
                         <span className=""> +{post.imageURL.length - 3}</span>

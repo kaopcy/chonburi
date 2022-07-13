@@ -37,6 +37,10 @@ import DirectionRouteMarker from "./DirectionRouteMarker";
 import UserLocationMarker from "./UserLocationMarker";
 import DestinationOverlay from "./DestinationOverlay";
 import DestinationMarker from "./DestinationMarker";
+import DirectionInfoBox from "./DirectionInfoBox";
+
+// import utils
+import { getCenterWithOffset } from "../../../utils/map/getCenterWithOffset";
 
 // import icons
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -117,9 +121,18 @@ const Map = () => {
         setDirection(result);
     };
 
-    const onMapLoad = (map) => {
+    const onMapLoad = (initmap) => {
+        google.maps.event.addListener(initmap, "projection_changed", () => {
+            const newCenter = getCenterWithOffset(
+                initmap,
+                tempLocation,
+                0,
+                100
+            );
+            initmap.setCenter(newCenter);
+        });
         calculateDirection();
-        setMap(map);
+        setMap(initmap);
         chonburiShape.forEach((shape) => {
             const polyline = new google.maps.Polygon({
                 fillColor: "#fff",
@@ -128,7 +141,7 @@ const Map = () => {
                 strokeOpacity: 0.6,
                 strokeWeight: 2,
             });
-            polyline.setMap(map);
+            polyline.setMap(initmap);
         });
     };
 
@@ -220,6 +233,8 @@ const Map = () => {
                         tempLocation={tempLocation}
                     />
                 )}
+
+                {selectedMode === DIRECTION_MODE && <DirectionInfoBox />}
             </>
         )
     );
@@ -299,15 +314,14 @@ const Controller = ({ isHighLight, setIsHighLight, tempLocation }) => {
                     className="flex-cen h-8 w-8 cursor-pointer rounded-md bg-white shadow-lg md:h-12 md:w-12"
                     onClick={() => {
                         map.panTo(
-                            new google.maps.LatLng({
-                                lat: parseFloat(tempLocation.lat) || 13,
-                                lng: parseFloat(tempLocation.lng) || 102,
-                            })
+                            new google.maps.LatLng(
+                                getCenterWithOffset(map, tempLocation, 0, 100)
+                            )
                         );
                     }}
                 >
                     <FontAwesomeIcon
-                        className="text-sm md:text-xl text-text"
+                        className="text-sm text-text md:text-xl"
                         icon={faLocationCrosshairs}
                     />
                 </div>

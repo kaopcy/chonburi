@@ -44,7 +44,7 @@ const ImageGallery = () => {
             >
                 <div
                     onClick={removeParams}
-                    className="flex-cen group absolute top-10 right-10 h-10 w-10 rounded-full border-2 border-text-lighter bg-white hover:bg-text-lighter"
+                    className="flex-cen group absolute  top-4 sm:top-10  right-4 sm:right-10 h-10 w-10 rounded-full border-2 border-text-lighter bg-white hover:bg-text-lighter"
                 >
                     <FontAwesomeIcon
                         className="text-text group-hover:text-white"
@@ -52,15 +52,16 @@ const ImageGallery = () => {
                     />
                 </div>
                 <div className="w-full max-w-[700px] px-3">
-                    <div className="mb-14 flex  items-center text-2xl font-black">
-                        รูปภาพร้าน {post.title}
-                        <span className="mx-2 mt-1 w-10 border-t-2" />
-                        <div className="text-xl font-medium text-text-lighterr">
+                    <div className="mb-14 flex min-w-0 text-xl sm:text-2xl  items-center  font-bold ">
+                        
+                        <div className="">รูปภาพร้าน {post.title}</div>
+                        <span className="mx-2 mt-1 w-6 sm:w-10 border-t-2" />
+                        <div className="whitespace-nowrap text-base sm:text-xl font-medium text-text-lighterr">
                             {post.imageURL?.length} ภาพ
                         </div>
                     </div>
                     <hr className="my-6" />
-                    <div className="flex w-full flex-col gap-5">
+                    <div className="flex w-full flex-col gap-3 sm:gap-5">
                         {post.imageURL?.map((e, index) => {
                             if (index % 3 === 0)
                                 return (
@@ -94,7 +95,7 @@ const ImageGallery = () => {
                                 );
                             else if (index % 3 === 2)
                                 return (
-                                    <div className="flex w-full gap-5">
+                                    <div className="flex w-full gap-3 sm:gap-5">
                                         <div className="relative aspect-[5/3] w-full   overflow-hidden ">
                                             <Image
                                                 layout="fill"
