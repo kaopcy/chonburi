@@ -23,7 +23,7 @@ import {
 } from "@fortawesome/free-brands-svg-icons";
 
 // import components
-import ImageGallery from "./ImageGallery";
+import ImageGroup from "./ImageGroup";
 import ReviewSection from "./ReviewSection";
 
 // import contexts
@@ -51,12 +51,11 @@ const TravelDetail = () => {
                 </div>
                 <div className="font-light text-text-lighter">อาหารคาว</div>
             </div>
-            <div className="my-5 h-[1px]  w-full shrink-0 bg-text-lightest"></div>
-            <ImageGallery />
-            <div className="my-5 h-[1px] w-full shrink-0 bg-text-lightest"></div>
+            <hr className="my-5" />
+            <ImageGroup />
+            <hr className="my-5" />
             <ShareTo title={post.title} />
-            <div className="my-5 h-[1px] w-full shrink-0 bg-text-lightest"></div>
-
+            <hr className="my-5" />
             <div className="flex flex-col items-start  ">
                 {post.locationType && (
                     <HighLightDetail
@@ -84,7 +83,8 @@ const TravelDetail = () => {
                     </div>
                 </HighLightDetail>
             </div>
-            <div className="my-5 h-[1px] w-full shrink-0 bg-text-lightest"></div>
+            <hr className="my-5" />
+
             <ReviewSection />
 
             <div className="h-20 w-full  shrink-0"></div>
@@ -125,14 +125,14 @@ const Star = ({ star }) => {
             <div className="mr-2 text-base font-semibold text-text">{star}</div>
             {[...Array(fullStar)].map((_, index) => (
                 <FontAwesomeIcon
-                    className="mr-[2px] text-base text-yellow-300"
+                    className="mr-[2px] text-base text-[#FFD43B]"
                     icon={faStar}
                     key={index + "-star"}
                 />
             ))}
             {isHalf ? (
                 <FontAwesomeIcon
-                    className="mr-[2px] text-base text-yellow-300"
+                    className="mr-[2px] text-base text-[#FFD43B]"
                     icon={faStarHalfStroke}
                 />
             ) : (

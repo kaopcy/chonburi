@@ -8,21 +8,31 @@ import useDraggable from "../../../composables/useDraggable";
 
 // import components
 import RestaurantCard from "./Card";
-import Indicator  from "./Indicator";
+import Indicator from "./Indicator";
 
 const RestaurantList = ({ restaurants }) => {
     const { slider } = useDraggable();
 
     const cardArrRef = useRef([]);
+    const indicatorRef = useRef(null);
     const containerRef = useRef(null);
     const observer = useRef();
 
     useEffect(() => {
+        if (!indicatorRef.current) return;
         observer.current = new IntersectionObserver(
             (entries) => {
-                console.log(entries.filter(e=> e.isIntersecting).map(e=> e.target));
+                let intersect = [];
+                let notIntersect = [];
+
+                entries.forEach((e) => {
+                    if (e.isIntersecting) intersect.push(e.target);
+                    else notIntersect.push(e.target);
+                });
+
+                indicatorRef.current.update(intersect , notIntersect , cardArrRef.current);
             },
-            { root: containerRef.current , rootMargin: "0px -40px 0px -40px" }
+            { root: containerRef.current, rootMargin: "0px -40px 0px -40px" }
         );
         cardArrRef.current.map((e) => {
             observer.current.observe(e);
@@ -52,9 +62,9 @@ const RestaurantList = ({ restaurants }) => {
 
             <div
                 ref={containerRef}
-                className="relative mt-8 w-full overflow-hidden "
+                className="relative mt-8 w-full  "
             >
-                <div className="absolute top-full left-0 z-10 h-2 w-full -translate-y-full bg-white "></div>
+                <div className="absolute bottom-[0px] left-0 z-10 h-3 w-full  bg-white "></div>
                 <div
                     className="relative flex w-full overflow-x-auto pb-5"
                     ref={slider}
@@ -78,6 +88,7 @@ const RestaurantList = ({ restaurants }) => {
                     </Link>
                 </div>
             </div>
+            <Indicator ref={indicatorRef}  />
         </div>
     );
 };

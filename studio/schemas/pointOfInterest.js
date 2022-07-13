@@ -1,10 +1,4 @@
-const getPosition = async () => {
-    if (navigator.geolocation) {
-        return new Promise((resolve, reject) => {
-            navigator.geolocation.getCurrentPosition(resolve, reject);
-        });
-    }
-};
+
 
 export default {
     name: "pointOfInterest",

@@ -195,6 +195,7 @@ const Map = () => {
                     {isHighlight &&
                         chonburiShape?.map((shape) => (
                             <Polyline
+                                key={shape}
                                 options={{
                                     strokeColor: "#4f4f4f",
                                     strokeOpacity: 0.6,

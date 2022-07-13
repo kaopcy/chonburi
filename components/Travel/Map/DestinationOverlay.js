@@ -5,6 +5,7 @@ import gsap from "gsap/dist/gsap";
 
 // import contexts
 import { usePostContext } from "../../../context/Travel/PostContext";
+import { useMapContext } from "../../../context/MapContext";
 
 // import icons
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -18,6 +19,7 @@ import { useEffect } from "react";
 
 const DestinationOverlay = () => {
     const { post } = usePostContext();
+    const { map } = useMapContext();
 
     const titleRef = useRef();
     const starRef = useRef();
@@ -28,13 +30,21 @@ const DestinationOverlay = () => {
     const [isOpen, setIsOpen] = useState(true);
 
     const isStart = useRef(false);
+
+    const [isHideDetail, setIsHideDetail] = useState(false);
+
     useEffect(() => {
         if (!isStart.current) return;
-        if (isOpen) onLoad();
+        console.log(titleRef.current);
+        console.log(starRef.current);
+        console.log(locationRef.current);
+        console.log(distanceRef.current);
+        // if (isOpen) onLoad();
     }, [isOpen]);
 
     const onLoad = () => {
         isStart.current = true;
+
         gsap.timeline()
             .from(titleRef.current, {
                 yPercent: -100,
@@ -74,6 +84,20 @@ const DestinationOverlay = () => {
             );
     };
 
+    useEffect(() => {
+        if (!map) return;
+        const listener = map.addListener("zoom_changed", () => {
+            if (map.getZoom() < 10) {
+                setIsHideDetail(true);
+            } else {
+                setIsHideDetail(false);
+            }
+        });
+        return () => {
+            google.maps.event.removeListener(listener);
+        };
+    }, [map]);
+
     return (
         <>
             {isOpen && (
@@ -85,37 +109,34 @@ const DestinationOverlay = () => {
                     <div
                         ref={containerRef}
                         className={` relative  -translate-x-1/2 translate-y-2 ${
-                            isOpen && "w-[280px]"
+                            isOpen && "w-[230px]"
                         }`}
                     >
                         <div className="new-triangle relative bottom-full left-1/2 h-3 w-3 -translate-x-1/2"></div>
                         <div
-                            className={`relative w-full rounded-xl bg-[#ffffff77]  font-sarabun text-base shadow-lg ${
-                                isOpen ? "p-2" : "p-1"
+                            className={`relative w-full rounded-lg bg-[#ffffff77]  font-sarabun text-base shadow-lg ${
+                                isOpen ? "p-[6px]" : "p-1"
                             }`}
                         >
                             <div
-                                className={`flex w-full flex-col  rounded-xl bg-white ${
+                                className={`relative flex w-full flex-col  rounded-lg bg-white ${
                                     isOpen
-                                        ? "p-3"
+                                        ? "p-[6px]"
                                         : "border-2 border-primary px-2 py-1 "
                                 }`}
                             >
-                                <div
-                                    className={` self-center text-text ${
-                                        isOpen && "mb-3"
-                                    }`}
-                                >
-                                    จุดหมาย
-                                </div>
                                 {isOpen && (
                                     <>
-                                        <FontAwesomeIcon
+                                        <div
                                             onClick={() => setIsOpen(false)}
-                                            className="absolute top-0 right-0 text-red-500 p-6 "
-                                            icon={faXmark}
-                                        />
-                                        <div className="relative mb-3 aspect-[13/9] w-full overflow-hidden rounded-xl">
+                                            className="flex-cen absolute -top-2 -right-2 z-10 h-7 w-7 cursor-pointer rounded-full border bg-white shadow-lg hover:shadow-blue"
+                                        >
+                                            <FontAwesomeIcon
+                                                className="  text-red-500 "
+                                                icon={faXmark}
+                                            />
+                                        </div>
+                                        <div className="relative mb-3 aspect-[13/7]  w-full overflow-hidden">
                                             <Image
                                                 layout="fill"
                                                 objectFit="cover"
@@ -159,12 +180,22 @@ const DestinationOverlay = () => {
                 mapPaneName={OverlayView.FLOAT_PANE}
             >
                 <div
-                    className="relative transition-transform hover:scale-150"
+                    className="relative transition-transform hover:scale-110 "
                     onClick={() => setIsOpen(true)}
                 >
-                    <div className="absolute right-[-8px] top-[-8px]  h-4 w-4 shrink-0 animate-gps-pulse-blue rounded-full border border-white bg-blue-400  shadow-[0_0_0_0_rgba(0,154,255,1)]"></div>
-                    <div className="absolute right-[-8px] top-[-8px]  h-4 w-4 shrink-0 animate-gps-pulse-2-blue rounded-full border border-white bg-blue-400  shadow-[0_0_0_0_rgba(0,154,255,1)]"></div>
-                    <div className="absolute right-[-8px] top-[-8px]  h-4 w-4 shrink-0 animate-gps-pulse-3-blue rounded-full border border-white bg-blue-400  shadow-[0_0_0_0_rgba(0,154,255,1)]"></div>
+                    <div className="flex-cen absolute right-[-8px] top-[-8px]   h-5  w-6 shrink-0 animate-gps-pulse-3-blue rounded-[50%] border-[3px] border-white bg-blue-400  shadow-[0_0_0_0_rgba(0,154,255,1)]">
+                        <div className="h-[5px] w-[7px]  rounded-[50%] bg-white"></div>
+                        <div className="absolute bottom-1/2 h-[40px] w-[4px] rounded-full bg-text"></div>
+                        <div className="flex-col-cen absolute -top-20 h-16 w-16 rounded-[50%] border-2 border-white bg-white shadow-lg">
+                            <FontAwesomeIcon
+                                icon={faLocationDot}
+                                className="text-base text-red-500"
+                            />
+                            <div className="mt-1 font-sarabun text-xs font-light text-text">
+                                จุดหมาย
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </OverlayView>
         </>
@@ -183,7 +214,11 @@ const Star = forwardRef(({ star }, ref) => {
             className="flex items-center justify-end self-start overflow-hidden rounded-md  bg-[#F5F9FF] px-2 py-0"
         >
             <div className="mr-2 text-xs font-light text-text">{star}</div>
-            {[...Array(fullStar)].map((_, index) => (
+            <FontAwesomeIcon
+                className="mr-[2px] text-xs text-yellow-300"
+                icon={faStar}
+            />
+            {/* {[...Array(fullStar)].map((_, index) => (
                 <FontAwesomeIcon
                     className="mr-[2px] text-xs text-yellow-300"
                     icon={faStar}
@@ -195,7 +230,7 @@ const Star = forwardRef(({ star }, ref) => {
                     className="mr-[2px] text-xs text-yellow-300"
                     icon={faStarHalfStroke}
                 />
-            )}
+            )} */}
         </div>
     );
 });

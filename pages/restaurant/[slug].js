@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef, useMemo } from "react";
 import groq from "groq";
 import { useRouter } from "next/dist/client/router";
 import Link from "next/dist/client/link";
@@ -14,6 +14,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 
 // import contexts
+import useIsTouchDevice from "../../composables/useIsTouchDevice";
 import {
     SelectorContextProvider,
     useSelectorContext,
@@ -32,22 +33,28 @@ import TravelDetail from "../../components/Travel/Detail/TravelDetail/TravelDeta
 import OtherPlaceDetail from "../../components/Travel/Detail/OtherPlaceDetail";
 import RouteDetail from "../../components/Travel/Detail/RouteDetail";
 import Map from "../../components/Travel/Map/Map";
-import useIsTouchDevice from "../../composables/useIsTouchDevice";
 import DirectionRouteControl from "../../components/Travel/Controls/DirectionRouteControl";
+import ImageGallery from "../../components/Travel/ImageGallery";
 
 const Restaurant = ({ post: fetchedPost, posts: fetchedPosts }) => {
     const router = useRouter();
     if (router.isFallback) return <div className="">Loading</div>;
 
-    const isTouch = useIsTouchDevice();
+    const { query } = router;
+    const isImage = useMemo(() => query.image !== undefined, [query]);
+    useEffect(() => {
+        console.log("isImage", isImage);
+    }, [isImage]);
     return (
         <PostContextProvider
             fetchedPost={fetchedPost}
             fetchedPosts={fetchedPosts}
         >
+            {isImage && <ImageGallery />}
+
             <MapContextProvider>
                 <div
-                    className={`mx-auto  flex inset-0 absolute  flex-col overflow-hidden  `}
+                    className={`absolute  inset-0 mx-auto flex  flex-col overflow-hidden  `}
                 >
                     <div className="hidden h-[70px] shrink-0 sm:block lg:h-[100px] "></div>
                     <div className="relative flex h-[calc(100%)] w-full overflow-hidden sm:h-[calc(100%-100px)]  lg:h-full">
@@ -94,14 +101,16 @@ const Detail = () => {
 
     return (
         <div
-            className={`group fixed left-0 bottom-0 z-[1000] flex h-[80%] w-full shrink-0 translate-y-[calc(100%-60px)] flex-col transition-transform duration-[400ms] ease-in-out md:relative  md:h-full md:max-w-[400px]  md:translate-x-full md:translate-y-0 lg:max-w-[550px] ${
-                isOpen && "!translate-y-0 md:!translate-x-0"
+            className={`group fixed left-0 bottom-0 z-[1000] flex h-[80%] w-full shrink-0  flex-col transition-transform duration-[400ms] ease-in-out md:relative md:h-full  md:max-w-[400px] md:translate-x-0  md:translate-y-0 md:transition-none lg:max-w-[550px] ${
+                isOpen
+                    ? "translate-y-0 "
+                    : "translate-y-[calc(100%-60px)] md:translate-y-0"
             }`}
         >
             {/* mobile control open */}
             <div
-                className={`mobile-md absolute  bottom-[calc(100%-2px)] flex h-8 w-full shrink-0 items-center justify-center rounded-t-full bg-white  ${
-                    !isOpen && "!opacity-0"
+                className={`mobile-md absolute bottom-[calc(100%-2px)]  flex  h-8 w-full shrink-0 items-center justify-center rounded-t-full bg-white  ${
+                    !isOpen && "!hidden"
                 }`}
                 onClick={() => setIsOpen((e) => !e)}
             >
@@ -109,16 +118,19 @@ const Detail = () => {
             </div>
 
             <div
-                className={`flex h-full w-full shrink-0  flex-col  rounded-lg  transition-colors   ${isOpen ? 'bg-white' : 'bg-transparent'}`}
+                className={`flex h-full w-full shrink-0  flex-col  rounded-lg  transition-colors   ${
+                    isOpen ? "bg-white" : "bg-transparent"
+                }`}
             >
                 <Selector setIsOpen={setIsOpen} isOpen={isOpen} />
-                <div className="w-full px-3 xl:px-5">
-                    <div className={` h-[2px] w-full bg-text-lightest `}></div>
+
+                <div className="w-full px-3 xl:px-5 ">
+                    <hr />
                 </div>
 
                 <div
                     className={`relative h-full w-full overflow-hidden  ${
-                        !isOpen && "!opacity-0"
+                        !isOpen && "opacity-0 md:opacity-100"
                     }`}
                 >
                     <div
