@@ -55,35 +55,22 @@ const TravelDetail = () => {
             <ImageGroup />
             <hr className="my-5" />
             <ShareTo title={post.title} />
-            <hr className="my-5" />
-            <div className="flex flex-col items-start  ">
-                {post.locationType && (
-                    <HighLightDetail
-                        color="#4DD430"
-                        icon={faMuseum}
-                        detail={post.locationType.split("#")[0]}
-                        label="ประเภท"
-                    />
-                )}
-
+            <div className="flex flex-col my-5 items-start border  rounded-xl self-start   p-4">
                 <HighLightDetail
-                    color="#5ABDFF"
                     icon={faEarthAsia}
                     detail={`อ.${post.amphoe?.name} ต.${post.tambon?.name}`}
                     label="สถานที่ตั้ง"
                 />
                 <HighLightDetail
-                    color="#FF5656"
                     icon={faLocationDot}
                     label="ตำแหน่งทางภูมิศาสตร์"
                 >
-                    <div className="flex flex-wrap items-center font-light text-text-lighter ">
+                    <div className="flex text-sm flex-wrap items-center font-light text-text-lighter ">
                         <div className="mr-2">ละติจูด: {post.coords.lat}</div>
                         <div className="">ลองจิจูด: {post.coords.lng} </div>
                     </div>
                 </HighLightDetail>
             </div>
-            <hr className="my-5" />
 
             <ReviewSection />
 
@@ -95,19 +82,18 @@ const TravelDetail = () => {
 const HighLightDetail = ({ icon, label, detail, children, color }) => {
     return (
         <div className="my-2 flex items-center text-text">
-            <div className="flex-cen mr-4 aspect-square w-10  shrink-0 rounded-xl ">
+            <div className="flex-cen mr-4 aspect-square w-8  shrink-0 rounded-xl ">
                 <FontAwesomeIcon
-                    className="text-2xl text-white "
-                    style={{ color: color }}
+                    className="text-base text-text "
                     icon={icon}
                 />
             </div>
-            <div className="flex flex-col font-normal leading-5">
+            <div className="flex flex-col font-normal ">
                 <div className="font-bold text-text ">{label}</div>
                 {children ? (
                     children
                 ) : (
-                    <div className="text-text-lighter font-light">{detail}</div>
+                    <div className="text-text-lighter text-sm font-light">{detail}</div>
                 )}
             </div>
         </div>

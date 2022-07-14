@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState, useMemo } from "react";
-
+import { useRouter } from "next/router";
 // import contexts
 import { usePostsContext } from "../../context/MainTravel/PostContext";
 import { useMapContext } from "../../context/MainTravel/MapContext";
@@ -16,12 +16,19 @@ import AmphoeSelector from "./AmphoeSelector";
 import SearchBar from "./SearchBar";
 
 const Posts = () => {
-    const { amphoeArr, postsArr, setActiveAmphoe, isScrollTo, filter } =
-        usePostsContext();
+    const router = useRouter();
+    const {
+        amphoeArr,
+        postsArr,
+        setActiveAmphoe,
+        isScrollTo,
+        filter,
+        activeAmphoe,
+    } = usePostsContext();
 
     const [extraAmphoe, setExtraAmphoe] = useState(postsArr.map(() => 1));
 
-    const { isOpen } = useMapContext();
+    const { isOpen, setIsOpen } = useMapContext();
 
     const eachAmphoreRef = useRef([]);
 
@@ -29,6 +36,28 @@ const Posts = () => {
     const testRef = useRef(null);
 
     const scrollTimeout = useRef(null);
+
+    const firstTime = useRef(true);
+    useEffect(() => {
+        const { amphoe, map } = router.query;
+        if (!firstTime.current) return;
+        setIsOpen(map ? true : false);
+        if (!amphoe) return;
+        const clientWidth = document.body.clientWidth;
+        setActiveAmphoe(amphoe);
+        if (clientWidth > 767 || !isOpen) {
+            isScrollTo.current = true;
+            document.getElementById(amphoe)?.scrollIntoView({
+                behavior: "smooth",
+                block: "start",
+            });
+        } else {
+            document.getElementById(amphoe)?.scrollIntoView({
+                block: "start",
+            });
+        }
+        firstTime.current = false;
+    }, [router.query]);
 
     useEffect(() => {
         const scrollEvnt = () => {
@@ -73,6 +102,32 @@ const Posts = () => {
             if (scrollTimeout.current) clearTimeout(scrollTimeout.current);
         };
     }, [postsArr]);
+
+    useEffect(() => {
+        if (!activeAmphoe) return;
+        const { pathname, query } = router;
+        const params = new URLSearchParams(query);
+        params.set("amphoe", activeAmphoe);
+        router.replace({ pathname, query: params.toString() }, undefined, {
+            shallow: true,
+        });
+    }, [activeAmphoe]);
+
+    useEffect(() => {
+        const { pathname, query } = router;
+        const params = new URLSearchParams(query);
+        if (isOpen) {
+            params.set("map", true);
+            router.push({ pathname, query: params.toString() }, undefined, {
+                shallow: true,
+            });
+        } else {
+            params.delete("map");
+            router.replace({ pathname, query: params.toString() }, undefined, {
+                shallow: true,
+            });
+        }
+    }, [isOpen]);
 
     return (
         <div
@@ -132,7 +187,9 @@ const Posts = () => {
                                             (eachAmphoreRef.current[index] = e)
                                         }
                                         className={`mb-10 flex scroll-my-14 flex-col  rounded-2xl bg-white  py-8 shadow-small  ${
-                                            isOpen ? "px-3 xl:px-4" : "px-4 sm:px-8"
+                                            isOpen
+                                                ? "px-3 xl:px-4"
+                                                : "px-4 sm:px-8"
                                         }`}
                                         key={amphoeArr[index]}
                                     >

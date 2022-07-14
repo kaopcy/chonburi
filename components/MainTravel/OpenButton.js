@@ -1,6 +1,9 @@
 import React, { useEffect } from "react";
 import gsap from "gsap/dist/gsap";
 
+// import hooks
+import useIsTouchDevice from "../../composables/useIsTouchDevice";
+
 // import contexts
 import { useMapContext } from "../../context/MainTravel/MapContext";
 import { usePostsContext } from "../../context/MainTravel/PostContext";
@@ -15,11 +18,14 @@ const OpenButton = () => {
     const { isOpen, setIsOpen } = useMapContext();
     const { activeAmphoe, postByActiveAmphoe } = usePostsContext();
 
+    const isTouch = useIsTouchDevice();
+
     const redIconRef = useRef(null);
     const buttonRef = useRef(null);
     const textRef = useRef(null);
 
     useEffect(() => {
+        if (isTouch) return;
         gsap.timeline()
             .fromTo(
                 redIconRef.current,
@@ -118,7 +124,7 @@ const OpenButton = () => {
         >
             <div
                 ref={buttonRef}
-                className="flex h-16 w-16 flex-col shadow-big items-center justify-center rounded-full border-2 border-text bg-white text-text transition-colors hover:bg-text hover:text-white"
+                className="flex h-16 w-16 flex-col items-center justify-center rounded-full border-2 border-text bg-white text-text shadow-big transition-colors hover:bg-text hover:text-white"
             >
                 <FontAwesomeIcon
                     className="text-lg"
@@ -132,7 +138,10 @@ const OpenButton = () => {
             >
                 {postByActiveAmphoe?.length}
             </div>
-            <div ref={textRef} className="absolute bg-white px-2 border-2 py-1 rounded-lg text-xs  shadow-blue">
+            <div
+                ref={textRef}
+                className="absolute rounded-lg border-2 bg-white px-2 py-1 text-xs  shadow-blue"
+            >
                 {activeAmphoe}
             </div>
         </div>

@@ -89,6 +89,23 @@ const Dropdown = ({ setIsOpen }) => {
     const { isOpen: isMapOpen } = useMapContext();
     const { amphoeArr, setActiveAmphoe, activeAmphoe, isScrollTo, postsArr } =
         usePostsContext();
+
+    const onClickAmphoe = (index) => {
+        const clientWidth = document.body.clientWidth;
+        setActiveAmphoe(amphoeArr[index]);
+        setIsOpen(false);
+        if (clientWidth > 767 || !isMapOpen) {
+            isScrollTo.current = true;
+            document.getElementById(amphoeArr[index]).scrollIntoView({
+                behavior: "smooth",
+                block: "start",
+            });
+        } else {
+            document.getElementById(amphoeArr[index]).scrollIntoView({
+                block: "start",
+            });
+        }
+    };
     return (
         <div className=" absolute top-[120%] left-0 z-50 flex max-h-[200px] w-full flex-col overflow-y-scroll rounded-xl bg-white px-2  py-2 shadow-lg">
             {postsArr.some((e) => e.length > 0) ? (
@@ -97,27 +114,7 @@ const Dropdown = ({ setIsOpen }) => {
                         e.length > 0 && (
                             <div
                                 key={e[0].placeID}
-                                onClick={() => {
-                                    const clientWidth =
-                                        document.body.clientWidth;
-                                    setActiveAmphoe(amphoeArr[index]);
-                                    setIsOpen(false);
-                                    if (clientWidth > 767 || !isMapOpen) {
-                                        isScrollTo.current = true;
-                                        document
-                                            .getElementById(amphoeArr[index])
-                                            .scrollIntoView({
-                                                behavior: "smooth",
-                                                block: "start",
-                                            });
-                                    } else {
-                                        document
-                                            .getElementById(amphoeArr[index])
-                                            .scrollIntoView({
-                                                block: "start",
-                                            });
-                                    }
-                                }}
+                                onClick={() => onClickAmphoe(index)}
                                 className={`flex w-full  min-w-0 cursor-pointer items-center justify-between rounded-lg py-2 px-2 text-sm font-light hover:bg-[#5ABDFF22] ${
                                     activeAmphoe === amphoeArr[index] &&
                                     "!cursor-default !bg-[#5ABDFF55]"

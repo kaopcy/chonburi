@@ -85,7 +85,7 @@ const Map = () => {
             activeDirectionCoord.lat,
             activeDirectionCoord.lng
         );
-        smoothlyAnimatePanTo(destCoords, 15);
+        smoothlyAnimatePanTo(getCenterWithOffset(map, destCoords, 0, -100), 15);
     }, [activeDirectionCoord, selectedMode === DIRECTION_MODE]);
 
     useEffect(() => {
@@ -94,7 +94,7 @@ const Map = () => {
             tempLocation.lat,
             tempLocation.lng
         );
-        smoothlyAnimatePanTo(destCoords, 15);
+        smoothlyAnimatePanTo(getCenterWithOffset(map, destCoords, 0, 100), 15);
     }, [selectedMode === TRAVEL_MODE]);
 
     // const firstRender = useRef(false);

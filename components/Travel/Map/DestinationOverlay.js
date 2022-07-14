@@ -122,41 +122,35 @@ const DestinationOverlay = () => {
                             isOpen && "w-[230px]"
                         }`}
                     >
-                        <div className="new-triangle relative bottom-full left-1/2 h-3 w-3 -translate-x-1/2"></div>
+                        <div className="new-triangle relative bottom-full left-1/2 h-3 w-3 -translate-x-1/2 "></div>
                         <div
-                            className={`relative w-full rounded-lg bg-[#ffffff77]  font-sarabun text-base shadow-lg ${
-                                isOpen ? "p-[6px]" : "p-1"
+                            className={`relative w-full  bg-[#fff]  font-sarabun text-base shadow-lg  ${
+                                isOpen ? "p-[2px]" : "p-1"
                             }`}
                         >
-                            <div
-                                className={`relative flex w-full flex-col  rounded-lg bg-white ${
-                                    isOpen
-                                        ? "p-[6px]"
-                                        : "border-2 border-primary px-2 py-1 "
-                                }`}
-                            >
-                                {isOpen && (
-                                    <>
-                                        <div
-                                            onClick={() => setIsOpen(false)}
-                                            className="flex-cen absolute -top-2 -right-2 z-10 h-7 w-7 cursor-pointer rounded-full border bg-white shadow-lg hover:shadow-blue"
-                                        >
-                                            <FontAwesomeIcon
-                                                className="  text-red-500 "
-                                                icon={faXmark}
-                                            />
-                                        </div>
-                                        <div className="relative mb-3 aspect-[13/7]  w-full ">
-                                            <Image
-                                                layout="fill"
-                                                objectFit="cover"
-                                                alt={post.title}
-                                                quality="low"
-                                                blurDataURL="URL"
-                                                placeholder="blur"
-                                                src={post.imageURL[0].url}
-                                            />
-                                        </div>
+                            {isOpen && (
+                                <div className="relative flex w-full flex-col      bg-white  ">
+                                    <div
+                                        onClick={() => setIsOpen(false)}
+                                        className="flex-cen absolute -top-2 -right-2 z-10 h-7 w-7 cursor-pointer rounded-full border bg-white shadow-lg hover:shadow-blue"
+                                    >
+                                        <FontAwesomeIcon
+                                            className="  text-red-500 "
+                                            icon={faXmark}
+                                        />
+                                    </div>
+                                    <div className="relative  h-[100px]  w-full ">
+                                        <Image
+                                            layout="fill"
+                                            objectFit="cover"
+                                            alt={post.title}
+                                            quality="low"
+                                            blurDataURL="URL"
+                                            placeholder="blur"
+                                            src={post.imageURL[0].url}
+                                        />
+                                    </div>
+                                    <div className="flex w-full flex-col p-2">
                                         <div className="mb-2 flex w-full justify-between">
                                             <Star
                                                 star={post.star}
@@ -177,9 +171,9 @@ const DestinationOverlay = () => {
                                             อ.{post.amphoe.name} ต.
                                             {post.tambon.name}
                                         </div>
-                                    </>
-                                )}
-                            </div>
+                                    </div>
+                                </div>
+                            )}
                         </div>
                     </div>
                 </OverlayView>
@@ -192,7 +186,7 @@ const DestinationOverlay = () => {
                     className="relative transition-transform hover:scale-110 "
                     onClick={() => setIsOpen(true)}
                 >
-                    <div className="flex-cen absolute right-[-8px] top-[-8px]   h-5  w-6 shrink-0 animate-gps-pulse-3-blue rounded-[50%] border-[3px] border-white bg-blue-400  shadow-[0_0_0_0_rgba(0,154,255,1)]">
+                    <div className="flex-cen absolute left-[-12px] top-[-8px]   h-5  w-6 shrink-0 animate-gps-pulse-3-blue rounded-[50%] border-[3px] border-white bg-blue-400  shadow-[0_0_0_0_rgba(0,154,255,1)]">
                         <div className="h-[5px] w-[7px]  rounded-[50%] bg-white"></div>
                         <div className="absolute bottom-1/2 h-[40px] w-[4px] rounded-full bg-text"></div>
                         <div className="flex-col-cen absolute -top-20 h-16 w-16 rounded-[50%] border-2 border-white bg-white shadow-lg">
@@ -200,7 +194,7 @@ const DestinationOverlay = () => {
                                 icon={faLocationDot}
                                 className="text-base text-red-500"
                             />
-                            <div className="mt-1 font-sarabun text-xs font-light text-text">
+                            <div className="mt-1 font-sarabun text-xs font-bold text-text">
                                 จุดหมาย
                             </div>
                         </div>

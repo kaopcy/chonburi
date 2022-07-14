@@ -18,15 +18,14 @@ import Posts from "../../components/MainTravel/Posts";
 import Map from "../../components/MainTravel/Map";
 
 const Travel = ({ posts }) => {
-    // const router = useRouter()
-    // const { query } = router
+    const router = useRouter()
+    const { query } = router
     // useEffect(()=> {
     //     if(query.map !== undefined) return 
     //     router.push('?map',undefined , { shallow: true })
     //     console.log('query' , query);
     // },[])
     
-
     const isTouch = useIsTouchDevice();
     return (
         <MapContextProvider>
