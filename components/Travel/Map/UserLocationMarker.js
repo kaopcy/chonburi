@@ -1,14 +1,27 @@
 import React from "react";
 import { OverlayView } from "@react-google-maps/api";
 
-const UserLocationMarker = ({ ...props }) => {
+// import icons
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPerson } from "@fortawesome/free-solid-svg-icons";
+
+const UserLocationMarker = ({ position }) => {
     return (
-        <OverlayView {...props} mapPaneName={OverlayView.MARKER_LAYER}>
-            <div className="relative">
-                <div className="absolute right-[-8px] top-[-8px]  h-4 w-4 shrink-0 animate-gps-pulse rounded-full bg-red-400 border border-white  shadow-[0_0_0_0_rgba(245,66,66,1)]"></div>
-                <div className="absolute right-[-8px] top-[-8px]  h-4 w-4 shrink-0 animate-gps-pulse-2 rounded-full bg-red-400 border border-white  shadow-[0_0_0_0_rgba(245,66,66,1)]"></div>
-                <div className="absolute right-[-8px] top-[-8px]  h-4 w-4 shrink-0 animate-gps-pulse-3 rounded-full bg-red-400 border border-white  shadow-[0_0_0_0_rgba(245,66,66,1)]"></div>
-                <div className="absolute whitespace-nowrap -top-4 -translate-y-full translate-x-[-50%] text-xs font-sarabun font-bold text-text border-2 shadow-md bg-white px-2 py-1 rounded-lg">ตำแหน่งของคุณ</div>
+        <OverlayView position={position} mapPaneName={OverlayView.FLOAT_PANE}>
+            <div className="relative transition-transform hover:scale-110 ">
+                <div className="flex-cen absolute left-[-9px] top-[-8px]   h-5  w-6 shrink-0 animate-gps-pulse-3 rounded-[50%] border-[3px] border-white bg-[#00aa6c]">
+                    <div className="h-[5px] w-[7px]  rounded-[50%] bg-white"></div>
+                    <div className="absolute bottom-1/2 h-[40px] w-[4px] rounded-full bg-text"></div>
+                    <div className="flex-col-cen absolute -top-20 h-16 w-16 rounded-[50%] border-2 border-white bg-white shadow-lg">
+                        <FontAwesomeIcon
+                            icon={faPerson}
+                            className="text-lg text-[#00aa6c]"
+                        />
+                        <div className="mt-1 font-sarabun text-xs font-bold text-text">
+                            คุณ
+                        </div>
+                    </div>
+                </div>
             </div>
         </OverlayView>
     );

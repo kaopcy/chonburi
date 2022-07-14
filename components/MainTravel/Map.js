@@ -12,6 +12,8 @@ import { mapStyles } from "../../config/mapConstants/mapStyles";
 // import components
 import AmphoeSelector from "./AmphoeSelector";
 import SearchBar from "./SearchBar";
+import DestinationMarker from "../Travel/Map/DestinationMarker";
+import UserLocationMarker from "../Travel/Map/UserLocationMarker";
 
 const Map = () => {
     const { postByActiveAmphoe } = usePostsContext();
@@ -101,7 +103,8 @@ const Map = () => {
                     }}
                 >
                     {postByActiveAmphoe?.map((post, index) => (
-                        <Overlay key={post.placeID} post={post} index={index} />
+                        <UserLocationMarker position={post.coords} />
+                        // <Overlay key={post.placeID} post={post} index={index} />
                     ))}
                 </GoogleMap>
             )}

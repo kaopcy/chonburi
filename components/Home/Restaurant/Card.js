@@ -77,7 +77,7 @@ const PostCard = forwardRef(({ post }, ref) => {
             </div>
             <div className="flex items-center justify-between">
                 <Link href={`/restaurant/${post.slug.current}`} passHref>
-                    <div className="font-medium">{post.title}</div>
+                    <a className="font-medium cursor-pointer hover:underline underline-offset-1">{post.title}</a>
                 </Link>
                 <div className="flex items-center">
                     <span className="mr-1 text-sm">{post.star}</span>

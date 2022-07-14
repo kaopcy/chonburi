@@ -19,7 +19,7 @@ module.exports = {
                     lightest: "#DFDFDF",
                     lighterr: "#C2C2C2",
                     lighter: "#8B8B8B",
-                    // DEFAULT: "#4f4f4f",
+                    // DEFAULT: "#4D4D4D",
                     DEFAULT: "#4D4D4D",
                     dark: "#7F7F7F",
                 },
@@ -53,15 +53,15 @@ module.exports = {
                 "gps-pulse": {
                     "0%": {
                         transform: "scale(0.95)",
-                        boxShadow: "0 0 0 0 rgba(245,66,66, 0.7)",
+                        boxShadow: "0 0 0 0 rgba(0, 170, 108, 0.7)",
                     },
                     "70%": {
                         transform: "scale(1)",
-                        boxShadow: "0 0 0 20px rgba(245,66,66, 0)",
+                        boxShadow: "0 0 0 20px rgba(0, 170, 108, 0)",
                     },
                     "100%": {
                         transform: "scale(0.95)",
-                        boxShadow: "0 0 0 0 rgba(245,66,66, 0)",
+                        boxShadow: "0 0 0 0 rgba(0, 170, 108, 0)",
                     },
                 },
                 "gps-pulse-blue": {

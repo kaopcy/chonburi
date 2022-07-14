@@ -180,14 +180,7 @@ const Map = () => {
                 >
                     <DestinationOverlay coords={post.coords} />
                     {userLocation && selectedMode === DIRECTION_MODE && (
-                        <>
-                            {/* <Marker
-                            position={userLocation}
-                            options={{ optimized: true }}
-                            animation={google.maps.Animation.DROP}
-                        ></Marker> */}
-                            <UserLocationMarker position={userLocation} />
-                        </>
+                        <UserLocationMarker position={userLocation} />
                     )}
                     {tempLocation && (
                         <DestinationMarker position={tempLocation} />

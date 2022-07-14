@@ -137,7 +137,7 @@ const PostCard = ({
             </div>
             <div className="flex items-center justify-between">
                 <Link href={`/restaurant/${slug.current}`} passHref>
-                    <a className="font-medium hover:font-bold">{title}</a>
+                    <a className="font-medium hover:underline underline-offset-1">{title}</a>
                 </Link>
                 <div className="flex items-center">
                     <span className="mr-1 text-sm">{star}</span>

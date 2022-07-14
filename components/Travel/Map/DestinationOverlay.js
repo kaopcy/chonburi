@@ -118,9 +118,7 @@ const DestinationOverlay = () => {
                 >
                     <div
                         ref={containerRef}
-                        className={` relative  -translate-x-1/2 translate-y-2 ${
-                            isOpen && "w-[230px]"
-                        }`}
+                        className={` relative  w-[180px] -translate-x-1/2 translate-y-2 sm:w-[230px]`}
                     >
                         <div className="new-triangle relative bottom-full left-1/2 h-3 w-3 -translate-x-1/2 "></div>
                         <div
@@ -160,13 +158,13 @@ const DestinationOverlay = () => {
                                         </div>
                                         <div
                                             ref={titleRef}
-                                            className="break-words text-base font-bold text-text"
+                                            className="break-words text-sm font-bold text-text sm:text-base"
                                         >
                                             {post.title}
                                         </div>
                                         <div
                                             ref={locationRef}
-                                            className="text-xs text-text-lighterr"
+                                            className="text-xxs text-text-lighterr sm:text-xs"
                                         >
                                             อ.{post.amphoe.name} ต.
                                             {post.tambon.name}
@@ -214,11 +212,11 @@ const Star = forwardRef(({ star }, ref) => {
     return (
         <div
             ref={ref}
-            className="flex items-center justify-end self-start overflow-hidden rounded-md  bg-[#F5F9FF] px-2 py-0"
+            className="flex items-center justify-end self-start overflow-hidden rounded-md bg-[#F5F9FF] px-2  py-0 text-xxs sm:text-xs"
         >
-            <div className="mr-2 text-xs font-light text-text">{star}</div>
+            <div className="mr-2  font-light text-text">{star}</div>
             <FontAwesomeIcon
-                className="mr-[2px] text-xs text-yellow-300"
+                className="mr-[2px]  text-yellow-300"
                 icon={faStar}
             />
             {/* {[...Array(fullStar)].map((_, index) => (
@@ -242,13 +240,10 @@ const Distance = forwardRef((_, ref) => {
     return (
         <div
             ref={ref}
-            className="flex items-center self-start overflow-hidden whitespace-nowrap rounded-md bg-[#FFF5F5] px-2 py-0"
+            className="flex items-center self-start overflow-hidden whitespace-nowrap rounded-md bg-[#FFF5F5] px-2 py-0 text-xxs sm:text-xs"
         >
-            <div className="mr-2 text-xs font-light text-text">ห่าง 80 กม.</div>
-            <FontAwesomeIcon
-                className="text-xs text-red-500"
-                icon={faLocationDot}
-            />
+            <div className="mr-2  font-light text-text">ห่าง 80 กม.</div>
+            <FontAwesomeIcon className=" text-red-500" icon={faLocationDot} />
         </div>
     );
 });

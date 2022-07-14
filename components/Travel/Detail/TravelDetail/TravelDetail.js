@@ -3,13 +3,11 @@ import React, { useMemo } from "react";
 // import icons
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-    faMuseum,
-    faEarthAsia,
-    faLocationDot,
     faStar,
     faStarHalfStroke,
     faLock,
     faLink,
+    faUpRightFromSquare,
 } from "@fortawesome/free-solid-svg-icons";
 import {
     FacebookShareButton,
@@ -55,22 +53,8 @@ const TravelDetail = () => {
             <ImageGroup />
             <hr className="my-5" />
             <ShareTo title={post.title} />
-            <div className="flex flex-col my-5 items-start border  rounded-xl self-start   p-4">
-                <HighLightDetail
-                    icon={faEarthAsia}
-                    detail={`อ.${post.amphoe?.name} ต.${post.tambon?.name}`}
-                    label="สถานที่ตั้ง"
-                />
-                <HighLightDetail
-                    icon={faLocationDot}
-                    label="ตำแหน่งทางภูมิศาสตร์"
-                >
-                    <div className="flex text-sm flex-wrap items-center font-light text-text-lighter ">
-                        <div className="mr-2">ละติจูด: {post.coords.lat}</div>
-                        <div className="">ลองจิจูด: {post.coords.lng} </div>
-                    </div>
-                </HighLightDetail>
-            </div>
+
+            <HighLightDetail post={post} />
 
             <ReviewSection />
 
@@ -79,22 +63,49 @@ const TravelDetail = () => {
     );
 };
 
-const HighLightDetail = ({ icon, label, detail, children, color }) => {
+const HighLightDetail = ({ post }) => {
     return (
-        <div className="my-2 flex items-center text-text">
-            <div className="flex-cen mr-4 aspect-square w-8  shrink-0 rounded-xl ">
-                <FontAwesomeIcon
-                    className="text-base text-text "
-                    icon={icon}
-                />
+        <div className="my-8 flex w-full max-w-[500px] flex-col  items-start self-start   rounded-xl border py-5 px-7">
+            <div className="my-4  flex w-full items-center justify-between text-text">
+                <div className="text-2xl font-bold ">ข้อมูล</div>
+                <a
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    href={`https://www.google.co.th/maps/place/${post.title}`}
+                    className="flex cursor-pointer items-center text-sm font-light"
+                >
+                    <div className="mr-2 underline underline-offset-1">
+                        เปิดใน Google map
+                    </div>
+                    <FontAwesomeIcon
+                        className="text-xs "
+                        icon={faUpRightFromSquare}
+                    />
+                </a>
             </div>
-            <div className="flex flex-col font-normal ">
-                <div className="font-bold text-text ">{label}</div>
-                {children ? (
-                    children
-                ) : (
-                    <div className="text-text-lighter text-sm font-light">{detail}</div>
-                )}
+            <div className="my-2 ml-7 flex items-center text-text">
+                <div className="flex flex-col font-normal ">
+                    <div className="font-bold text-text ">สถานที่ตั้ง</div>
+                    <div className="flex flex-wrap items-center text-sm font-light text-text-lighter ">
+                        <div className="mr-5">อ. {post.amphoe.name}</div>
+                        <div className="">ต. {post.tambon.name} </div>
+                    </div>
+                </div>
+            </div>
+            <div className="my-2 ml-7 flex items-center text-text">
+                <div className="flex flex-col font-normal ">
+                    <div className="font-bold text-text ">
+                        ตำแหน่งทางภูมิศาสตร์
+                    </div>
+                    <div className="flex flex-wrap items-center text-sm font-light text-text-lighter ">
+                        <div className="mr-5">
+                            ละติจูด: {post.coords.lat.toFixed(5)}
+                        </div>
+                        <div className="">
+                            ลองจิจูด: {post.coords.lng.toFixed(5)}{" "}
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     );

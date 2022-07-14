@@ -49,9 +49,9 @@ const DirectionRouteMarker = () => {
             >
                 <div
                     id="overlay-ref"
-                    className="overlay-ref absolute bottom-3 font-sarabun  shadow-lg"
+                    className="overlay-ref absolute top-5 font-sarabun  shadow-lg"
                 >
-                    <div className="relative  z-10  flex w-[250px] flex-col rounded-2xl   bg-white px-3 py-2 text-sm  text-text opacity-100 ">
+                    <div className="relative  z-10  flex w-[250px] flex-col   bg-white px-3 py-2 text-sm  text-text opacity-100 ">
                         <div className="relative z-10  flex w-full   rounded-full  p-[7px] text-sm font-light text-text sm:text-base">
                             <div className="relative mr-3  flex self-start ">
                                 <FontAwesomeIcon
@@ -73,7 +73,7 @@ const DirectionRouteMarker = () => {
                             )}
                         </div>
                     </div>
-                    <div className="absolute top-full left-1/2 h-4 w-3 -translate-y-1/2 -translate-x-1/2  rotate-45 border bg-white"></div>
+                    <div className="absolute bottom-full left-1/2 h-4 w-3 translate-y-1/2 -translate-x-1/2  rotate-45 border bg-white"></div>
                 </div>
             </OverlayView>
             <OverlayView
