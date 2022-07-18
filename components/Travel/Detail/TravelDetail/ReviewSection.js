@@ -7,7 +7,6 @@ import { faArrowUpRightFromSquare } from "@fortawesome/free-solid-svg-icons";
 
 // import constants
 import * as reviewConst from "../../../../config/WebReviewConstants";
-
 // import context
 import { usePostContext } from "../../../../context/Travel/PostContext";
 
@@ -35,9 +34,9 @@ const ReviewSection = () => {
         //         ))}
         //     </div>
         // </div>
-        <div className="my-3 flex w-full max-w-[500px] flex-col  items-start self-start   rounded-xl border py-5 px-7">
+        <div className="my-3 flex w-full max-w-[500px] flex-col  items-start self-start   rounded-xl border py-5 px-4 sm:px-7">
             <div className="my-4  flex w-full items-center justify-between text-text">
-                <div className="text-2xl font-bold ">
+                <div className="text-xl sm:text-2xl  font-bold ">
                     รีวิวจากเว็บไซต์ชื่อดัง
                 </div>
             </div>
@@ -51,27 +50,25 @@ const ReviewSection = () => {
                             />
                         </div>
                         <div className="flex flex-col">
-                            <div className="text-lg font-bold">
+                            <div className="text-base sm:text-lg font-bold">
                                 {e[0].toUpperCase()}
                                 {e.slice(1).toLowerCase()}
                             </div>
-                            <div className="text-sm text-text-lighter">
-                                เว็บไซต์แนะนำร้านอาหาร รีวิวอาหาร
+                            <div className="text-xs sm:text-sm text-text-lighter">
+                                {reviewConst[`${e.toUpperCase()}_DESCRIPTION`]}
                             </div>
                         </div>
                     </div>
-                    <div className="flex items-center text-sm">
+                    <div className="flex items-center text-xs sm:text-sm">
                         <a
                             target="_blank"
                             rel="noopener noreferrer"
                             href={linkArr[index]}
-                            className="mr-3 ml-2 whitespace-nowrap underline underline-offset-1"
+                            className="mr-3 ml-2 text-primary whitespace-nowrap underline underline-offset-1"
                         >
                             เว็บไซต์
                         </a>
-                        <a className="whitespace-nowrap underline underline-offset-1">
-                            แชร์ลิ้ง
-                        </a>
+                        
                     </div>
                 </div>
             ))}

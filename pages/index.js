@@ -13,6 +13,7 @@ import LocationList from "../components/Home/PointOfInterest/PointOfInterestList
 import SearchBar from "../components/Home/SearchBar";
 import RestaurantList from "../components/Home/Restaurant/RestaurantList";
 import RunningText from "../components/Home/RunningText";
+import HistoryImageSlider from "../components/Home/HistoryImageSlider";
 
 // import images
 import chonburiImage from "../public/images/background.jpg";
@@ -101,13 +102,57 @@ const Home = ({ posts, restaurants }) => {
                 </div>
             </div>
             <RunningText />
+            <HistoryImageSlider />
             <LocationList posts={posts} />
             <RestaurantList restaurants={restaurants} />
+
+            <div className="h-screen" />
+            {/* <TestSlider /> */}
             <div className="h-screen" />
         </main>
     );
 };
 
+const TestSlider = () => {
+    const containerRef = useRef();
+    useEffect(() => {
+        const children = [...containerRef.current.children];
+        let baseChild = "";
+        children.forEach((child) => {
+            baseChild += child.outerHTML;
+        });
+        while (containerRef.current.clientHeight < 2000) {
+            containerRef.current.insertAdjacentHTML("beforeend", baseChild);
+        }
+    }, []);
+
+    return (
+        <div
+            ref={containerRef}
+            className="flex w-full flex-col  items-center bg-blue-50"
+        >
+            <div className="relative  aspect-[11/9] h-10 w-10 border-2 border-red-500 ">
+                <img className="object-cover w-full h-full" src="https://lh3.ggpht.com/p/AF1QipM1CGCZ1rEssQseh1Il4euzxrUx4esF0-hnJf7z=s512" />
+            </div>
+            {/* <ImageComponent src="https://lh3.ggpht.com/p/AF1QipM1CGCZ1rEssQseh1Il4euzxrUx4esF0-hnJf7z=s512" /> */}
+        </div>
+    );
+};
+
+const ImageComponent = ({ src }) => {
+    return (
+        <div className="relative mb-10 aspect-[11/9] h-10 w-10 ">
+            <Image
+                quality="low"
+                blurDataURL="URL"
+                placeholder="blur"
+                src={src}
+                layout="fill"
+                objectFit="cover "
+            />
+        </div>
+    );
+};
 const restaurantQuery = groq`
 *[(_type == "pointOfInterest") && defined(slug.current)][0...7] | order(star desc , title desc){
   amphoe-> { name },
