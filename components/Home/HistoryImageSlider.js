@@ -6,6 +6,12 @@ import { useEffect } from "react";
 import useIsTouchDevice from "../../composables/useIsTouchDevice";
 import { v4 as uuid } from "uuid";
 
+// import constants
+import {
+    leftImage,
+    rightImage,
+} from "../../config/homeConstants/historyImageConstants";
+
 const SLIDER_MARGIN = 30;
 const SCROLL_SPEED = 1;
 const SCROLL_RATIO = 0.05;
@@ -167,27 +173,29 @@ const HistoryImageSlider = () => {
     return (
         <div className="relative mt-24 mb-10 flex h-auto w-full max-w-[1300px]  flex-col justify-end self-center text-text sm:mt-32  md:h-[80vh] md:flex-row">
             <div className="mb-24 flex h-full w-[100%] flex-col items-center justify-center px-4 md:mb-0 xl:w-[80%]">
-                <div className="mb-7 sm:mb-10 flex w-full items-center justify-center">
+                <div className="mb-7 flex w-full items-center justify-center sm:mb-10">
                     <div className="h-[1px] w-[80%] border-t"></div>
-                    <div className="mx-3 text-2xl sm:text-4xl font-bold ">ชลบุรี</div>
+                    <div className="mx-3 text-2xl font-bold sm:text-4xl ">
+                        ชลบุรี
+                    </div>
                     <div className="h-[1px]  w-[80%] border-t"></div>
                 </div>
-                <div className="mb-7 sm:mb-10 text-base sm:text-xl font-semibold text-center">
+                <div className="mb-7 text-center text-base font-semibold sm:mb-10 sm:text-xl">
                     การท่องเที่ยวแบบวิถีกิน วิถีถิ่น ในจังหวัดชลบุรี
                 </div>
-                <div className="text-center text-sm sm:text-base font-normal ">
+                <div className="text-center text-sm font-normal sm:text-base ">
                     นโยบาย Thailand 4.0 ที่มีโมเดลสร้างความ
                 </div>
-                <div className="text-base sm:text-lg  font-bold ">
+                <div className="text-base font-bold  sm:text-lg ">
                     “มั่นคง มั่งคั่งและยั่งยืน”
                 </div>
-                <div className="text-center text-sm sm:text-base font-normal ">
+                <div className="text-center text-sm font-normal sm:text-base ">
                     ส่งผลถึงการส่งเสริมการท่องเที่ยวของไทยให้ก้าวไปสู่
                 </div>
-                <div className="text-center text-sm sm:text-base font-normal ">
+                <div className="text-center text-sm font-normal sm:text-base ">
                     การท่องเที่ยวที่เป็นเครื่องมือในการช่วยเหลือ
                 </div>
-                <div className="text-center text-sm sm:text-base font-normal">
+                <div className="text-center text-sm font-normal sm:text-base">
                     สร้างความสุข และการลดความเหลื่อมล้ำทางสังคมให้กับประชาชน
                 </div>
             </div>
@@ -201,11 +209,9 @@ const HistoryImageSlider = () => {
                 >
                     {[...Array(SLIDER_COPY)].map(() => (
                         <React.Fragment key={uuid()}>
-                            <ImageComponent src="https://lh3.ggpht.com/p/AF1QipM1CGCZ1rEssQseh1Il4euzxrUx4esF0-hnJf7z=s512" />
-                            <ImageComponent src="https://lh3.ggpht.com/p/AF1QipNBl5Mu_tkqBpFq_vnK1DD-V3RIr7_RMvc5xgYH=s512" />
-                            <ImageComponent src="https://lh3.ggpht.com/p/AF1QipPVnzICqxT217fmc990SfUWzKWhwF4i4mqOVPZ2=s512" />
-                            <ImageComponent src="https://lh3.ggpht.com/p/AF1QipMwx7Kd00udbf3ziJXUstngS70mB-nZsrN5r_OY=s512" />
-                            <ImageComponent src="https://lh3.ggpht.com/p/AF1QipOd-MWWtI_ZDE2T6AUbaTu44j25H7MV1mo1vokC=s512" />
+                            {leftImage.map((e) => (
+                                <ImageComponent image={e} />
+                            ))}
                         </React.Fragment>
                     ))}
                 </div>
@@ -215,11 +221,9 @@ const HistoryImageSlider = () => {
                 >
                     {[...Array(SLIDER_COPY)].map(() => (
                         <React.Fragment key={uuid()}>
-                            <ImageComponent src="https://lh3.ggpht.com/p/AF1QipOe8YF50UrtooRPmsv_1MwtGYfcrLc7zXG_5In_=s512" />
-                            <ImageComponent src="https://lh3.ggpht.com/p/AF1QipORF97Z0LKSJ278MyFmK8KclZ6-Wldfm1Xq95cv=s512" />
-                            <ImageComponent src="https://lh3.ggpht.com/p/AF1QipOqlK_EpBf3UzKMUyyWv-BqfRSZQr8MyTrtM1vb=s512" />
-                            <ImageComponent src="https://lh3.ggpht.com/p/AF1QipP5zyhdwZZPYa02i9Wekh2kXOMkEmgC9aLmsqQ=s512" />
-                            <ImageComponent src="https://lh3.ggpht.com/p/AF1QipMzQ87y3kYUD9i1VKnRgm3lbD8xX5OvunXYavlx=s512" />
+                            {rightImage.map((e) => (
+                                <ImageComponent image={e} />
+                            ))}
                         </React.Fragment>
                     ))}
                 </div>
@@ -228,15 +232,16 @@ const HistoryImageSlider = () => {
     );
 };
 
-const ImageComponent = ({ src }) => {
+const ImageComponent = ({ image }) => {
     return (
         <div className="relative mb-4 aspect-[12/9] w-full  md:mb-6 md:aspect-[9/10] ">
             <Image
                 quality="low"
-                blurDataURL="URL"
+                blurDataURL={image.blurhash}
                 placeholder="blur"
-                src={src}
+                src={image.url}
                 layout="fill"
+                alt={image.name}
                 objectFit="cover "
             />
         </div>
