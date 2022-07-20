@@ -74,12 +74,22 @@ body {
     border-bottom: 50px solid #555;
 }
 
+.custom-text-shadow-black {
+    text-shadow:  -1px -1px 0 #000, 1px -1px 0 #000,
+        -1px 1px 0 #000, 1px 1px 0 #000;
+}
+
+.custom-text-shadow-white {
+    text-shadow:  -1.5px -1.5px 0 #fff, 1.5px -1.5px 0 #fff,
+        -1.5px 1.5px 0 #fff, 1.5px 1.5px 0 #fff;
+}
+
 .new-triangle {
     width: 0;
     height: 0;
     border-style: solid;
     border-width: 0 10px 12px 10px;
-    border-color: transparent transparent #FFFFFF transparent;
+    border-color: transparent transparent #ffffff transparent;
 }
 
 .radial-circle {

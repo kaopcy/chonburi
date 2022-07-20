@@ -9,6 +9,15 @@ export const mapStyles = [
         ],
     },
     {
+        featureType: "poi.business",
+        elementType: "labels",
+        stylers: [
+            {
+                visibility: "off",
+            },
+        ],
+    },
+    {
         featureType: "administrative",
         elementType: "geometry.fill",
         stylers: [
@@ -44,15 +53,7 @@ export const mapStyles = [
             },
         ],
     },
-    {
-        featureType: "poi",
-        elementType: "all",
-        stylers: [
-            {
-                visibility: "on",
-            },
-        ],
-    },
+    
     {
         featureType: "poi",
         elementType: "geometry",
@@ -152,6 +153,15 @@ export const mapStyles = [
         stylers: [
             {
                 color: "#a2daf2",
+            },
+        ],
+    },
+    {
+        featureType: "road.highway",
+        elementType: "geometry",
+        stylers: [
+            {
+                visibility: "off",
             },
         ],
     },

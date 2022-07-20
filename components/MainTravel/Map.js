@@ -12,8 +12,7 @@ import { mapStyles } from "../../config/mapConstants/mapStyles";
 // import components
 import AmphoeSelector from "./AmphoeSelector";
 import SearchBar from "./SearchBar";
-import DestinationMarker from "../Travel/Map/DestinationMarker";
-import UserLocationMarker from "../Travel/Map/UserLocationMarker";
+import LocationMarker from "./LocationMarker";
 
 const Map = () => {
     const { postByActiveAmphoe } = usePostsContext();
@@ -26,11 +25,12 @@ const Map = () => {
     const mockCenter = useRef({ lat: 13, lng: 102 });
     const [isShowMap, setIsShowMap] = useState(false);
 
+    const markerRef = useRef([]);
+
     useEffect(() => {
         const mapRef = document.getElementById("map-haha");
         const evnt = (event) => {
             if (event.srcElement !== mapRef) return;
-            console.log("event triggered!: ");
             if (isOpen) setIsShowMap(true);
         };
         mapRef.addEventListener("transitionend", evnt);
@@ -40,12 +40,82 @@ const Map = () => {
         };
     }, [isOpen]);
 
+    // useEffect(() => {
+    //     if (!isLoaded || !isShowMap) return;
+    //     console.log(markerRef.current);
+    //     const evt = (e) => {
+    //         console.log(e);
+    //     };
+    //     markerRef.current.forEach((marker) => {
+    //         if (!marker) return;
+    //         marker.addEventListener("mouseenter", evt);
+    //     });
+    //     return () => {
+    //         markerRef.current.forEach((marker) => {
+    //             if (!marker) return;
+    //             marker.removeEventListener("mouseenter", evt);
+    //         });
+    //     };
+    // }, [postByActiveAmphoe, isShowMap, isLoaded]);
+
     const onMapLoad = (initMap) => {
         setMap(initMap);
     };
 
+    const currentOver = useRef();
+    const onMouseOver = (e) => {
+        currentOver.current = e.currentTarget;
+        const currentTarget = e.currentTarget;
+        currentTarget.style.zIndex = 100;
+
+        const {
+            right: curRight,
+            top: curTop,
+            bottom: curBottom,
+            left: curLeft,
+        } = e.currentTarget.getBoundingClientRect();
+
+        const otherMarker = markerRef.current.filter((marker) => {
+            return marker != currentTarget;
+        });
+
+        let overlapMarker = []
+        otherMarker.forEach((marker) => {
+            if (!marker) return;
+            const {
+                right: markerRight,
+                top: markerTop,
+                bottom: markerBottom,
+                left: markerLeft,
+            } = marker.getBoundingClientRect();
+
+            const overlapping = !(
+                curRight < markerLeft ||
+                curLeft > markerRight ||
+                curBottom < markerTop ||
+                curTop > markerBottom
+            );
+            if (overlapping) {
+                marker.style.opacity = 0.4;
+                marker.style.zIndex = 0;
+            } else {
+                marker.style.opacity = 1;
+                marker.style.zIndex = 10;
+            }
+        });
+    };
+    const onMouseLeave = (e) => {
+        if (currentOver.current !== e.currentTarget) return;
+        currentOver.current.style.zIndex = 10;
+        markerRef.current.forEach((marker, index) => {
+            if (!marker) return;
+
+            marker.style.opacity = 1;
+            marker.style.zIndex = 10;
+        });
+    };
+
     useEffect(() => {
-        console.log("postByActiveAmphoe: ", postByActiveAmphoe);
         if (!map) return;
         if (!postByActiveAmphoe || postByActiveAmphoe === undefined) return;
         const newBounds = new google.maps.LatLngBounds();
@@ -103,8 +173,14 @@ const Map = () => {
                     }}
                 >
                     {postByActiveAmphoe?.map((post, index) => (
-                        <UserLocationMarker position={post.coords} />
-                        // <Overlay key={post.placeID} post={post} index={index} />
+                        <LocationMarker
+                            ref={(e) => (markerRef.current[index] = e)}
+                            key={post.placeID}
+                            position={post.coords}
+                            post={post}
+                            onMouseLeave={onMouseLeave}
+                            onMouseOver={onMouseOver}
+                        />
                     ))}
                 </GoogleMap>
             )}

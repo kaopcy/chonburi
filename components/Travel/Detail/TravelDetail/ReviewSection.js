@@ -1,5 +1,6 @@
 import React, { useMemo } from "react";
 import Image from "next/image";
+import { useRouter } from "next/router";
 
 // import icons
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -12,6 +13,7 @@ import { usePostContext } from "../../../../context/Travel/PostContext";
 
 const ReviewSection = () => {
     const { post } = usePostContext();
+    const { query } = useRouter();
     const nameArr = useMemo(() =>
         post.reviews ? Object.keys(post.reviews) : null
     );
@@ -36,12 +38,15 @@ const ReviewSection = () => {
         // </div>
         <div className="my-3 flex w-full max-w-[500px] flex-col  items-start self-start   rounded-xl border py-5 px-4 sm:px-7">
             <div className="my-4  flex w-full items-center justify-between text-text">
-                <div className="text-xl sm:text-2xl  font-bold ">
+                <div className="text-xl font-bold  sm:text-2xl ">
                     รีวิวจากเว็บไซต์ชื่อดัง
                 </div>
             </div>
             {nameArr?.map((e, index) => (
-                <div className="my-4  flex  w-full items-center justify-between text-text">
+                <div
+                    key={e + "review" + query.slug}
+                    className="my-4  flex  w-full items-center justify-between text-text"
+                >
                     <div className="flex items-center">
                         <div className="relative mr-3 h-8  w-8 shrink-0  md:h-11 md:w-11 ">
                             <Image
@@ -50,11 +55,11 @@ const ReviewSection = () => {
                             />
                         </div>
                         <div className="flex flex-col">
-                            <div className="text-base sm:text-lg font-bold">
+                            <div className="text-base font-bold sm:text-lg">
                                 {e[0].toUpperCase()}
                                 {e.slice(1).toLowerCase()}
                             </div>
-                            <div className="text-xs sm:text-sm text-text-lighter">
+                            <div className="text-xs text-text-lighter sm:text-sm">
                                 {reviewConst[`${e.toUpperCase()}_DESCRIPTION`]}
                             </div>
                         </div>
@@ -64,11 +69,10 @@ const ReviewSection = () => {
                             target="_blank"
                             rel="noopener noreferrer"
                             href={linkArr[index]}
-                            className="mr-3 ml-2 text-primary whitespace-nowrap underline underline-offset-1"
+                            className="mr-3 ml-2 whitespace-nowrap text-primary underline underline-offset-1"
                         >
                             เว็บไซต์
                         </a>
-                        
                     </div>
                 </div>
             ))}

@@ -124,7 +124,7 @@ const OpenButton = () => {
         >
             <div
                 ref={buttonRef}
-                className="flex h-16 w-16 flex-col items-center justify-center rounded-full border-2 border-text bg-white text-text shadow-big transition-colors hover:bg-text hover:text-white"
+                className="flex h-16 w-16 flex-col items-center justify-center rounded-full border-[3px] sm:border-2 border-text bg-white text-text shadow-big transition-colors hover:bg-text hover:text-white"
             >
                 <FontAwesomeIcon
                     className="text-lg"
