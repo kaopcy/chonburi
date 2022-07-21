@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef, useMemo } from "react";
+import Head from "next/head";
 import groq from "groq";
 import { useRouter } from "next/dist/client/router";
-import Link from "next/dist/client/link";
 
 // import confixs
 import { getClient } from "../../lib/sanity.server";
@@ -14,7 +14,6 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 
 // import contexts
-import useIsTouchDevice from "../../composables/useIsTouchDevice";
 import {
     SelectorContextProvider,
     useSelectorContext,
@@ -42,9 +41,7 @@ const Restaurant = ({ post: fetchedPost, posts: fetchedPosts }) => {
 
     const { query } = router;
     const isImage = useMemo(() => query.image !== undefined, [query]);
-    useEffect(() => {
-        console.log("isImage", isImage);
-    }, [isImage]);
+    
     return (
         <PostContextProvider
             fetchedPost={fetchedPost}
@@ -53,9 +50,16 @@ const Restaurant = ({ post: fetchedPost, posts: fetchedPosts }) => {
             {isImage && <ImageGallery />}
 
             <MapContextProvider>
-                <div
+                <main
                     className={`absolute  inset-0 mx-auto flex  flex-col overflow-hidden  `}
                 >
+                    <Head>
+                        <title>{query.slug} | หน้าหลัก</title>
+                        <meta
+                            name="description"
+                            content={`ร้านอาหารในชลบุรี ${query.slug} ท่องเที่ยวที่ชลบุรี ค้นหาแหล่งท่องเที่ยวและร้านอาหารชื่อดงัที่ไม่ควรพลาดในจังหวัดชลบุรี, ประเทศไทย `}
+                        />
+                    </Head>
                     <div className="hidden h-[70px] shrink-0 sm:block lg:h-[100px] "></div>
                     <div className="relative flex h-[calc(100%)] w-full overflow-hidden sm:h-[calc(100%-100px)]  lg:h-full">
                         <ActiveOtherPlaceProvider>
@@ -75,7 +79,7 @@ const Restaurant = ({ post: fetchedPost, posts: fetchedPosts }) => {
                             </DirectionProvider>
                         </ActiveOtherPlaceProvider>
                     </div>
-                </div>
+                </main>
             </MapContextProvider>
         </PostContextProvider>
     );

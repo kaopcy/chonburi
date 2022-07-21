@@ -13,6 +13,7 @@ import { mapStyles } from "../../config/mapConstants/mapStyles";
 import AmphoeSelector from "./AmphoeSelector";
 import SearchBar from "./SearchBar";
 import LocationMarker from "./LocationMarker";
+import MapControl from "./MapControl";
 
 const Map = () => {
     const { postByActiveAmphoe } = usePostsContext();
@@ -79,7 +80,7 @@ const Map = () => {
             return marker != currentTarget;
         });
 
-        let overlapMarker = []
+        let overlapMarker = [];
         otherMarker.forEach((marker) => {
             if (!marker) return;
             const {
@@ -144,45 +145,48 @@ const Map = () => {
                 <div className=" h-20 w-20 animate-spin rounded-full rounded-tl-none border-2 border-red-400 "></div>
             )}
             {isShowMap && isLoaded && (
-                <GoogleMap
-                    clickableIcons={false}
-                    onLoad={onMapLoad}
-                    center={mockCenter.current}
-                    zoom={8}
-                    mapContainerStyle={{
-                        width: "100%",
-                        height: "100%",
-                    }}
-                    options={{
-                        clickableIcons: false,
-                        gestureHandling: "greedy",
-                        restriction: {
-                            latLngBounds: {
-                                north: 20.4178496363,
-                                south: 5.67,
-                                west: 97.3758964376,
-                                east: 105.589038527,
+                <>
+                    <GoogleMap
+                        clickableIcons={false}
+                        onLoad={onMapLoad}
+                        center={mockCenter.current}
+                        zoom={8}
+                        mapContainerStyle={{
+                            width: "100%",
+                            height: "100%",
+                        }}
+                        options={{
+                            clickableIcons: false,
+                            gestureHandling: "greedy",
+                            restriction: {
+                                latLngBounds: {
+                                    north: 20.4178496363,
+                                    south: 5.67,
+                                    west: 97.3758964376,
+                                    east: 105.589038527,
+                                },
+                                strictBounds: false,
                             },
-                            strictBounds: false,
-                        },
-                        streetViewControl: false,
-                        mapTypeControl: false,
-                        zoomControl: false,
-                        fullscreenControl: false,
-                        styles: mapStyles,
-                    }}
-                >
-                    {postByActiveAmphoe?.map((post, index) => (
-                        <LocationMarker
-                            ref={(e) => (markerRef.current[index] = e)}
-                            key={post.placeID}
-                            position={post.coords}
-                            post={post}
-                            onMouseLeave={onMouseLeave}
-                            onMouseOver={onMouseOver}
-                        />
-                    ))}
-                </GoogleMap>
+                            streetViewControl: false,
+                            mapTypeControl: false,
+                            zoomControl: false,
+                            fullscreenControl: false,
+                            styles: mapStyles,
+                        }}
+                    >
+                        {postByActiveAmphoe?.map((post, index) => (
+                            <LocationMarker
+                                ref={(e) => (markerRef.current[index] = e)}
+                                key={post.placeID}
+                                position={post.coords}
+                                post={post}
+                                onMouseLeave={onMouseLeave}
+                                onMouseOver={onMouseOver}
+                            />
+                        ))}
+                    </GoogleMap>
+                    <MapControl />
+                </>
             )}
         </div>
     );

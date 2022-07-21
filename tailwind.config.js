@@ -40,11 +40,12 @@ module.exports = {
                 "gps-pulse-2": "gps-pulse 2s infinite 1s",
                 "gps-pulse-3": "gps-pulse 2s infinite 2s",
                 "gps-pulse-blue": "gps-pulse-blue 2s infinite",
+                "gps-pulse-red": "gps-pulse-red 2s infinite",
                 "gps-pulse-2-blue": "gps-pulse-blue 2s infinite 1s",
                 "gps-pulse-3-blue": "gps-pulse-blue 2s infinite 2s",
             },
             boxShadow: {
-                small: '0px 3px 5px rgba(0,0,0,0.07)',
+                small: "0px 3px 5px rgba(0,0,0,0.07)",
                 big: "0px 1px 6px  rgba(0, 0, 0, 0.16)",
                 icon: "2px 2px 10px  rgba(0, 0, 0, 0.16)",
                 blue: "0px 0px 8px  rgba(154, 215, 255, 0.61)",
@@ -62,6 +63,20 @@ module.exports = {
                     "100%": {
                         transform: "scale(0.95)",
                         boxShadow: "0 0 0 0 rgba(0, 170, 108, 0)",
+                    },
+                },
+                "gps-pulse-red": {
+                    "0%": {
+                        transform: "scale(0.95)",
+                        boxShadow: "0 0 0 0 rgba(255, 21, 19, 0.7)",
+                    },
+                    "70%": {
+                        transform: "scale(1)",
+                        boxShadow: "0 0 0 20px rgba(255, 21, 19, 0)",
+                    },
+                    "100%": {
+                        transform: "scale(0.95)",
+                        boxShadow: "0 0 0 0 rgba(255, 21, 19, 0)",
                     },
                 },
                 "gps-pulse-blue": {

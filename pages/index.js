@@ -17,6 +17,7 @@ import HistoryImageSlider from "../components/Home/HistoryImageSlider";
 
 // import images
 import chonburiImage from "../public/images/background.jpg";
+import AmphoeChonburi from "../icons/AmphoeChonburi";
 
 const Home = ({ posts, restaurants }) => {
     const imageRef = useRef(null);
@@ -107,7 +108,9 @@ const Home = ({ posts, restaurants }) => {
             <RestaurantList restaurants={restaurants} />
 
             <div className="h-screen" />
-            {/* <TestSlider /> */}
+            <div className="relative h-screen w-full">
+                <AmphoeChonburi />
+            </div>
             <div className="h-screen" />
         </main>
     );
@@ -132,7 +135,10 @@ const TestSlider = () => {
             className="flex w-full flex-col  items-center bg-blue-50"
         >
             <div className="relative  aspect-[11/9] h-10 w-10 border-2 border-red-500 ">
-                <img className="object-cover w-full h-full" src="https://lh3.ggpht.com/p/AF1QipM1CGCZ1rEssQseh1Il4euzxrUx4esF0-hnJf7z=s512" />
+                <img
+                    className="h-full w-full object-cover"
+                    src="https://lh3.ggpht.com/p/AF1QipM1CGCZ1rEssQseh1Il4euzxrUx4esF0-hnJf7z=s512"
+                />
             </div>
             {/* <ImageComponent src="https://lh3.ggpht.com/p/AF1QipM1CGCZ1rEssQseh1Il4euzxrUx4esF0-hnJf7z=s512" /> */}
         </div>

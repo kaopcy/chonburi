@@ -138,8 +138,8 @@ const Posts = () => {
             <OpenButton />
             <div
                 ref={rootRef}
-                className={` h-full w-full flex-wrap justify-center overflow-x-hidden overflow-y-scroll bg-[#fafafa]   ${
-                    isOpen ? "hidden px-2 md:flex" : "flex px-3 sm:px-6 "
+                className={` h-full w-full flex-wrap justify-center overflow-x-hidden overflow-y-scroll bg-white px-6  ${
+                    isOpen ? "hidden md:flex" : "flex "
                 }`}
             >
                 <div
@@ -186,11 +186,7 @@ const Posts = () => {
                                         ref={(e) =>
                                             (eachAmphoreRef.current[index] = e)
                                         }
-                                        className={`mb-10 flex scroll-my-14 flex-col  rounded-2xl bg-white  py-8 shadow-small  ${
-                                            isOpen
-                                                ? "px-3 xl:px-4"
-                                                : "px-4 sm:px-8"
-                                        }`}
+                                        className="mb-10 flex scroll-my-14 flex-col pt-6"
                                         key={amphoeArr[index]}
                                     >
                                         <div className=" flex items-center text-xl  text-text">
