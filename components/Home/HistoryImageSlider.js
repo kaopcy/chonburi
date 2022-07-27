@@ -211,10 +211,15 @@ const HistoryImageSlider = () => {
                     ref={(e) => (sliderRef.current[0] = e)}
                     className="absolute flex w-[45%] max-w-[300px] flex-col items-center "
                 >
-                    {[...Array(SLIDER_COPY)].map(() => (
-                        <React.Fragment key={uuid()}>
-                            {leftImage.map((e) => (
-                                <ImageComponent key={uuid()} image={e} />
+                    {[...Array(SLIDER_COPY)].map((_, groupIndex) => (
+                        <React.Fragment
+                            key={`group-${groupIndex}-image-auto-slider-1`}
+                        >
+                            {leftImage.map((e, index) => (
+                                <ImageComponent
+                                    key={`image-auto-slider-1-${groupIndex}-${index}`}
+                                    image={e}
+                                />
                             ))}
                         </React.Fragment>
                     ))}
@@ -223,10 +228,15 @@ const HistoryImageSlider = () => {
                     ref={(e) => (sliderRef.current[1] = e)}
                     className="absolute flex w-[45%] max-w-[300px] flex-col items-center"
                 >
-                    {[...Array(SLIDER_COPY)].map(() => (
-                        <React.Fragment key={uuid()}>
-                            {rightImage.map((e) => (
-                                <ImageComponent key={uuid()} image={e} />
+                    {[...Array(SLIDER_COPY)].map((_, groupIndex) => (
+                        <React.Fragment
+                            key={`group-${groupIndex}-image-auto-slider-2`}
+                        >
+                            {rightImage.map((e, index) => (
+                                <ImageComponent
+                                    key={`image-auto-slider-1-${groupIndex}-${index}`}
+                                    image={e}
+                                />
                             ))}
                         </React.Fragment>
                     ))}

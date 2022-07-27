@@ -4,6 +4,7 @@ import gsap from "gsap/dist/gsap";
 import { v4 as uuid } from "uuid";
 // import images
 import AmphoeChonburi from "../../icons/AmphoeChonburi";
+import AmphoeChonburiMobile from "../../icons/AmphoeChonburiMobile";
 
 // import constants
 import { amphoeConstant } from "../../config/homeConstants/AmphoeConstant";
@@ -201,15 +202,16 @@ const AmphoeHistory = () => {
     return (
         <div className="relative mt-4 w-full bg-[#FFFFFC]  ">
             <div ref={containerRef} className="relative h-[2000px]">
-                <div className="sticky  top-[70px] z-10 flex h-auto  w-full translate-y-0  flex-row items-center bg-[#fffffc]    md:top-[calc(100vh/2+20px)] md:w-1/2 md:-translate-y-1/2 md:flex-col ">
+                <div className="sticky top-[70px] z-10 hidden h-auto  w-[90%]  translate-y-0    flex-row items-center bg-white md:top-[calc(100vh/2+20px)] md:flex    md:w-1/2 md:-translate-y-1/2 md:flex-col md:bg-[#fffffc] ">
                     <div className="absolute top-1/2 right-8 h-[50px] w-[6px] -translate-y-1/2 space-y-1 overflow-hidden ">
                         <div
                             ref={indicatorRef}
                             className="absolute top-1/2 left-0 w-[6px] -translate-y-1/2 space-y-1"
                         >
-                            {amphoeConstant.map((e) => (
+                            {amphoeConstant.map((e, index) => (
                                 <div
-                                    className={`aspect-square w-full rounded-full  ${
+                                    key={`history-indicator-${index}`}
+                                    className={`hidden aspect-square w-full rounded-full md:block  ${
                                         e.name === currentAmphoe
                                             ? "bg-text"
                                             : "bg-text-lightest"
@@ -222,10 +224,10 @@ const AmphoeHistory = () => {
                     <div className=" mx-auto  flex w-full max-w-[500px] flex-col md:mb-10">
                         <div
                             ref={topicRef}
-                            className="flex items-center whitespace-nowrap   font-bold md:text-[28px]"
+                            className="flex items-center self-start whitespace-nowrap rounded-md border border-text  px-3 py-[6px] font-medium md:border-none md:p-0 md:text-[28px] md:font-bold"
                         >
                             อำเภอ{currentAmphoe}
-                            <div className="mx-4 h-[1.5px] w-full bg-text-lightest"></div>
+                            <div className="mx-4 hidden h-[1.5px] w-full bg-text-lightest md:block"></div>
                         </div>
                         <div
                             ref={redlineContainer}
@@ -249,10 +251,9 @@ const AmphoeHistory = () => {
                 <div ref={textContainerRef} className="z-0   w-full ">
                     {amphoeConstant.map((amphoe, index) => (
                         <History
-                            currentAmphoe={currentAmphoe}
-                            amphoe={amphoe}
-                            index={index}
                             ref={(e) => (quoteContainer.current[index] = e)}
+                            key={`history-${amphoe.name}-${index}`}
+                            amphoe={amphoe}
                         />
                     ))}
                 </div>
@@ -261,22 +262,32 @@ const AmphoeHistory = () => {
     );
 };
 
-const History = forwardRef(({ currentAmphoe, amphoe, index }, ref) => {
+const History = forwardRef(({ amphoe }, ref) => {
+    console.log(amphoe.name);
     return (
         <div
             data-amphoe={amphoe.name}
             key={`${amphoe.name}-${amphoe.history}`}
             ref={ref}
-            className="quote flex-col-cen mx-auto h-[calc(100vh-120px)] w-full max-w-[500px] border-b "
+            className="quote flex-col-cen relative mx-auto min-h-[calc(100vh-120px)] w-full max-w-[500px] border-b py-10 px-3 md:py-0 md:px-0"
         >
-            <div className="mb-8 text-2xl font-bold">{amphoe.name}</div>
-            <div className="">
+            <div className="sticky top-[70px]  z-10 mb-4 flex w-full items-center justify-between bg-white py-2 md:hidden">
+                <div className="text-xl font-medium">อำเภอ{amphoe.name}</div>
+                <div className="relative w-[100px]">
+                    <AmphoeChonburiMobile currentAmphoe={amphoe.name} />
+                </div>
+            </div>
+            <div className="mb-4 hidden text-xl font-bold md:mb-8 md:block md:text-2xl">
+                {amphoe.name}
+            </div>
+            <div className="text-sm md:text-base">
                 <span className="mr-1 ml-10  cursor-pointer text-primary underline underline-offset-1">
                     {amphoe.name}
                 </span>
                 {amphoe.history}
             </div>
-            <div className="mt-4 flex w-full items-center justify-between">
+            <DistrictShow mobile currentAmphoeObj={amphoe} />
+            <div className="mt-4 grid w-full grid-cols-2 items-center justify-between gap-y-2 md:flex md:gap-y-0">
                 {amphoe.images.map((e) => (
                     <div
                         className="flex items-center"
@@ -294,14 +305,14 @@ const History = forwardRef(({ currentAmphoe, amphoe, index }, ref) => {
                                 className=""
                             />
                         </div>
-                        <div className="flex flex-col ">
-                            <div className="text-sm font-semibold">
+                        <div className="flex min-w-0 flex-col">
+                            <div className="ellipsis text-xs font-semibold md:text-sm">
                                 {e.name}
                             </div>
-                            <div className="text-xs text-text-lighterr">
+                            <div className="ellipsis text-xs text-text-lighterr md:text-xs">
                                 ต.{amphoe.name}
                             </div>
-                            <div className="text-xs text-text-lighterr">
+                            <div className="ellipsis text-xs text-text-lighterr md:text-xs">
                                 ต.{e.tambon}
                             </div>
                         </div>
@@ -313,7 +324,7 @@ const History = forwardRef(({ currentAmphoe, amphoe, index }, ref) => {
                     <div className="mr-2 group-hover:text-white">
                         แหล่งท่องเที่ยว
                     </div>
-                    <div className="relative w-3 rotate-180 transition-transform group-hover:rotate-0">
+                    <div className="relative w-3 rotate-180 transition-transform group-hover:translate-x-2 group-hover:rotate-0">
                         <div className="absolute h-[1px] w-full bg-text group-hover:bg-white"></div>
                         <div className="absolute top-0 h-[1px] w-[50%] origin-bottom-left rotate-45 bg-text group-hover:bg-white"></div>
                         <div className="absolute top-0 h-[1px] w-[50%] origin-top-left -rotate-45 bg-text group-hover:bg-white"></div>
@@ -323,7 +334,7 @@ const History = forwardRef(({ currentAmphoe, amphoe, index }, ref) => {
                     <div className="mr-2 text-white group-hover:text-text">
                         ร้านอาหาร
                     </div>
-                    <div className="relative w-3 rotate-180 transition-transform group-hover:rotate-0">
+                    <div className="relative w-3 rotate-180 transition-transform group-hover:translate-x-2 group-hover:rotate-0">
                         <div className="absolute h-[1px] w-full bg-white group-hover:bg-text "></div>
                         <div className="absolute top-0 h-[1px] w-[50%] origin-bottom-left rotate-45 bg-white group-hover:bg-text"></div>
                         <div className="absolute top-0 h-[1px] w-[50%] origin-top-left -rotate-45 bg-white group-hover:bg-text"></div>
@@ -338,8 +349,12 @@ const DistrictShow = forwardRef(({ currentAmphoeObj, mobile }, ref) => {
     return (
         <div
             ref={ref}
-            className={`absolute  bottom-0 right-8  flex-col   items-center rounded-lg border-2 border-text-lighter bg-white p-3 
-                ${mobile ? "flex md:hidden" : "hidden md:flex"}
+            className={`flex-col  items-center rounded-lg border-2 border-text-lighter bg-white p-3 pb-0 md:pb-3
+                ${
+                    mobile
+                        ? "relative  mt-5 mb-3 flex self-center md:hidden"
+                        : "absolute right-8 bottom-0 hidden md:flex "
+                }
             `}
         >
             <div className="text-sm font-semibold">
@@ -349,9 +364,16 @@ const DistrictShow = forwardRef(({ currentAmphoeObj, mobile }, ref) => {
                 </span>
                 ตำบล
             </div>
-            <div className="ml-6 grid max-h-[100px] w-full grid-cols-2 overflow-y-auto py-3 text-xs">
-                {currentAmphoeObj?.district?.map((e) => (
-                    <div className="w-full">- {e}</div>
+            <div className="ml-6 grid w-full grid-cols-2 overflow-y-auto py-3 text-xs md:max-h-[100px]">
+                {currentAmphoeObj?.district?.map((e, index) => (
+                    <div
+                        key={`${mobile ? "mobile" : "desktop"}-${index}-${
+                            currentAmphoeObj.name
+                        }`}
+                        className="w-full"
+                    >
+                        - {e}
+                    </div>
                 ))}
             </div>
         </div>

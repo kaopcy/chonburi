@@ -1,7 +1,7 @@
 import { useRef, useEffect, useImperativeHandle, forwardRef } from "react";
 import gsap from "gsap/dist/gsap";
 
-const AmphoeChonburi = forwardRef(({ currentAmphoe }, ref) => {
+const AmphoeChonburiMobile = forwardRef(({ currentAmphoe }, ref) => {
     const pathRef = useRef({});
     const svgRef = useRef(null);
 
@@ -27,6 +27,11 @@ const AmphoeChonburi = forwardRef(({ currentAmphoe }, ref) => {
     };
 
     useEffect(() => {
+        Object.values(pathRef.current).forEach((e) => {
+            gsap.to(e, { fill: `#F1E6D8` });
+        });
+        gsap.to(pathRef.current[currentAmphoe], { fill: `#FFDA77` });
+
         const resizeEvt = () => {
             const { preferredL, preferredT } = getPreferedPosi();
 
@@ -50,21 +55,11 @@ const AmphoeChonburi = forwardRef(({ currentAmphoe }, ref) => {
         });
     }, [currentAmphoe]);
 
-    useImperativeHandle(ref, () => ({
-        setColor: () => {
-            Object.values(pathRef.current).forEach((e) => {
-                gsap.to(e, { fill: `#F1E6D8` });
-            });
-            gsap.to(pathRef.current[currentAmphoe], { fill: `#FFDA77` });
-        },
-        getSvgRef: () => svgRef.current,
-    }));
-
     return (
         <>
             <div
                 ref={markerRef}
-                className="absolute hidden md:block top-0 left-0 z-20 h-2 w-3 animate-scale-pulse rounded-[50%]  border-2 border-white bg-primary shadow-big "
+                className="absolute top-0 left-0 z-20 hidden h-2 w-3 animate-scale-pulse rounded-[50%] border-2  border-white bg-primary shadow-big md:block "
             >
                 <div
                     style={{
@@ -158,4 +153,4 @@ const AmphoeChonburi = forwardRef(({ currentAmphoe }, ref) => {
     );
 });
 
-export default AmphoeChonburi;
+export default AmphoeChonburiMobile;
