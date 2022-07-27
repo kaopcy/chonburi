@@ -3,6 +3,7 @@ module.exports = {
         "./pages/**/*.{js,ts,jsx,tsx}",
         "./components/**/*.{js,ts,jsx,tsx}",
     ],
+    
     theme: {
         extend: {
             fontFamily: {
@@ -36,6 +37,7 @@ module.exports = {
             },
             animation: {
                 "bounce-once": "bounce 2s linear",
+                "scale-pulse": "scale-pulse 2s infinite 1s ease-in-out",
                 "gps-pulse": "gps-pulse 2s infinite",
                 "gps-pulse-2": "gps-pulse 2s infinite 1s",
                 "gps-pulse-3": "gps-pulse 2s infinite 2s",
@@ -63,6 +65,17 @@ module.exports = {
                     "100%": {
                         transform: "scale(0.95)",
                         boxShadow: "0 0 0 0 rgba(0, 170, 108, 0)",
+                    },
+                },
+                "scale-pulse": {
+                    "0%": {
+                        transform: "scale(1.1)",
+                    },
+                    "50%": {
+                        transform: "scale(1)",
+                    },
+                    "100%": {
+                        transform: "scale(1.1)",
                     },
                 },
                 "gps-pulse-red": {

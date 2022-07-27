@@ -14,10 +14,10 @@ import SearchBar from "../components/Home/SearchBar";
 import RestaurantList from "../components/Home/Restaurant/RestaurantList";
 import RunningText from "../components/Home/RunningText";
 import HistoryImageSlider from "../components/Home/HistoryImageSlider";
+import AmphoeHistory from "../components/Home/AmphoeHistory";
 
 // import images
 import chonburiImage from "../public/images/background.jpg";
-import AmphoeChonburi from "../icons/AmphoeChonburi";
 
 const Home = ({ posts, restaurants }) => {
     const imageRef = useRef(null);
@@ -107,10 +107,8 @@ const Home = ({ posts, restaurants }) => {
             <LocationList posts={posts} />
             <RestaurantList restaurants={restaurants} />
 
+            <AmphoeHistory />
             <div className="h-screen" />
-            <div className="relative h-screen w-full">
-                <AmphoeChonburi />
-            </div>
             <div className="h-screen" />
         </main>
     );

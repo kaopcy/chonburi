@@ -107,21 +107,25 @@ const HistoryImageSlider = () => {
                         if (entry.isIntersecting) {
                             cancelAnimationFrame(requestID);
                             requestID = requestAnimationFrame(scrollAnime);
-                            window.addEventListener(
-                                "scroll",
-                                scrollListenerRef.current[index],
-                                {
-                                    passive: true,
-                                }
-                            );
+                            if (!isTouch) {
+                                window.addEventListener(
+                                    "scroll",
+                                    scrollListenerRef.current[index],
+                                    {
+                                        passive: true,
+                                    }
+                                );
+                            }
                             isIntersecting = true;
                         } else {
                             cancelAnimationFrame(requestID);
-                            window.removeEventListener(
-                                "scroll",
-                                scrollListenerRef.current[index],
-                                { passive: true }
-                            );
+                            if (!isTouch) {
+                                window.removeEventListener(
+                                    "scroll",
+                                    scrollListenerRef.current[index],
+                                    { passive: true }
+                                );
+                            }
                             isIntersecting = false;
                         }
                     });
@@ -210,7 +214,7 @@ const HistoryImageSlider = () => {
                     {[...Array(SLIDER_COPY)].map(() => (
                         <React.Fragment key={uuid()}>
                             {leftImage.map((e) => (
-                                <ImageComponent image={e} />
+                                <ImageComponent key={uuid()} image={e} />
                             ))}
                         </React.Fragment>
                     ))}
@@ -222,7 +226,7 @@ const HistoryImageSlider = () => {
                     {[...Array(SLIDER_COPY)].map(() => (
                         <React.Fragment key={uuid()}>
                             {rightImage.map((e) => (
-                                <ImageComponent image={e} />
+                                <ImageComponent key={uuid()} image={e} />
                             ))}
                         </React.Fragment>
                     ))}

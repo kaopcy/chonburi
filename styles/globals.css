@@ -50,7 +50,7 @@ body {
     scroll-behavior: auto;
 }
 
-@media (max-width: 768px) {
+/* @media (max-width: 768px) {
     html {
         overflow: hidden;
         width: 100vw;
@@ -64,7 +64,7 @@ body {
         overflow-y: auto;
         -webkit-overflow-scrolling: touch;
     }
-}
+} */
 
 .triangle {
     width: 0;
@@ -75,13 +75,13 @@ body {
 }
 
 .custom-text-shadow-black {
-    text-shadow:  -1px -1px 0 #000, 1px -1px 0 #000,
-        -1px 1px 0 #000, 1px 1px 0 #000;
+    text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000,
+        1px 1px 0 #000;
 }
 
 .custom-text-shadow-white {
-    text-shadow:  -1.5px -1.5px 0 #fff, 1.5px -1.5px 0 #fff,
-        -1.5px 1.5px 0 #fff, 1.5px 1.5px 0 #fff;
+    text-shadow: -1.5px -1.5px 0 #fff, 1.5px -1.5px 0 #fff, -1.5px 1.5px 0 #fff,
+        1.5px 1.5px 0 #fff;
 }
 
 .new-triangle {
@@ -99,6 +99,13 @@ body {
         rgba(122, 201, 255, 1) 0%,
         rgba(68, 117, 130, 0) 49%
     );
+}
+
+.bg-radial-yellow {
+    /* Created with https://www.css-gradient.com */
+    background: -webkit-radial-gradient(circle, #ffd55c6b, #ffffff00);
+    background: -moz-radial-gradient(circle, #ffd55c6b, #ffffff00);
+    background: radial-gradient(circle, #ffd55c6b 0%, #ffffff00 100%);
 }
 
 .gradient-blue {

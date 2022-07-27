@@ -46,7 +46,7 @@ const PostCard = forwardRef(({ post }, ref) => {
             >
                 <div
                     ref={imageContainerRef}
-                    className="absolute top-0 left-0 flex  aspect-[13/9] w-full flex-nowrap transition-all duration-700 "
+                    className="absolute   top-0 left-0 flex  aspect-[13/9] w-full flex-nowrap transition-all duration-700 "
                 >
                     {post.imageURL.map((e) => (
                         <ImageComponent

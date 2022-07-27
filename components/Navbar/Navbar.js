@@ -27,9 +27,9 @@ const Navbar = () => {
         animation.current = gsap
             .timeline({
                 scrollTrigger: {
-                    trigger: navbarRef.current,
-                    start: "bottom top",
-                    end: "center top",
+                    trigger: document.body,
+                    start: "70px top",
+                    end: "70px top",
                     toggleActions: "play none reverse none",
                 },
             })
@@ -108,9 +108,7 @@ const Navbar = () => {
                                         isMatch ? "text-primary" : "text-text"
                                     }`}
                                 >
-                                    <span className="mr-2">
-                                        ร้านอาหาร 
-                                    </span>
+                                    <span className="mr-2">ร้านอาหาร</span>
                                     <div
                                         className={`h-[3px] w-full origin-left scale-x-0 bg-primary opacity-20 transition-transform group-hover:scale-x-100  ${
                                             isMatch && "!scale-x-100"
