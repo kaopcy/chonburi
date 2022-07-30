@@ -1,19 +1,54 @@
-import React from "react";
+import React, { useRef, useEffect } from "react";
 import Link from "next/dist/client/link";
 
 import { faChevronRight, faMountain } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-import PointOfInterestCard from "./Card";
-
-// import hooks
 import useDraggable from "../../../composables/useDraggable";
 
-const LocationList = ({ posts }) => {
+// import components
+import PointOfInterestCard from "./Card";
+import Indicator from "./Indicator";
+
+const PointOfInterestList = ({ pointOfInterests }) => {
     const { slider } = useDraggable();
 
+    const cardArrRef = useRef([]);
+    const indicatorRef = useRef(null);
+    const containerRef = useRef(null);
+    const observer = useRef();
+
+    useEffect(() => {
+        if (!indicatorRef.current) return;
+        observer.current = new IntersectionObserver(
+            (entries) => {
+                let intersect = [];
+                let notIntersect = [];
+
+                entries.forEach((e) => {
+                    if (e.isIntersecting) intersect.push(e.target);
+                    else notIntersect.push(e.target);
+                });
+
+                indicatorRef.current.update(
+                    intersect,
+                    notIntersect,
+                    cardArrRef.current
+                );
+            },
+            { root: containerRef.current, rootMargin: "0px -40px 0px -40px" }
+        );
+        cardArrRef.current.map((e) => {
+            observer.current.observe(e);
+        });
+
+        return () => {
+            if (observer.current) observer.current.disconnect();
+        };
+    }, []);
+
     return (
-        <div className="mx-auto mt-10 flex w-full max-w-[1300px] flex-col items-start sm:mt-20">
+        <div className="mx-auto mt-10 flex w-full max-w-[1300px] flex-col items-start">
             <div className="mb-0 flex w-full items-center justify-between">
                 <span className="flex items-center text-lg font-semibold text-text sm:text-2xl lg:text-3xl">
                     แหล่งท่องเที่ยว
@@ -23,21 +58,25 @@ const LocationList = ({ posts }) => {
                     />
                 </span>
                 <Link href={"/travel"} passHref>
-                    <span className="cursor-pointer text-sm text-primary underline sm:text-base ">
+                    <a className="cursor-pointer text-sm text-primary underline sm:text-base">
                         ดูเพิ่มเติม...
-                    </span>
+                    </a>
                 </Link>
             </div>
-            <div className="relative w-full overflow-hidden">
-                <div className="gradient-white absolute top-0 right-0 z-10 h-full w-10"></div>
-                <div className="absolute top-[97%] left-0 z-10 h-5 w-full bg-white "></div>
+
+            <div ref={containerRef} className="relative mt-8 w-full  ">
+                <div className="absolute bottom-[0px] left-0 z-10 h-3 w-full  bg-white "></div>
                 <div
-                    className="relative flex w-full overflow-x-auto "
+                    className="relative flex w-full overflow-x-auto pb-5"
                     ref={slider}
                 >
-                    {posts.map((post) => {
+                    {pointOfInterests?.map((restaurant, i) => {
                         return (
-                            <PointOfInterestCard post={post} key={post?._id} />
+                            <PointOfInterestCard
+                                ref={(e) => (cardArrRef.current[i] = e)}
+                                post={restaurant}
+                                key={restaurant.placeID}
+                            />
                         );
                     })}
                     <Link href={"/travel"} passHref>
@@ -50,8 +89,9 @@ const LocationList = ({ posts }) => {
                     </Link>
                 </div>
             </div>
+            <Indicator ref={indicatorRef} />
         </div>
     );
 };
 
-export default LocationList;
+export default PointOfInterestList;

@@ -162,6 +162,7 @@ const AmphoeHistory = () => {
         }px`;
 
         const scrollEvnt = () => {
+            if (!containerRef.current) return;
             const containerEnd =
                 containerRef.current.offsetTop +
                 containerRef.current.clientHeight -

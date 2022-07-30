@@ -12,6 +12,8 @@ import useIsTouchDevice from "../composables/useIsTouchDevice";
 import LocationList from "../components/Home/PointOfInterest/PointOfInterestList";
 import SearchBar from "../components/Home/SearchBar";
 import RestaurantList from "../components/Home/Restaurant/RestaurantList";
+import PointOfInterestList from "../components/Home/PointOfInterest/PointOfInterestList";
+
 import RunningText from "../components/Home/RunningText";
 import HistoryImageSlider from "../components/Home/HistoryImageSlider";
 import AmphoeHistory from "../components/Home/AmphoeHistory";
@@ -19,7 +21,7 @@ import AmphoeHistory from "../components/Home/AmphoeHistory";
 // import images
 import chonburiImage from "../public/images/background.jpg";
 
-const Home = ({ posts, restaurants }) => {
+const Home = ({ posts, restaurants, pointOfInterests }) => {
     const imageRef = useRef(null);
     const quoteRef = useRef(null);
     const parallaxTrigger = useRef(null);
@@ -104,7 +106,7 @@ const Home = ({ posts, restaurants }) => {
             </div>
             <RunningText />
             <HistoryImageSlider />
-            <LocationList posts={posts} />
+            <PointOfInterestList pointOfInterests={pointOfInterests} />
             <RestaurantList restaurants={restaurants} />
 
             <AmphoeHistory />
@@ -170,6 +172,18 @@ const restaurantQuery = groq`
   star,
 }`;
 
+const pointOfInterestQuery = groq`
+*[(_type == "travelSpot") && defined(slug.current)][0...7] | order(star desc , title desc){
+  amphoe-> { name },
+  tambon-> { name },
+  title,
+  slug,
+  coords,
+  placeID,
+  imageURL,
+  star,
+}`;
+
 export const getStaticProps = async (context) => {
     const posts = await getClient(context.preview).fetch(groq`
         *[_type == "post" && publishedAt < now()][0...5] | order(publishedAt desc , title desc){
@@ -189,10 +203,15 @@ export const getStaticProps = async (context) => {
     `);
 
     const restaurants = await getClient(context.preview).fetch(restaurantQuery);
+    const pointOfInterests = await getClient(context.preview).fetch(
+        pointOfInterestQuery
+    );
+
     return {
         props: {
             posts,
             restaurants,
+            pointOfInterests,
         },
     };
 };

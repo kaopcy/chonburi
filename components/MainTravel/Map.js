@@ -1,4 +1,5 @@
 import React, { useRef, useEffect, useState } from "react";
+import { useRouter } from "next/router";
 import { useJsApiLoader, GoogleMap, OverlayView } from "@react-google-maps/api";
 import gsap from "gsap/dist/gsap";
 
@@ -15,7 +16,8 @@ import SearchBar from "./SearchBar";
 import LocationMarker from "./LocationMarker";
 import MapControl from "./MapControl";
 
-const Map = () => {
+const Map = ({ type }) => {
+    console.log("type: ", type === "restaurant" ? "restaurant" : "travel");
     const { postByActiveAmphoe } = usePostsContext();
     const { isOpen, setMap, map } = useMapContext();
     const { isLoaded } = useJsApiLoader({
@@ -105,6 +107,7 @@ const Map = () => {
             }
         });
     };
+
     const onMouseLeave = (e) => {
         if (currentOver.current !== e.currentTarget) return;
         currentOver.current.style.zIndex = 10;
@@ -114,6 +117,12 @@ const Map = () => {
             marker.style.opacity = 1;
             marker.style.zIndex = 10;
         });
+    };
+
+    const router = useRouter();
+    const onMarkerClick = (location) => {
+        if (type === "restaurant") router.push(`/restaurant/${location}`);
+        else router.push(`/travel/${location}`);
     };
 
     useEffect(() => {
@@ -176,12 +185,11 @@ const Map = () => {
                     >
                         {postByActiveAmphoe?.map((post, index) => (
                             <LocationMarker
+                                onClick={onMarkerClick}
                                 ref={(e) => (markerRef.current[index] = e)}
                                 key={post.placeID}
                                 position={post.coords}
                                 post={post}
-                                onMouseLeave={onMouseLeave}
-                                onMouseOver={onMouseOver}
                             />
                         ))}
                     </GoogleMap>

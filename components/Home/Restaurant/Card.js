@@ -62,7 +62,11 @@ const PostCard = forwardRef(({ post }, ref) => {
                     curIndex={curIndex}
                     imageCount={imageCount}
                 />
-                <Indicator imageCount={imageCount} curIndex={curIndex} />
+                <Indicator
+                    placeID={post.placeID}
+                    imageCount={imageCount}
+                    curIndex={curIndex}
+                />
                 <div className="absolute top-4 right-0 z-10 flex items-center overflow-hidden rounded-l-lg px-2 py-[3px] text-white">
                     <div className="absolute inset-0 z-0 bg-black opacity-40"></div>
                     <span className="z-30 mr-1 text-sm font-light ">
@@ -77,7 +81,9 @@ const PostCard = forwardRef(({ post }, ref) => {
             </div>
             <div className="flex items-center justify-between">
                 <Link href={`/restaurant/${post.slug.current}`} passHref>
-                    <a className="font-medium cursor-pointer hover:underline underline-offset-1">{post.title}</a>
+                    <a className="cursor-pointer font-medium underline-offset-1 hover:underline">
+                        {post.title}
+                    </a>
                 </Link>
                 <div className="flex items-center">
                     <span className="mr-1 text-sm">{post.star}</span>
@@ -117,14 +123,14 @@ const ImageComponent = ({ imageURL, title }) => {
                 layout="fill"
                 objectFit="cover"
                 src={imageURL.url}
-                blurDataURL="URL"
+                blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAABJZJREFUWEeNV4lu1FgQ7Gfn/z+JGwZCiDgEikCLFoECQYhzpRXMs72qrr7sGVZEsd5cmq6uqi73tI8/lkXsrzURwYW/8tg/MC+LLMsi8zzLssx68uJrOPG+8N++pom0QdrQpOFsOHkJzgoARbX+Bgi+jN+LArVgglgAwgASRH4ZC65BaHFcV9+PMFBZQHG92J0zMC+zLKvujzFQOnUQdhKASPvwbQ4J2DnfcBn4JsqDhZldorBLMHnhBFBasu9z2imBSqKnSLv82g2AvaASOH1kUgEUeqO4eaAyocXxWTNTLdgG98AQjbZ3n/cHDByakK6aBbRDa6d/4wEzYTKAZrIojJjPzYRvPv1cT4E70WQgA2jK9Efx1QTMMk94zaXZMuDdVhMWBl5f/asAUvct/WZA80CMYYwgWYAMYIdAY7BNThQ3JgYULx549f6flQdI/waEaloYKMWpf07EKgdgaBlEPAO8uD7nrLeLd99/6wFSsx7BGMN5sjE0CTScjjFA6hlG6ByAnIEm7fmbL1ondNgkITPAPcAiTD0DAP0LC5pBEYOeAyzOwvbYg+jJ60+FgUo9H5P8AkCnYJJF59+A2GMa0ZOD9EXHtfvwgUg7f3W1AuCuhw8yAwikjh+7njgBOGFAk8HoNC8BxMju7XImdOBOLy4PGdDOjzOQhivFTQYHQAk456G9SjCufYBP7Z6/JQC/C1kcpwHThKsAmuABgHAgNooxhhY0bjovPjgbNgV3n/7tqamIqxnDgBHFqXtQrwByIgRS1CgN6tE9GUgJmrTbj//iFHgS/R8D4XbrPBhIU3oOrCUw6scNCJj05vnLJbYQaB8hRBPGbRgmLAAm61y7LywwDdMD7JiFBwUAM0IG2xGun10c94DfA2IXKBsQCqL73sWBKIiIYx/BZu6vAEZpowUSsuDa6YuVB3Il2zCAAMJNyItPk0y983l3SdyIhwDY/Ym0cZTBx1EBPHhGCWIN88c05NI2m5DpPk09ADgQhpNHoU1BpR/Fiw90Jbt2/2kxbVkK1Q+5jGATUtrhAy0+SYAIKSoDGCoPHxQ+ieLhBQJ4XPaB7J4xXPZBX8NAvXWv5x4+6EUG24w1hpmCWlC7J4ghAqlJu747X0nguxo0cQa47WYGgHIU7TgBwJ7PPcPIx5DFWHx0CdwHYOjG7pFJQNsHAB3HvBHlEkrno2jve557nGlEhhEZUADjKKN3jxOAdDyRA7uzPwJABkB/SoDCygKA7PmejyKbGbTQMJD68QRnAtAfK7d2DwMAlxTbjj2WyyZ0HMBeusvQe65mhQF0rAycmAwKyFa02wEg6U8f+D5gC6cx0M2EyoCyAAZKKM32swImRHFQrsV50Yi2nNzZnR4wkEzYcuEhpABoOlAfAEIKBBO3JoxQSGCFyYIBUnM2aXcBwGI3fq34/WCVA8UDZkAA2BsLOgk6DdyOwwPwgU0APEAWfBQB4P4DHcNYB5S2sprpT12LYZeg03xk4JedlgeRhsmAU08AzAWdDtS6pwDsNyFOvUvVHwrcCn3/SwmovzPgRtS7oy0llAAGpAn1CiPSA/8BlsA/Vk2CHYsAAAAASUVORK5CYII="
                 placeholder="blur"
             />
         </div>
     );
 };
 
-const Indicator = ({ imageCount, curIndex }) => {
+const Indicator = ({ placeID, imageCount, curIndex }) => {
     return (
         <div className="absolute bottom-2 left-1/2 z-20 flex -translate-x-1/2 items-center">
             {[...Array(imageCount)].map((_, index) => (
@@ -132,7 +138,7 @@ const Indicator = ({ imageCount, curIndex }) => {
                     className={`mx-[3px] h-[6px] w-[6px] rounded-full border border-white ${
                         curIndex === index && "scale-125 bg-white"
                     }`}
-                    key={uuid()}
+                    key={`res-card-indicator-${curIndex}-${index}-${placeID}`}
                 ></div>
             ))}
         </div>
@@ -148,7 +154,7 @@ const Controller = ({ increase, decrease, imageCount, curIndex }) => {
                 onClick={() => decrease()}
                 className="flex-cen group absolute top-1/2 left-2 z-10 h-8 w-8 -translate-y-1/2  cursor-pointer overflow-hidden rounded-full border-white text-white hover:border-2 disabled:hidden"
             >
-                <div className="absolute inset-0 hidden bg-black opacity-40 group-hover:block"></div>
+                <div className="absolute inset-0  bg-black opacity-20 group-hover:block group-hover:opacity-40"></div>
                 <FontAwesomeIcon
                     className="z-10 rotate-180"
                     icon={faChevronRight}
@@ -160,7 +166,7 @@ const Controller = ({ increase, decrease, imageCount, curIndex }) => {
                 onClick={() => increase()}
                 className="flex-cen group absolute top-1/2 right-2   z-10 h-8 w-8 -translate-y-1/2  cursor-pointer overflow-hidden rounded-full border-white text-white hover:border-2 disabled:hidden"
             >
-                <div className="absolute inset-0 hidden bg-black opacity-40 group-hover:block"></div>
+                <div className="absolute inset-0  bg-black opacity-20 group-hover:block group-hover:opacity-40"></div>
                 <FontAwesomeIcon className="z-10" icon={faChevronRight} />
             </button>
         </>

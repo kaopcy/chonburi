@@ -18,15 +18,7 @@ import Posts from "../../components/MainTravel/Posts";
 import Map from "../../components/MainTravel/Map";
 
 const Travel = ({ posts }) => {
-    // const router = useRouter()
-    // const { query } = router
-    // useEffect(()=> {
-    //     if(query.map !== undefined) return 
-    //     router.push('?map',undefined , { shallow: true })
-    //     console.log('query' , query);
-    // },[])
-    
-
+   
     const isTouch = useIsTouchDevice();
     return (
         <MapContextProvider>
@@ -37,10 +29,10 @@ const Travel = ({ posts }) => {
                     }`}
                 >
                     <Head>
-                        <title>ร้านอาหารในชลบุรี</title>
+                        <title>แหล่งท่องเที่ยวในชลบุรี</title>
                         <meta
                             name="description"
-                            content="ค้นหาร้านอาหารชื่อดังมากมายในชลบุรี รวมไปถึงแสดงแผนที่และเส้นทางในการเดินทาง"
+                            content="ค้นหาแหล่งท่องเที่ยวในชลบุรีชื่อดังมากมายในชลบุรี รวมไปถึงแสดงแผนที่และเส้นทางในการเดินทาง"
                         />
                     </Head>
                     <div className="h-[70px] w-full shrink-0 md:h-[100px]"></div>
@@ -55,7 +47,7 @@ const Travel = ({ posts }) => {
 };
 
 const postsQuery = groq`
-*[(_type == "pointOfInterest") && defined(slug.current)]{
+*[(_type == "travelSpot") && defined(slug.current)]{
   amphoe-> { name },
   tambon-> { name },
   title,
@@ -63,7 +55,6 @@ const postsQuery = groq`
   coords,
   placeID,
   imageURL,
-  reviews,
   star,
 }`;
 

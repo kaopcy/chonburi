@@ -1,199 +1,175 @@
-import { memo, useCallback, useEffect, useMemo, useRef, useState } from "react";
+import React, { useState, useMemo, useEffect, forwardRef } from "react";
+import Image from "next/image";
 import Link from "next/link";
 
-import { PortableText } from "@portabletext/react";
-import gsap from "gsap";
-
-import Image from "next/image";
-import { urlFor } from "../../../lib/sanity";
-
-import { v4 as uuid } from "uuid";
-import Moment from "react-moment";
-import "moment/locale/th";
-
+// import icons
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faLocationDot } from "@fortawesome/free-solid-svg-icons";
-import { faQuestionCircle } from "@fortawesome/free-regular-svg-icons";
+import {
+    faLocationDot,
+    faStar,
+    faChevronRight,
+    faPencilAlt,
+} from "@fortawesome/free-solid-svg-icons";
+import { useRef } from "react";
 
-import { getDistance } from "geolib";
-import { getTypeProperties } from "../../../utils/typeUtils";
+const PostCard = forwardRef(({ post }, ref) => {
+    const imageCount = useMemo(
+        () => (post.imageURL ? post.imageURL.length : 0),
+        [post.imageURL]
+    );
+    const imageContainerRef = useRef(null);
+    const [curIndex, setCurIndex] = useState(0);
 
-import useIsTouchDevice from "../../../composables/useIsTouchDevice";
-import { useUserLocation } from "../../../context/UserLocationContext";
+    const increase = () => {
+        setCurIndex((old) => (old >= imageCount - 1 ? old : old + 1));
+    };
+    const decrease = () => {
+        setCurIndex((old) => (old <= 0 ? old : old - 1));
+    };
 
-const Card = ({ post }) => {
-    const { userLocation } = useUserLocation();
-    const [index, setIndex] = useState(0);
-    const container = useRef(null);
-    const timeOut = useRef(null);
-    const isTouch = useIsTouchDevice();
     useEffect(() => {
-        const width = container.current.clientWidth;
-        gsap.to(container.current, {
-            left: `-${width * index}px`,
-            ease: "expo.inOut",
-            duration: 1,
-        });
-    }, [index]);
-
-    // useEffect(() => {
-    //     if (isTouch || isTouch === null) return;
-    //     const getRandomTime = () => {
-    //         return Math.round(Math.random() * (5000 - 4000) + 4000);
-    //     };
-    //     timeOut.current = setTimeout(() => {
-    //         setIndex((e) => (e + 1) % post.mainImage.length);
-    //         // }, getRandomTime());
-    //     }, 5000);
-
-    //     return () => {
-    //         clearTimeout(timeOut.current);
-    //     };
-    // }, [index, isTouch]);
-
-    const distance = useMemo(() => {
-        if (!userLocation || !post.coords) return null;
-        const temp = getDistance(userLocation, post.coords);
-        return temp > 1000
-            ? `${(temp / 1000).toFixed(2)} กิโลเมตร`
-            : `${temp} เมตร`;
-    }, [userLocation, post.coords]);
+        imageContainerRef.current.style.left = `${
+            curIndex * -imageContainerRef.current.clientWidth
+        }px`;
+    }, [curIndex]);
 
     return (
-        <div className="relative mr-5 mb-4  flex h-full w-[230px] shrink-0   flex-col justify-between bg-white py-8 md:w-[300px]">
-            <div className="flex flex-col">
-                <div className="group relative aspect-[16/12] w-full overflow-hidden rounded-xl">
-                    <div className="absolute inset-0 overflow-hidden rounded-xl transition-transform duration-500 group-hover:scale-125">
-                        <div className="absolute flex w-full  " ref={container}>
-                            {post.mainImage.map((image) => (
-                                <div
-                                    key={image._key}
-                                    className=" relative  aspect-[16/12] w-full  shrink-0 overflow-hidden  shadow-md "
-                                >
-                                    <Image
-                                        alt={post.slug.current}
-                                        quality="low"
-                                        layout="fill"
-                                        objectFit="cover"
-                                        src={urlFor(image).url()}
-                                        blurDataURL="URL"
-                                        placeholder="blur"
-                                    />
-                                </div>
-                            ))}
-                        </div>
-                    </div>
-                    <div className="absolute inset-0 bg-black opacity-0 transition-opacity duration-500 group-hover:opacity-40"></div>
-                    <Link href={`/travel/${post.slug.current}`}>
-                        <div className="abs-center pointer-events-none z-20 flex translate-y-full  items-center text-2xl text-white opacity-0  transition-all duration-500 group-hover:pointer-events-auto group-hover:-translate-y-1/2 group-hover:opacity-100">
-                            <div className="relative shrink-0 whitespace-nowrap">
-                                เข้าชม
-                                <div className="absolute bottom-0 h-[2px] w-full origin-left scale-x-0 bg-white delay-200 duration-700 ease-out group-hover:scale-x-100"></div>
-                            </div>
-                            <svg
-                                className="ml-2   w-5 -translate-x-[200%] opacity-0 duration-700 group-hover:translate-x-0 group-hover:opacity-100"
-                                viewBox="0 0 24 24"
-                                fill="none"
-                                xmlns="http://www.w3.org/2000/svg"
-                            >
-                                <path
-                                    d="M12 20L20 12L12 4"
-                                    stroke="white"
-                                    strokeWidth="2"
-                                    strokeLinecap="square"
-                                    strokeLinejoin="round"
-                                ></path>
-                                <line
-                                    x1="1"
-                                    y1="-1"
-                                    x2="17"
-                                    y2="-1"
-                                    transform="matrix(-1 0 0 1 20 13)"
-                                    stroke="white"
-                                    strokeWidth="2"
-                                    strokeLinecap="square"
-                                    strokeLinejoin="round"
-                                ></line>
-                            </svg>
-                        </div>
-                    </Link>
+        <div
+            ref={ref}
+            className={`mr-5 flex w-[230px]  shrink-0  flex-col overflow-hidden text-text md:w-[300px]`}
+            key={post.placeID}
+        >
+            <div
+                className="relative mb-2 aspect-[13/9] w-full shrink-0 overflow-hidden  rounded-xl"
+                key={post.imageURL[0]._key}
+            >
+                <div
+                    ref={imageContainerRef}
+                    className="absolute   top-0 left-0 flex  aspect-[13/9] w-full flex-nowrap transition-all duration-700 "
+                >
+                    {post.imageURL.map((e) => (
+                        <ImageComponent
+                            imageURL={e}
+                            key={e._key}
+                            title={post.title}
+                        />
+                    ))}
                 </div>
-                {/* <Indicator index={index} postNum={post.mainImage.length} /> */}
-                <div className="mt-5 flex w-full min-w-0 items-center justify-between">
-                    <div className="ellipsis text-xs text-text-lighter md:text-sm">
-                        {post.location}
-                    </div>
-                    <Type locationType={post.locationType} />
+                <Controller
+                    increase={increase}
+                    decrease={decrease}
+                    curIndex={curIndex}
+                    imageCount={imageCount}
+                />
+                <Indicator
+                    placeID={post.placeID}
+                    imageCount={imageCount}
+                    curIndex={curIndex}
+                />
+                <div className="absolute top-4 right-0 z-10 flex items-center overflow-hidden rounded-l-lg px-2 py-[3px] text-white">
+                    <div className="absolute inset-0 z-0 bg-black opacity-40"></div>
+                    <span className="z-30 mr-1 text-sm font-light ">
+                        {post.reviews ? Object.keys(post.reviews).length : 0}{" "}
+                        รีวิว
+                    </span>
+                    <FontAwesomeIcon
+                        className="z-30 -rotate-45 text-xs"
+                        icon={faPencilAlt}
+                    />
                 </div>
-                <div className=" mt-1 flex items-center justify-between">
-                    <h1 className="text-xl font-semibold text-text md:text-2xl ">
+            </div>
+            <div className="flex items-center justify-between">
+                <Link href={`/travel/${post.slug.current}`} passHref>
+                    <a className="cursor-pointer font-medium underline-offset-1 hover:underline">
                         {post.title}
-                    </h1>
+                    </a>
+                </Link>
+                <div className="flex items-center">
+                    <span className="mr-1 text-sm">{post.star}</span>
+                    <FontAwesomeIcon
+                        className="text-xs text-yellow-200"
+                        icon={faStar}
+                    />
                 </div>
-                <div className=" mt-1 flex items-center text-xs font-light text-text-lighterr md:text-sm">
+            </div>
+            <div className="flex justify-between font-light text-text-lighter">
+                <span className="text-xs ">
                     <FontAwesomeIcon
                         icon={faLocationDot}
-                        className="mr-2 text-xs text-red-500"
+                        className="mr-[6px] text-red-400"
                     />
-                    ระยะห่าง {distance ? distance : "-- เมตร"}
-                    {!distance && (
-                        <div className="group relative">
-                            <FontAwesomeIcon
-                                icon={faQuestionCircle}
-                                className="ml-4 text-sm text-text-lightest"
-                            />
-                            <div className="absolute bottom-full left-0 hidden w-[100px] overflow-hidden rounded-md border px-2 py-1 text-xs group-hover:flex">
-                                <div className="absolute inset-0 bg-white opacity-40"></div>
-                                <div className="z-10">
-                                    คุณไม่ได้เปิดใช้งานตำแหน่ง
-                                </div>
-                            </div>
-                        </div>
-                    )}
-                </div>
+                    <span className="">ระยะห่าง 90 กม.</span>
+                </span>
+
+                <span className="ellipsis text-xs">
+                    <span className=" mr-1">อ. {post.amphoe.name}</span>
+                    <span className="">ต. {post.tambon.name}</span>
+                </span>
             </div>
         </div>
     );
-};
+});
 
-const Type = ({ locationType }) => {
-    const { color, icon, name } = getTypeProperties(locationType);
+const ImageComponent = ({ imageURL, title }) => {
     return (
         <div
-            className="flex items-center space-x-1 whitespace-nowrap rounded-l-full border bg-gray-200 px-[8px] py-[3px]  text-xxs text-text-dark md:text-xs"
-            style={{
-                backgroundColor: color,
-            }}
+            className="relative  aspect-[13/9] w-full shrink-0 overflow-hidden"
+            key={imageURL._key}
         >
-            <FontAwesomeIcon
-                icon={icon}
-                className="text-white"
-                style={{ color: "white" }}
+            <Image
+                alt={title}
+                quality="low"
+                layout="fill"
+                objectFit="cover"
+                src={imageURL.url}
+                blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAABJZJREFUWEeNV4lu1FgQ7Gfn/z+JGwZCiDgEikCLFoECQYhzpRXMs72qrr7sGVZEsd5cmq6uqi73tI8/lkXsrzURwYW/8tg/MC+LLMsi8zzLssx68uJrOPG+8N++pom0QdrQpOFsOHkJzgoARbX+Bgi+jN+LArVgglgAwgASRH4ZC65BaHFcV9+PMFBZQHG92J0zMC+zLKvujzFQOnUQdhKASPvwbQ4J2DnfcBn4JsqDhZldorBLMHnhBFBasu9z2imBSqKnSLv82g2AvaASOH1kUgEUeqO4eaAyocXxWTNTLdgG98AQjbZ3n/cHDByakK6aBbRDa6d/4wEzYTKAZrIojJjPzYRvPv1cT4E70WQgA2jK9Efx1QTMMk94zaXZMuDdVhMWBl5f/asAUvct/WZA80CMYYwgWYAMYIdAY7BNThQ3JgYULx549f6flQdI/waEaloYKMWpf07EKgdgaBlEPAO8uD7nrLeLd99/6wFSsx7BGMN5sjE0CTScjjFA6hlG6ByAnIEm7fmbL1ondNgkITPAPcAiTD0DAP0LC5pBEYOeAyzOwvbYg+jJ60+FgUo9H5P8AkCnYJJF59+A2GMa0ZOD9EXHtfvwgUg7f3W1AuCuhw8yAwikjh+7njgBOGFAk8HoNC8BxMju7XImdOBOLy4PGdDOjzOQhivFTQYHQAk456G9SjCufYBP7Z6/JQC/C1kcpwHThKsAmuABgHAgNooxhhY0bjovPjgbNgV3n/7tqamIqxnDgBHFqXtQrwByIgRS1CgN6tE9GUgJmrTbj//iFHgS/R8D4XbrPBhIU3oOrCUw6scNCJj05vnLJbYQaB8hRBPGbRgmLAAm61y7LywwDdMD7JiFBwUAM0IG2xGun10c94DfA2IXKBsQCqL73sWBKIiIYx/BZu6vAEZpowUSsuDa6YuVB3Il2zCAAMJNyItPk0y983l3SdyIhwDY/Ym0cZTBx1EBPHhGCWIN88c05NI2m5DpPk09ADgQhpNHoU1BpR/Fiw90Jbt2/2kxbVkK1Q+5jGATUtrhAy0+SYAIKSoDGCoPHxQ+ieLhBQJ4XPaB7J4xXPZBX8NAvXWv5x4+6EUG24w1hpmCWlC7J4ghAqlJu747X0nguxo0cQa47WYGgHIU7TgBwJ7PPcPIx5DFWHx0CdwHYOjG7pFJQNsHAB3HvBHlEkrno2jve557nGlEhhEZUADjKKN3jxOAdDyRA7uzPwJABkB/SoDCygKA7PmejyKbGbTQMJD68QRnAtAfK7d2DwMAlxTbjj2WyyZ0HMBeusvQe65mhQF0rAycmAwKyFa02wEg6U8f+D5gC6cx0M2EyoCyAAZKKM32swImRHFQrsV50Yi2nNzZnR4wkEzYcuEhpABoOlAfAEIKBBO3JoxQSGCFyYIBUnM2aXcBwGI3fq34/WCVA8UDZkAA2BsLOgk6DdyOwwPwgU0APEAWfBQB4P4DHcNYB5S2sprpT12LYZeg03xk4JedlgeRhsmAU08AzAWdDtS6pwDsNyFOvUvVHwrcCn3/SwmovzPgRtS7oy0llAAGpAn1CiPSA/8BlsA/Vk2CHYsAAAAASUVORK5CYII="
+                placeholder="blur"
             />
-            <div className=" text-white">{name}</div>
         </div>
     );
 };
 
-const Indicator = ({ postNum, index }) => {
-    const isActive = useCallback(
-        (i) => {
-            return i === index;
-        },
-        [index]
-    );
+const Indicator = ({ placeID, imageCount, curIndex }) => {
     return (
-        <div className="my-3 flex items-center space-x-2 self-center">
-            {[...Array(postNum)].map((_, i) => (
+        <div className="absolute bottom-2 left-1/2 z-20 flex -translate-x-1/2 items-center">
+            {[...Array(imageCount)].map((_, index) => (
                 <div
-                    key={uuid()}
-                    className={`h-3 w-3 rounded-full border-2 bg-white ${
-                        isActive(i) && "bg-primary-light"
+                    className={`mx-[3px] h-[6px] w-[6px] rounded-full border border-white ${
+                        curIndex === index && "scale-125 bg-white"
                     }`}
+                    key={`poi-card-indicator-${curIndex}-${index}-${placeID}`}
                 ></div>
             ))}
         </div>
     );
 };
 
-export default Card;
+const Controller = ({ increase, decrease, imageCount, curIndex }) => {
+    return (
+        <>
+            <button
+                name="ย้อนกลับ"
+                disabled={curIndex === 0}
+                onClick={() => decrease()}
+                className="flex-cen group absolute top-1/2 left-2 z-10 h-8 w-8 -translate-y-1/2  cursor-pointer overflow-hidden rounded-full border-white text-white hover:border-2 disabled:hidden"
+            >
+                <div className="absolute inset-0  bg-black opacity-20 group-hover:block group-hover:opacity-40"></div>
+                <FontAwesomeIcon
+                    className="z-10 rotate-180"
+                    icon={faChevronRight}
+                />
+            </button>
+            <button
+                name="ถัดไป"
+                disabled={curIndex === imageCount - 1}
+                onClick={() => increase()}
+                className="flex-cen group absolute top-1/2 right-2   z-10 h-8 w-8 -translate-y-1/2  cursor-pointer overflow-hidden rounded-full border-white text-white hover:border-2 disabled:hidden"
+            >
+                <div className="absolute inset-0  bg-black opacity-20 group-hover:block group-hover:opacity-40"></div>
+                <FontAwesomeIcon className="z-10" icon={faChevronRight} />
+            </button>
+        </>
+    );
+};
+
+export default PostCard;

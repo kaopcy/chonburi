@@ -13,17 +13,18 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { useRef } from "react";
 
-const PostCard = ({
-    placeID,
-    imageURL,
-    title,
-    amphoe,
-    tambon,
-    isOpen,
-    slug,
-    reviews,
-    star,
-}) => {
+const PostCard = ({ post , type }) => {
+    const {
+        placeID,
+        imageURL,
+        title,
+        amphoe,
+        tambon,
+        isOpen,
+        slug,
+        reviews,
+        star,
+    } = post;
     const imageCount = useMemo(
         () => (imageURL ? imageURL.length : 0),
         [imageURL]
@@ -123,7 +124,11 @@ const PostCard = ({
                     curIndex={curIndex}
                     imageCount={imageCount}
                 />
-                <Indicator imageCount={imageCount} curIndex={curIndex} />
+                <Indicator
+                    placeID={placeID}
+                    imageCount={imageCount}
+                    curIndex={curIndex}
+                />
                 <div className="absolute top-4 right-0 z-10 flex items-center overflow-hidden rounded-l-lg px-2 py-[3px] text-white">
                     <div className="absolute inset-0 z-0 bg-black opacity-40"></div>
                     <span className="z-30 mr-1 text-sm font-light ">
@@ -136,7 +141,12 @@ const PostCard = ({
                 </div>
             </div>
             <div className="flex items-center justify-between">
-                <Link href={`/restaurant/${slug.current}`} passHref>
+                <Link
+                    href={`/${
+                        type === "restaurant" ? "restaurant" : "travel"
+                    }/${slug.current}`}
+                    passHref
+                >
                     <a className="font-medium underline-offset-1 hover:underline">
                         {title}
                     </a>
@@ -186,7 +196,7 @@ const ImageComponent = ({ imageURL, title }) => {
     );
 };
 
-const Indicator = ({ imageCount, curIndex }) => {
+const Indicator = ({ placeID, imageCount, curIndex }) => {
     return (
         <div className="absolute bottom-2 left-1/2 z-20 flex -translate-x-1/2 items-center">
             {[...Array(imageCount)].map((_, index) => (
@@ -194,7 +204,7 @@ const Indicator = ({ imageCount, curIndex }) => {
                     className={`mx-[3px] h-[6px] w-[6px] rounded-full border border-white ${
                         curIndex === index && "scale-125 bg-white"
                     }`}
-                    key={uuid()}
+                    key={`main-card-indicator-${curIndex}-${index}-${placeID}`}
                 ></div>
             ))}
         </div>

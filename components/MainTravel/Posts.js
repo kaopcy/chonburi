@@ -15,7 +15,7 @@ import PostCard from "./PostCard";
 import AmphoeSelector from "./AmphoeSelector";
 import SearchBar from "./SearchBar";
 
-const Posts = () => {
+const Posts = ({ type }) => {
     const router = useRouter();
     const {
         amphoeArr,
@@ -156,6 +156,17 @@ const Posts = () => {
                     >
                         {filter ? (
                             <div className="">ผลการค้นหาสำหรับ "{filter}"</div>
+                        ) : type === "restaurant" ? (
+                            <>
+                                ร้านอาหาร
+                                <span className="mr-5  inline" ref={testRef}>
+                                    ในชลบุรี
+                                </span>
+                                <FontAwesomeIcon
+                                    icon={faMountain}
+                                    className="text-2xl text-primary-lighter"
+                                />
+                            </>
                         ) : (
                             <>
                                 แหล่งท่องเที่ยว
@@ -216,8 +227,9 @@ const Posts = () => {
                                                         extraAmphoe[index] *
                                                             4 && (
                                                         <PostCard
+                                                            type={type}
                                                             key={post.placeID}
-                                                            {...post}
+                                                            post={post}
                                                             isOpen={isOpen}
                                                         />
                                                     )

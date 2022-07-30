@@ -31,8 +31,8 @@ const Travel = ({ posts }) => {
                     </Head>
                     <div className="h-[70px] w-full shrink-0 md:h-[100px]"></div>
                     <div className="flex h-full w-full overflow-hidden">
-                        <Posts />
-                        <Map />
+                        <Posts type="restaurant" />
+                        <Map type="restaurant" />
                     </div>
                 </main>
             </PostsContextProvider>

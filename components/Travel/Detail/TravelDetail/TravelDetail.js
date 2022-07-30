@@ -87,8 +87,8 @@ const HighLightDetail = ({ post }) => {
                 <div className="flex flex-col font-normal ">
                     <div className="font-bold text-text ">สถานที่ตั้ง</div>
                     <div className="flex flex-wrap items-center text-sm font-light text-text-lighter ">
-                        <div className="mr-5">อ. {post.amphoe.name}</div>
-                        <div className="">ต. {post.tambon.name} </div>
+                        <div className="mr-5">อ. {post.amphoe?.name}</div>
+                        <div className="">ต. {post.tambon?.name} </div>
                     </div>
                 </div>
             </div>

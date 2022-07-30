@@ -8,9 +8,12 @@ import author from "./author";
 import province from "./province";
 import restaurant from "./restaurant";
 import tag from "./tag";
-import pointOfInterest from "./pointOfInterest";
 import amphoe from "./amphoe";
 import tambon from "./tambon";
+
+// main
+import pointOfInterest from "./pointOfInterest";
+import TravelSpot from "./TravelSpot";
 
 export default createSchema({
     name: "default",
@@ -25,5 +28,6 @@ export default createSchema({
         restaurant,
         tag,
         pointOfInterest,
+        TravelSpot
     ]),
 });
