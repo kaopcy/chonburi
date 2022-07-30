@@ -45,8 +45,6 @@ const AmphoeHistory = () => {
                     activeAmphoe = activeAmphoe.filter((e) => e != outAmphoe);
 
                 const isUp = lastScroll > window.scrollY;
-                console.log("isUp: ", isUp);
-                console.log(activeAmphoe);
                 lastScroll = window.scrollY;
                 setCurrentAmphoe((e) =>
                     activeAmphoe[0]
@@ -264,7 +262,6 @@ const AmphoeHistory = () => {
 };
 
 const History = forwardRef(({ amphoe }, ref) => {
-    console.log(amphoe.name);
     return (
         <div
             data-amphoe={amphoe.name}

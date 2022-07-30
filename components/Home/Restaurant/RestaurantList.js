@@ -11,35 +11,43 @@ import RestaurantCard from "./Card";
 import Indicator from "./Indicator";
 
 const RestaurantList = ({ restaurants }) => {
-    const { slider } = useDraggable();
+    const { slider: sliderRef } = useDraggable();
 
     const cardArrRef = useRef([]);
     const indicatorRef = useRef(null);
     const containerRef = useRef(null);
-    const observer = useRef();
 
+    // for indicator listener
     useEffect(() => {
-        if (!indicatorRef.current) return;
-        observer.current = new IntersectionObserver(
-            (entries) => {
-                let intersect = [];
-                let notIntersect = [];
+        const scrollEvnt = () => {
+            const firstCard = cardArrRef.current[0];
+            const slider = sliderRef.current;
 
-                entries.forEach((e) => {
-                    if (e.isIntersecting) intersect.push(e.target);
-                    else notIntersect.push(e.target);
-                });
+            const cardLength = cardArrRef.current.length;
 
-                indicatorRef.current.update(intersect , notIntersect , cardArrRef.current);
-            },
-            { root: containerRef.current, rootMargin: "0px -40px 0px -40px" }
-        );
-        cardArrRef.current.map((e) => {
-            observer.current.observe(e);
-        });
+            const cardWidth =
+                parseFloat(getComputedStyle(firstCard).width.slice(0, -2)) +
+                parseFloat(
+                    getComputedStyle(firstCard).marginRight.slice(0, -2)
+                );
+            const sliderScrollL = slider.scrollLeft;
+            const containerWidth = containerRef.current.clientWidth;
 
+            const start = Math.min(
+                cardLength,
+                Math.floor(sliderScrollL / cardWidth)
+            );
+            const end = Math.min(
+                cardLength,
+                Math.ceil((sliderScrollL + containerWidth) / cardWidth)
+            );
+            indicatorRef.current.updateScroll(start, end);
+        };
+        scrollEvnt();
+        sliderRef.current.addEventListener("scroll", scrollEvnt);
         return () => {
-            if (observer.current) observer.current.disconnect();
+            if (sliderRef.current)
+                sliderRef.current.removeEventListener("scroll", scrollEvnt);
         };
     }, []);
 
@@ -60,14 +68,11 @@ const RestaurantList = ({ restaurants }) => {
                 </Link>
             </div>
 
-            <div
-                ref={containerRef}
-                className="relative mt-8 w-full  "
-            >
+            <div ref={containerRef} className="relative mt-8 w-full  ">
                 <div className="absolute bottom-[0px] left-0 z-10 h-3 w-full  bg-white "></div>
                 <div
                     className="relative flex w-full overflow-x-auto pb-5"
-                    ref={slider}
+                    ref={sliderRef}
                 >
                     {restaurants.map((restaurant, i) => {
                         return (
@@ -88,7 +93,7 @@ const RestaurantList = ({ restaurants }) => {
                     </Link>
                 </div>
             </div>
-            <Indicator ref={indicatorRef}  />
+            <Indicator length={restaurants.length} ref={indicatorRef} />
         </div>
     );
 };

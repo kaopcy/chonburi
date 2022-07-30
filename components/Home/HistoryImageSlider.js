@@ -30,7 +30,7 @@ const HistoryImageSlider = () => {
     const isTouch = useIsTouchDevice();
 
     useEffect(() => {
-        if (!sliderRef.current) return;
+        if (!sliderRef.current || isTouch === null) return;
         const sliderChildren = [...sliderRef.current[0].children];
         const sliderFirstChild = sliderChildren[0];
 
@@ -48,7 +48,6 @@ const HistoryImageSlider = () => {
                 imageMargin = parseFloat(
                     getComputedStyle(sliderFirstChild).marginBottom.slice(0, 2)
                 );
-                console.log(imageMargin);
                 sliderHeight =
                     (imageHeight + imageMargin) * sliderChildren.length;
                 if (index === 0) slider.style.marginTop = `-${sliderHeight}px`;
@@ -168,10 +167,6 @@ const HistoryImageSlider = () => {
                     e.disconnect();
                 });
         };
-    }, [isTouch]);
-
-    useEffect(() => {
-        console.log("isTouch rerender: ", isTouch);
     }, [isTouch]);
 
     return (
