@@ -1,18 +1,15 @@
+import { useMemo } from "react";
 import { useRouter } from "next/router";
 import Link from "next/link";
-const MatchLink = ({ path, children }) => {
+const MatchLink = ({ path, children, index }) => {
     const router = useRouter();
-    const isMatch = () => {
-        const curPath = router.pathname;
-        const isIndex = curPath === "/";
-        console.log("curPath: ", curPath);
-        console.log("isIndex: ", isIndex);
-    };
+    const isIndex = useMemo(() => router.pathname === "/", [router.pathname]);
 
-    isMatch();
     return (
         <Link href={path} passHref={true}>
-            {children({ isMatch: router.pathname.includes(path) })}
+            {children({
+                isMatch: index ? isIndex : router.pathname.includes(path),
+            })}
         </Link>
     );
 };

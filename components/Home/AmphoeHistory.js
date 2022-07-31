@@ -1,4 +1,5 @@
 import { useRef, useEffect, useState, forwardRef, useMemo } from "react";
+import Link from "next/link";
 import Image from "next/image";
 import gsap from "gsap/dist/gsap";
 import { v4 as uuid } from "uuid";
@@ -318,26 +319,32 @@ const History = forwardRef(({ amphoe }, ref) => {
                 ))}
             </div>
             <div className="mt-12 flex items-center self-end font-medium">
-                <div className="group  mr-4 flex cursor-pointer items-center  border border-text px-5 py-2 text-sm hover:bg-text ">
-                    <div className="mr-2 group-hover:text-white">
-                        แหล่งท่องเที่ยว
+                <Link href={`/travel?amphoe=${amphoe.name}`} passHref>
+                    <div className="group  mr-4 flex cursor-pointer items-center  border border-text px-5 py-2 text-sm hover:bg-text ">
+                        <>
+                            <div className="mr-2 group-hover:text-white">
+                                แหล่งท่องเที่ยว
+                            </div>
+                            <div className="relative w-3 rotate-180 transition-transform group-hover:translate-x-2 group-hover:rotate-0">
+                                <div className="absolute h-[1px] w-full bg-text group-hover:bg-white"></div>
+                                <div className="absolute top-0 h-[1px] w-[50%] origin-bottom-left rotate-45 bg-text group-hover:bg-white"></div>
+                                <div className="absolute top-0 h-[1px] w-[50%] origin-top-left -rotate-45 bg-text group-hover:bg-white"></div>
+                            </div>
+                        </>
                     </div>
-                    <div className="relative w-3 rotate-180 transition-transform group-hover:translate-x-2 group-hover:rotate-0">
-                        <div className="absolute h-[1px] w-full bg-text group-hover:bg-white"></div>
-                        <div className="absolute top-0 h-[1px] w-[50%] origin-bottom-left rotate-45 bg-text group-hover:bg-white"></div>
-                        <div className="absolute top-0 h-[1px] w-[50%] origin-top-left -rotate-45 bg-text group-hover:bg-white"></div>
+                </Link>
+                <Link href={`/restaurant?amphoe=${amphoe.name}`} passHref>
+                    <div className="group flex cursor-pointer items-center border border-text bg-text  px-5 py-2 text-sm hover:bg-white">
+                        <div className="mr-2 text-white group-hover:text-text">
+                            ร้านอาหาร
+                        </div>
+                        <div className="relative w-3 rotate-180 transition-transform group-hover:translate-x-2 group-hover:rotate-0">
+                            <div className="absolute h-[1px] w-full bg-white group-hover:bg-text "></div>
+                            <div className="absolute top-0 h-[1px] w-[50%] origin-bottom-left rotate-45 bg-white group-hover:bg-text"></div>
+                            <div className="absolute top-0 h-[1px] w-[50%] origin-top-left -rotate-45 bg-white group-hover:bg-text"></div>
+                        </div>
                     </div>
-                </div>
-                <div className="group flex cursor-pointer items-center border border-text bg-text  px-5 py-2 text-sm hover:bg-white">
-                    <div className="mr-2 text-white group-hover:text-text">
-                        ร้านอาหาร
-                    </div>
-                    <div className="relative w-3 rotate-180 transition-transform group-hover:translate-x-2 group-hover:rotate-0">
-                        <div className="absolute h-[1px] w-full bg-white group-hover:bg-text "></div>
-                        <div className="absolute top-0 h-[1px] w-[50%] origin-bottom-left rotate-45 bg-white group-hover:bg-text"></div>
-                        <div className="absolute top-0 h-[1px] w-[50%] origin-top-left -rotate-45 bg-white group-hover:bg-text"></div>
-                    </div>
-                </div>
+                </Link>
             </div>
         </div>
     );

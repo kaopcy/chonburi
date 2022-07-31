@@ -63,7 +63,7 @@ const Navbar = () => {
 
                 <div className="z-20 flex justify-center space-x-6">
                     <div className="group relative py-4">
-                        <MatchLink path="/">
+                        <MatchLink path="/" index>
                             {({ isMatch }) => (
                                 <div
                                     className={`group cursor-pointer  px-4 ${
@@ -100,7 +100,7 @@ const Navbar = () => {
                         </MatchLink>
                         {/* <PoiDropdown /> */}
                     </div>
-                    <div className="group relative py-4">
+                    <div className=" group relative py-4">
                         <MatchLink path="/restaurant">
                             {({ isMatch }) => (
                                 <div
@@ -120,13 +120,24 @@ const Navbar = () => {
                         {/* <RestaurantDropdown /> */}
                     </div>
                 </div>
-
-                <div className="z-20 flex items-center rounded-xl border-[3px] border-primary px-4 py-1 text-xl">
-                    <div className="mr-2">ข้อมูล</div>
-                    <FontAwesomeIcon
-                        icon={faChevronDown}
-                        className="text-text-light text-sm "
-                    />
+                <div className="group relative z-20 py-4">
+                    <MatchLink path="/trip">
+                        {({ isMatch }) => (
+                            <div
+                                className={` cursor-pointer  px-4 ${
+                                    isMatch ? "text-primary" : "text-text"
+                                }`}
+                            >
+                                <span className="mr-2">โปรแกรมเที่ยว</span>
+                                <div
+                                    className={`h-[3px] w-full origin-left scale-x-0 bg-primary opacity-20 transition-transform group-hover:scale-x-100  ${
+                                        isMatch && "!scale-x-100"
+                                    }`}
+                                ></div>
+                            </div>
+                        )}
+                    </MatchLink>
+                    {/* <RestaurantDropdown /> */}
                 </div>
             </div>
             <div

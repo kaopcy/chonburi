@@ -3,13 +3,14 @@ module.exports = {
         "./pages/**/*.{js,ts,jsx,tsx}",
         "./components/**/*.{js,ts,jsx,tsx}",
     ],
-    
+
     theme: {
         extend: {
             fontFamily: {
                 kanit: ["kanit"],
                 sarabun: ["sarabun"],
                 notoSansThai: ["noto sans thai"],
+                apple: ["-apple-system", "BlinkMacSystemFont", "sans-serif"],
             },
             fontSize: {
                 xxs: "10px",

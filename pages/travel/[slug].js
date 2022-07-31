@@ -35,7 +35,7 @@ import Map from "../../components/Travel/Map/Map";
 import DirectionRouteControl from "../../components/Travel/Controls/DirectionRouteControl";
 import ImageGallery from "../../components/Travel/ImageGallery";
 
-const Restaurant = ({ post: fetchedPost, posts: fetchedPosts }) => {
+const Travel = ({ post: fetchedPost, posts: fetchedPosts }) => {
     const router = useRouter();
     if (router.isFallback) return <div className="">Loading</div>;
 
@@ -191,4 +191,4 @@ export async function getStaticProps({ params, preview = false }) {
     };
 }
 
-export default Restaurant;
+export default Travel;
