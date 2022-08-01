@@ -23,23 +23,23 @@ const TripCard = ({ trip, index }) => {
     return (
         <Link href={`trip/${trip.slug.current}`} passHref>
             <div
-                className={`group w-full cursor-pointer  shadow-md ${
+                className={`group w-full cursor-pointer  border overflow-hidden rounded-lg ${
                     index === 1 && "md:col-auto lg:col-[span_2]"
                 } ${index === 2 && "md:col-[span_2] lg:col-auto"}`}
             >
                 <div className="relative flex w-full flex-col">
-                    <div className="flex-cen absolute inset-0 z-10 bg-gradient-to-t from-transparent to-black opacity-60 transition-opacity group-hover:opacity-70"></div>
+                    <div className="flex-cen absolute inset-0 z-10 bg-gradient-to-b from-transparent to-black opacity-60 transition-opacity duration-700 group-hover:opacity-70"></div>
                     <div className="absolute top-1/2 left-1/2 z-20 -translate-x-1/2 -translate-y-1/2">
                         <div className="mb-3 whitespace-nowrap text-center text-4xl font-black text-white ">
-                            <span className="font-medium">" </span>
+                            <span className="font-light">" </span>
                             {firstQuote}
-                            <span className="font-medium"> "</span>
+                            <span className="font-light"> "</span>
                         </div>
                         <div className="whitespace-nowrap text-center text-xl font-medium text-white underline underline-offset-1">
                             {secondQuote}
                         </div>
                     </div>
-                    <div className={`relative h-[300px] overflow-hidden`}>
+                    <div className={`relative h-[300px] overflow-hidden `}>
                         <div className="absolute inset-0 transition-transform duration-500  ease-out group-hover:scale-125">
                             <Image
                                 layout="fill"

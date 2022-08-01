@@ -1,17 +1,31 @@
 import { useEffect, useRef, useState } from "react";
-import { useRouter } from "next/router";
 import Link from "next/link";
 
 import gsap from "gsap/dist/gsap";
 
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faChevronRight, faXmark } from "@fortawesome/free-solid-svg-icons";
-
-// import constants
-import { navItems } from "../../config/navbarConfig";
+// import components
+import SvgUtensil from "../../icons/Utensil";
+import SvgMuseum from "../../icons/new/Museum";
+import SvgHouse from "../../icons/House";
+import SvgSuitcase from "../../icons/Suitcase";
 
 // import HOC
 import MatchLink from "../Utils/MatchLink";
+
+// import icons
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faXmark } from "@fortawesome/free-solid-svg-icons";
+import {
+    FacebookShareButton,
+    LineShareButton,
+    TwitterShareButton,
+} from "react-share";
+import {
+    faFacebook,
+    faFacebookSquare,
+    faLine,
+    faTwitter,
+} from "@fortawesome/free-brands-svg-icons";
 
 const NavSidebar = ({ setIsOpen }) => {
     const animation = useRef(null);
@@ -55,141 +69,109 @@ const NavSidebar = ({ setIsOpen }) => {
                 onClick={() => animationToggle()}
             ></div>
             <div
-                className="absolute  -left-full flex h-full w-full max-w-[300px] flex-col items-start  bg-white pt-10 text-lg"
+                className="absolute  -left-full flex h-full w-full max-w-[300px] flex-col items-start  bg-white px-8 pt-14 text-lg text-text"
                 ref={container}
             >
                 <FontAwesomeIcon
                     onClick={() => animation.current.reverse()}
                     icon={faXmark}
-                    className=" absolute top-0 right-0 p-4 text-lg text-text "
+                    className=" mb-6 text-2xl "
                 />
-                {navItems.map((link) =>
-                    link.children ? (
-                        <DropdownLink link={link} key={link.name} />
-                    ) : (
-                        <NormalLink link={link} key={link.name} />
-                    )
-                )}
-            </div>
-        </div>
-    );
-};
 
-const NormalLink = ({ link }) => {
-    return (
-        <div className="sidebar-item flex w-full flex-col">
-            <div className="relative flex w-full  cursor-pointer items-center  justify-between px-4  py-2 ">
-                <MatchLink path={link.to}>
+                <MatchLink index path={`/`}>
                     {({ isMatch }) => (
-                        <div className="flex items-center">
-                            <FontAwesomeIcon
-                                icon={link.icon}
-                                className={`mr-4 text-xl text-text-lighter  ${
-                                    isMatch && "!text-primary"
-                                }`}
-                            />
-                            <span className="z-10 whitespace-nowrap text-xl tracking-tighter">
-                                {link.name}
-                            </span>
-                            {isMatch && (
-                                <div className="absolute left-0 top-0 z-10 h-full w-[4px] bg-primary"></div>
-                            )}
-                        </div>
-                    )}
-                </MatchLink>
-            </div>
-        </div>
-    );
-};
-
-const DropdownLink = ({ link }) => {
-    const [isDropdown, setIsDropdown] = useState(false);
-    const dropdownAnimation = useRef(null);
-    const container = useRef(null);
-    const detail = useRef(null);
-    const chevron = useRef(null);
-    const dropdownLists = link.children;
-
-    useEffect(() => {
-        dropdownAnimation.current = gsap
-            .timeline({
-                paused: true,
-                reversed: true,
-            })
-            .to(container.current, {
-                height: detail.current.clientHeight,
-                ease: "none",
-                duration: 0.3,
-            })
-            .to(chevron.current, { rotate: "90deg", duration: 0.3 }, "<");
-
-        return () => {
-            if (dropdownAnimation.current) {
-                dropdownAnimation.current.kill();
-            }
-        };
-    }, []);
-
-    return (
-        <div className="sidebar-item flex w-full flex-col">
-            <div className=" relative flex w-full  cursor-pointer items-center  justify-between px-4  py-2 ">
-                <MatchLink path={link.to}>
-                    {({ isMatch }) => (
-                        <>
-                            <div className="flex items-center">
-                                <FontAwesomeIcon
-                                    icon={link.icon}
-                                    className={`mr-4 text-xl text-text-lighter  ${
-                                        isMatch && "!text-primary"
-                                    }`}
-                                />
-                                <span className="z-10 whitespace-nowrap text-xl tracking-tighter text-text">
-                                    {link.name}
-                                </span>
-                                {isMatch && (
-                                    <div className="absolute left-0 top-0 z-10 h-full w-[4px] bg-primary"></div>
-                                )}
+                        <div className="sidebar-item  flex h-10  w-full items-center ">
+                            <div className="mr-8 w-5">
+                                <SvgHouse />
                             </div>
-                        </>
-                    )}
-                </MatchLink>
-                <div ref={chevron}>
-                    <FontAwesomeIcon
-                        icon={faChevronRight}
-                        className="justify-self-end text-sm text-text-lightest transition-transform  "
-                        onClick={() => {
-                            dropdownAnimation.current.reversed()
-                                ? dropdownAnimation.current.play()
-                                : dropdownAnimation.current.reverse();
-                        }}
-                    />
-                </div>
-            </div>
-            <div
-                ref={container}
-                className="relative ml-6 h-0 w-full overflow-hidden"
-            >
-                <div className="absolute top-0 left-0 h-[calc(100%-15px)] w-[2px] bg-zinc-100"></div>
-                <div className="absolute bottom-0 left-0" ref={detail}>
-                    {dropdownLists.map((dropdown, i) => (
-                        <div
-                            className="flex items-center py-1 pl-4 text-base text-text-lighter"
-                            key={dropdown.name + i}
-                        >
-                            <div className="absolute left-0 h-[3px] w-3 bg-zinc-100"></div>
                             <div
-                                className="flex-cen  mr-4 aspect-square w-5 rounded-md"
-                                style={{ backgroundColor: dropdown.color }}
+                                className={`text-base font-medium ${
+                                    isMatch && "underline underline-offset-2"
+                                }`}
                             >
-                                <FontAwesomeIcon
-                                    className="text-xs text-white "
-                                    icon={dropdown.icon}
-                                />
+                                หน้าแรก
                             </div>
-                            <div className="">{dropdown.name}</div>
                         </div>
-                    ))}
-                </div>
+                    )}
+                </MatchLink>
+                <MatchLink path={`/restaurant`}>
+                    {({ isMatch }) => (
+                        <div className="sidebar-item  flex h-10  w-full items-center ">
+                            <div className="mr-8 w-5">
+                                <SvgUtensil />
+                            </div>
+                            <div
+                                className={`text-base font-medium ${
+                                    isMatch && "underline underline-offset-2"
+                                }`}
+                            >
+                                ร้านอาหาร
+                            </div>
+                        </div>
+                    )}
+                </MatchLink>
+                <MatchLink path={`/travel`}>
+                    {({ isMatch }) => (
+                        <div className="sidebar-item  flex h-10  w-full items-center ">
+                            <div className="mr-8 w-5">
+                                <SvgMuseum />
+                            </div>
+                            <div
+                                className={`text-base font-medium ${
+                                    isMatch && "underline underline-offset-2"
+                                }`}
+                            >
+                                แหล่งท่องเที่ยว
+                            </div>
+                        </div>
+                    )}
+                </MatchLink>
+                <MatchLink path={`/trip`}>
+                    {({ isMatch }) => (
+                        <div className="sidebar-item  flex h-10  w-full items-center ">
+                            <div className="mr-8 w-5">
+                                <SvgSuitcase />
+                            </div>
+                            <div
+                                className={`text-base font-medium ${
+                                    isMatch && "underline underline-offset-2"
+                                }`}
+                            >
+                                โปรแกรมท่องเที่ยว
+                            </div>
+                        </div>
+                    )}
+                </MatchLink>
+                <div className="mt-10 h-[1px] w-full bg-text-lightest"></div>
+                <Contract />
+            </div>
+        </div>
+    );
+};
+
+const Contract = () => {
+    return (
+        <div className="mt-6 flex flex-col">
+            <div className="text-sm font-bold">ติดต่อ</div>
+            <div className="flex items-center mt-2">
+                <FacebookShareButton url={``}>
+                    <FontAwesomeIcon
+                        className="mr-4 shrink-0 text-xl   text-[#4267B2]"
+                        icon={faFacebookSquare}
+                    />
+                </FacebookShareButton>
+                <TwitterShareButton url={``}>
+                    <FontAwesomeIcon
+                        className="mr-4 shrink-0 text-xl   text-[#00ACEE]"
+                        icon={faTwitter}
+                    />
+                </TwitterShareButton>
+                <LineShareButton url={``}>
+                    <FontAwesomeIcon
+                        className="mr-4 shrink-0 text-xl   text-[#00B900]"
+                        icon={faLine}
+                    />
+                </LineShareButton>
             </div>
         </div>
     );

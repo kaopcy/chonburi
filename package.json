@@ -7,7 +7,7 @@
         "build": "next build",
         "start": "next start",
         "lint": "next lint",
-        "svg": "svgr -d icons public/images"
+        "svg": "svgr -d icons public/icons/navbarIcons"
     },
     "dependencies": {
         "@babel/preset-env": "^7.17.10",

@@ -1,1 +1,1 @@
-export { default as AmphoeChonburi } from "./AmphoeChonburi";
+export { default as Suitcase } from "./Suitcase";

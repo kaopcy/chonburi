@@ -4,15 +4,10 @@ import Link from "next/link";
 import gsap from "gsap/dist/gsap";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBars, faChevronDown } from "@fortawesome/free-solid-svg-icons";
-
-// import constants
-import { navItems } from "../../config/navbarConfig";
+import { faBars } from "@fortawesome/free-solid-svg-icons";
 
 // import components
 import NavSidebar from "./NavSidebar";
-import PoiDropdown from "./PoiDropdown";
-import RestaurantDropdown from "./RestaurantDropdown";
 import SvgChonburi2 from "../../icons/new/Chonburi2";
 
 // import HOC
@@ -60,6 +55,8 @@ const Navbar = () => {
                         <SvgChonburi2 />
                     </div>
                 </Link>
+
+                
 
                 <div className="z-20 flex justify-center space-x-6">
                     <div className="group relative py-4">
