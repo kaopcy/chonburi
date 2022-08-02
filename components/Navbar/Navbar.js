@@ -30,12 +30,12 @@ const Navbar = () => {
             })
             .to(navbarRef.current, {
                 height: "70px",
-                duration: 0.7,
+                duration: 0.5,
                 ease: "expo.inOut",
             })
             .to(
                 iconRef.current,
-                { ease: "expo.inOut", width: "72px", duration: 0.7 },
+                { ease: "expo.inOut", width: "72px", duration: 0.5 },
                 "<"
             );
     }, []);
@@ -46,7 +46,7 @@ const Navbar = () => {
     return (
         <div
             ref={navbarRef}
-            className="fixed z-[100] flex  h-[70px] w-full flex-col border-b lg:h-[100px]"
+            className="fixed z-[2000] flex  h-[70px] w-full flex-col border-b lg:h-[100px]"
         >
             <div className="relative hidden h-full w-full  max-w-[1500px] items-center justify-between self-center px-20 text-xl  font-medium text-text lg:flex 2xl:px-5">
                 <div className="absolute top-0 left-0 z-10 h-full w-full bg-white opacity-80"></div>

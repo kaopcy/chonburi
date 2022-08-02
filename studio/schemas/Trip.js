@@ -23,6 +23,16 @@ const activity = {
             title: "ลิ้งค์",
             type: "string",
         },
+        {
+            name: "lat",
+            title: "ละติจูด",
+            type: "number",
+        },
+        {
+            name: "lng",
+            title: "ลองจิจูด",
+            type: "number",
+        },
     ],
 };
 

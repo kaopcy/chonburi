@@ -64,7 +64,7 @@ const AmphoeChonburi = forwardRef(({ currentAmphoe }, ref) => {
         <>
             <div
                 ref={markerRef}
-                className="absolute hidden md:block top-0 left-0 z-20 h-2 w-3 animate-scale-pulse rounded-[50%]  border-2 border-white bg-primary shadow-big "
+                className="absolute hidden md:block top-0 left-0 z-20 h-2 w-3 animate-scale-pulse rounded-[50%]   border-2 border-white bg-primary shadow-big "
             >
                 <div
                     style={{

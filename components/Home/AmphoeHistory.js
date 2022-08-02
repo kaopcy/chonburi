@@ -234,7 +234,7 @@ const AmphoeHistory = () => {
                             className="mt-2 h-[1.5px] w-14 bg-[#FF5656] md:h-[3.5px] md:w-20"
                         ></div>
                     </div>
-                    <div className="relative mx-auto w-full max-w-[250px] px-3 md:max-w-[500px] ">
+                    <div className="relative mx-auto w-full max-w-[250px] bg-transparent px-3 md:max-w-[500px]">
                         <AmphoeChonburi
                             ref={svgRef}
                             currentAmphoe={currentAmphoe}
@@ -248,7 +248,10 @@ const AmphoeHistory = () => {
             </div>
             <div className="absolute top-0 left-0 flex w-full">
                 <div className="hidden w-full md:block "></div>
-                <div ref={textContainerRef} className="z-0   w-full ">
+                <div
+                    ref={textContainerRef}
+                    className="z-0 flex w-full flex-col"
+                >
                     {amphoeConstant.map((amphoe, index) => (
                         <History
                             ref={(e) => (quoteContainer.current[index] = e)}
@@ -286,7 +289,7 @@ const History = forwardRef(({ amphoe }, ref) => {
                 {amphoe.history}
             </div>
             <DistrictShow mobile currentAmphoeObj={amphoe} />
-            <div className="mt-4 grid w-full grid-cols-2 items-center justify-between gap-y-2 md:flex md:gap-y-0">
+            <div className="mt-4 grid w-full grid-cols-2 items-center justify-between gap-y-2 md:flex md:flex-wrap md:gap-y-0">
                 {amphoe.images.map((e) => (
                     <div
                         className="flex items-center"
@@ -354,11 +357,11 @@ const DistrictShow = forwardRef(({ currentAmphoeObj, mobile }, ref) => {
     return (
         <div
             ref={ref}
-            className={`flex-col  items-center rounded-lg border-2 border-text-lighter bg-white p-3 pb-0 md:pb-3
+            className={`w-auto  flex-col items-center rounded-lg border-2 border-text-lighter bg-white p-3 pb-0 md:w-[150px] md:pb-3 lg:w-auto
                 ${
                     mobile
                         ? "relative  mt-5 mb-3 flex self-center md:hidden"
-                        : "absolute right-8 bottom-0 hidden md:flex "
+                        : "absolute right-8 -bottom-[50px] hidden md:-bottom-[40px] md:flex lg:bottom-0 "
                 }
             `}
         >
@@ -369,7 +372,7 @@ const DistrictShow = forwardRef(({ currentAmphoeObj, mobile }, ref) => {
                 </span>
                 ตำบล
             </div>
-            <div className="ml-6 grid w-full grid-cols-2 overflow-y-auto py-3 text-xs md:max-h-[100px]">
+            <div className="ml-6 grid w-full grid-cols-2 overflow-y-auto py-3 text-xs md:max-h-[100px] md:grid-cols-1 lg:grid-cols-2">
                 {currentAmphoeObj?.district?.map((e, index) => (
                     <div
                         key={`${mobile ? "mobile" : "desktop"}-${index}-${

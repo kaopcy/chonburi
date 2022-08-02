@@ -48,9 +48,9 @@ const NavSidebar = ({ setIsOpen }) => {
                 { xPercent: -120 },
                 {
                     xPercent: 0,
-                    stagger: { amount: 0.2, each: 0.1 },
+                    stagger: { amount: 0.1, each: 0.05 },
                 },
-                "<0.1"
+                "<"
             );
         animation.current.play();
     }, []);
@@ -153,7 +153,7 @@ const Contract = () => {
     return (
         <div className="mt-6 flex flex-col">
             <div className="text-sm font-bold">ติดต่อ</div>
-            <div className="flex items-center mt-2">
+            <div className="mt-2 flex items-center">
                 <FacebookShareButton url={``}>
                     <FontAwesomeIcon
                         className="mr-4 shrink-0 text-xl   text-[#4267B2]"

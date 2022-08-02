@@ -1,7 +1,9 @@
 import React, { useMemo, useEffect, useRef } from "react";
 import Image from "next/image";
 import gsap from "gsap/dist/gsap";
-import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
+
+// import icons
+import SvgExport from "../../icons/Export";
 
 const gridLayout = [
     { col: "col-[1/5] md:col-[1/4]", row: "row-[1/3]  md:row-[1/8]" },
@@ -32,7 +34,10 @@ const TripImages = ({ trip }) => {
             const preferredT = (windowH - 70) / 2 - layoutH / 2;
 
             containerRef.current.style.height = `${windowH + layoutH}px`;
-            stickyRef.current.style.top = `${Math.max(preferredT + 70, window.innerWidth > 768 ? 100 : 70)}px`;
+            stickyRef.current.style.top = `${Math.max(
+                preferredT + 70,
+                window.innerWidth > 768 ? 100 : 70
+            )}px`;
         };
         resizeEvnt();
         window.addEventListener("resize", resizeEvnt);
@@ -46,7 +51,7 @@ const TripImages = ({ trip }) => {
             },
         })
             .to(layoutRef.current, {
-                opacity: 0,
+                autoAlpha: 0,
                 duration: 1,
             })
             .to(
@@ -76,9 +81,9 @@ const TripImages = ({ trip }) => {
     }, []);
 
     return (
-        <div ref={containerRef} className="mb-10  h-screen w-full ">
+        <div ref={containerRef} className="mb-10 sm:mb-16  h-screen w-full ">
             <div ref={stickyRef} className="sticky top-[70px]">
-                <div className="relative mb-10 grid  h-[calc(100vh-70px)] w-full grid-cols-4 grid-rows-[repeat(8,_1fr)]  gap-1 px-2 md:aspect-[13/8]   md:h-auto md:grid-cols-9   md:grid-rows-[repeat(7,_1fr)] md:px-0 ">
+                <div className="relative mb-10 grid  h-[calc(100vh-70px)] w-full grid-cols-4 grid-rows-[repeat(8,_1fr)]  gap-1  md:aspect-[13/8]   md:h-auto md:grid-cols-9   md:grid-rows-[repeat(7,_1fr)] md:px-0 ">
                     <div
                         ref={layoutRef}
                         className="absolute inset-0 z-30 bg-black opacity-60"
@@ -89,16 +94,19 @@ const TripImages = ({ trip }) => {
                             className="mb-3 whitespace-nowrap text-4xl font-black md:mb-4 md:text-6xl"
                         >
                             {firstQuote}
+                            <div className="mt-4 text-xl font-medium md:text-2xl">
+                                {secondQuote}
+                            </div>
                         </div>
                         <div
                             ref={lineRef}
-                            className="mx-auto mb-3 h-14 w-[1px] bg-white md:mb-4"
-                        ></div>
-                        <div
-                            ref={sqRef}
-                            className="text-xl font-medium md:text-2xl"
+                            className="relative mx-auto mb-3 h-14 w-[1px] bg-white md:mb-4"
                         >
-                            {secondQuote}
+                            <div className="absolute bottom-0 h-3 w-[1px] origin-bottom-left  rotate-[30deg] bg-white"></div>
+                            <div className="absolute bottom-0 h-3 w-[1px] origin-bottom-left  -rotate-[30deg] bg-white"></div>
+                        </div>
+                        <div ref={sqRef} className=" text-sm font-light ">
+                            เลื่องลง
                         </div>
                     </div>
                     {gridLayout.map((e, index) => (
@@ -117,12 +125,13 @@ const TripImages = ({ trip }) => {
 const ImageComponent = ({ col, row, image }) => {
     return (
         <div
-            className={`relative h-full w-full  overflow-hidden rounded-lg bg-blue-500 ${col} ${row}`}
+            className={`relative h-full w-full  overflow-hidden  bg-blue-500 ${col} ${row}`}
         >
             <div className="flex-cen absolute inset-0 z-10 bg-gradient-to-b from-transparent to-black opacity-40"></div>
-            <div className="md:text-base absolute bottom-2 right-2  z-20 text-right text-sm  font-light text-white ">
+            <div className="absolute bottom-2 right-2 z-20  text-right text-sm font-light  text-white md:text-base ">
                 {image.name}
             </div>
+            <Source />
             <Image
                 layout="fill"
                 objectFit="cover"
@@ -132,6 +141,16 @@ const ImageComponent = ({ col, row, image }) => {
                 className=""
                 src={image.url}
             />
+        </div>
+    );
+};
+
+const Source = () => {
+    return (
+        <div className="flex-cen cursor-pointer absolute top-2 left-2 z-20  aspect-square w-6 rounded-full bg-white">
+            <div className="w-3">
+                <SvgExport strokeWidth={40} />
+            </div>
         </div>
     );
 };

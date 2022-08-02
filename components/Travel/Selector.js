@@ -9,7 +9,13 @@ import {
 } from "../../config/selectorConstant";
 
 // import icons
-import { faMountainCity, faRoute } from "@fortawesome/free-solid-svg-icons";
+import {
+    faChevronLeft,
+    faChevronRight,
+    faCircleChevronRight,
+    faMountainCity,
+    faRoute,
+} from "@fortawesome/free-solid-svg-icons";
 import { faNewspaper } from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
@@ -20,32 +26,41 @@ const Selector = ({ setIsOpen, isOpen }) => {
     const containerRef = useRef(null);
     return (
         <div
-            className={`relative flex  justify-center rounded-none pb-2 pt-4 transition-all container-type-size  md:w-full md:justify-end md:pr-4  ${
+            className={`relative flex  justify-center rounded-none pb-2 pt-4 transition-all container-type-size  md:w-full md:justify-between md:pr-4  ${
                 !isOpen ? "w-full self-center bg-[#ffffffde]" : "bg-white "
             }`}
             ref={containerRef}
         >
-            <Icon
-                setIsOpen={setIsOpen}
-                isOpen={isOpen}
-                icon={faNewspaper}
-                text={TRAVEL_MODE}
-            />
-            <Icon
-                setIsOpen={setIsOpen}
-                isOpen={isOpen}
-                icon={faMountainCity}
-                text={OTHERPLACE_MODE}
-            />
-            <Icon
-                setIsOpen={setIsOpen}
-                isOpen={isOpen}
-                icon={faRoute}
-                text={DIRECTION_MODE}
-            >
-                <div className="absolute -top-2 right-0 h-3 w-3 rounded-full bg-red-400"></div>
-            </Icon>
-            <Highlighter isOpen={isOpen} containerRef={containerRef} />
+            <div className="ml-6 hidden cursor-pointer items-center self-center text-text md:flex">
+                <FontAwesomeIcon
+                    className="mt-[2px] mr-2 text-xs text-text-lighterr"
+                    icon={faChevronLeft}
+                />
+                <div className="">กลับ</div>
+            </div>
+            <div className="flex justify-end">
+                <Icon
+                    setIsOpen={setIsOpen}
+                    isOpen={isOpen}
+                    icon={faNewspaper}
+                    text={TRAVEL_MODE}
+                />
+                <Icon
+                    setIsOpen={setIsOpen}
+                    isOpen={isOpen}
+                    icon={faMountainCity}
+                    text={OTHERPLACE_MODE}
+                />
+                <Icon
+                    setIsOpen={setIsOpen}
+                    isOpen={isOpen}
+                    icon={faRoute}
+                    text={DIRECTION_MODE}
+                >
+                    <div className="absolute -top-2 right-0 h-3 w-3 rounded-full bg-red-400"></div>
+                </Icon>
+                <Highlighter isOpen={isOpen} containerRef={containerRef} />
+            </div>
         </div>
     );
 };
@@ -73,7 +88,9 @@ const Highlighter = ({ containerRef, isOpen }) => {
         <div
             ref={elRef}
             className={`absolute z-0  h-[2px]  translate-y-full bg-primary  transition-all md:h-[3px] ${
-                isOpen ? "bottom-[2px]" : "bottom-[calc(100%-2px)] md:bottom-[2px]"
+                isOpen
+                    ? "bottom-[2px]"
+                    : "bottom-[calc(100%-2px)] md:bottom-[2px]"
             }`}
         >
             {/* <div

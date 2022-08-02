@@ -1,4 +1,6 @@
 import React, { useMemo } from "react";
+import { useRouter } from "next/router";
+import Link from "next/link";
 
 // import icons
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -19,6 +21,8 @@ import {
     faLine,
     faTwitter,
 } from "@fortawesome/free-brands-svg-icons";
+import SvgUtensil from "../../../../icons/Utensil";
+import SvgMountain from "../../../../icons/Mountain";
 
 // import components
 import ImageGroup from "./ImageGroup";
@@ -32,6 +36,9 @@ import { TRAVEL_MODE } from "../../../../config/selectorConstant";
 
 const TravelDetail = () => {
     const { post } = usePostContext();
+    const { pathname } = useRouter();
+    const type = useMemo(() => pathname.split("/")[1], [pathname]);
+
     return (
         <div
             className="flex h-full w-full shrink-0 flex-col overflow-y-auto  overflow-x-hidden py-3 px-3 xl:px-5"
@@ -47,7 +54,29 @@ const TravelDetail = () => {
                     </div>
                     <Star star={post.star} />
                 </div>
-                <div className="font-light text-text-lighter">อาหารคาว</div>
+                {type === "travel" ? (
+                    <Link passHref href={`/${type}`}>
+                        <div className="flex items-center text-sm text-text sm:text-base">
+                            <span className="mr-2 cursor-pointer whitespace-nowrap underline underline-offset-1">
+                                สถานที่ท่องเที่ยว
+                            </span>
+                            <div className="w-4">
+                                <SvgMountain stroke={"#d4d4d4"} />
+                            </div>
+                        </div>
+                    </Link>
+                ) : (
+                    <Link passHref href={`/${type}`}>
+                        <div className="flex items-center text-sm text-text sm:text-base">
+                            <span className="mr-2 cursor-pointer whitespace-nowrap underline underline-offset-1">
+                                ร้านอาหาร
+                            </span>
+                            <div className="w-4">
+                                <SvgUtensil stroke={"#d4d4d4"} />
+                            </div>
+                        </div>
+                    </Link>
+                )}
             </div>
             <hr className="my-5" />
             <ImageGroup />

@@ -35,7 +35,6 @@ import {
 import Overlay from "../Detail/Overlay";
 import DirectionRouteMarker from "./DirectionRouteMarker";
 import UserLocationMarker from "./UserLocationMarker";
-import DestinationOverlay from "./DestinationOverlay";
 import DestinationMarker from "./DestinationMarker";
 import DirectionInfoBox from "./DirectionInfoBox";
 
@@ -178,12 +177,9 @@ const Map = () => {
                     }}
                     onLoad={onMapLoad}
                 >
-                    <DestinationOverlay coords={post.coords} />
+                    <DestinationMarker coords={post.coords} />
                     {userLocation && selectedMode === DIRECTION_MODE && (
                         <UserLocationMarker position={userLocation} />
-                    )}
-                    {tempLocation && (
-                        <DestinationMarker position={tempLocation} />
                     )}
                     {selectedMode === OTHERPLACE_MODE && <OtherPlaces />}
                     {activeDirectionCoord && selectedMode === DIRECTION_MODE && (

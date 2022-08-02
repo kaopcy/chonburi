@@ -13,15 +13,10 @@ const Trip = ({ trip }) => {
     const router = useRouter();
     if (router.isFallback) return <div className="">Loading</div>;
     return (
-        <div className="mx-auto flex w-full max-w-[1300px] flex-col pt-[70px] md:pt-[100px]">
+        <div className="mx-auto flex w-full max-w-[1300px] flex-col pt-[70px] md:pt-[100px] ">
             <TripImages trip={trip} />
-            <div className="flex flex-col text-text">
-                <div className="flex self-center text-2xl font-bold">
-                    <span className="mr-2">{trip.title.split("/")[0]}</span>
-                    <span className="">{trip.title.split("/")[1]}</span>
-                </div>
-            </div>
             <TripContent trip={trip} />
+            <div className="h-[100px]"></div>
         </div>
     );
 };
@@ -45,6 +40,10 @@ export async function getStaticProps({ params, preview = false }) {
     const trip = await getClient(preview).fetch(tripQuery, {
         slug: params.slug,
     });
+
+    
+    
+
     return {
         props: {
             trip,

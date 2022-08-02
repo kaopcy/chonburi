@@ -1,11 +1,11 @@
-const SvgMountain = () => (
+const SvgMountain = (props) => (
     <svg
         data-name="Layer 1"
         xmlns="http://www.w3.org/2000/svg"
         viewBox="0 0 382.806 333"
         style={{
             fill: "none",
-            stroke: "#4d4d4d",
+            stroke: props.stroke || "#4d4d4d",
             strokeLinecap: "round",
             strokeLinejoin: "round",
             strokeWidth: 31,
