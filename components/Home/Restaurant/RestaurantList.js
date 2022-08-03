@@ -61,7 +61,7 @@ const RestaurantList = ({ restaurants }) => {
                         className="ml-3 mb-1  text-text-lightest"
                     />
                 </span>
-                <Link href={"/travel"} passHref>
+                <Link href={"/restaurant?map=true"} passHref>
                     <a className="cursor-pointer text-sm text-primary underline sm:text-base">
                         ดูเพิ่มเติม...
                     </a>
@@ -83,7 +83,7 @@ const RestaurantList = ({ restaurants }) => {
                             />
                         );
                     })}
-                    <Link href={"/travel"} passHref>
+                    <Link href={"/restaurant?map=true"} passHref>
                         <div className="flex-col-cen mx-4 h-14 w-14 shrink-0 cursor-pointer self-center rounded-full border-2 hover:shadow-md">
                             <FontAwesomeIcon
                                 icon={faChevronRight}

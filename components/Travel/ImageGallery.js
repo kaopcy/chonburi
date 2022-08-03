@@ -63,7 +63,7 @@ const ImageGallery = () => {
                         </div>
                     </div>
                     <hr className="my-6" />
-                    <div className="flex w-full flex-col gap-3 sm:gap-5">
+                    <div className="flex w-full flex-col gap-3 sm:gap-3">
                         {post.imageURL?.map((e, index) => {
                             if (index % 3 === 0)
                                 return (
@@ -97,7 +97,7 @@ const ImageGallery = () => {
                                 );
                             else if (index % 3 === 2)
                                 return (
-                                    <div className="flex w-full gap-3 sm:gap-5">
+                                    <div className="flex w-full gap-3 sm:gap-3">
                                         <div className="relative aspect-[5/3] w-full   overflow-hidden ">
                                             <Image
                                                 layout="fill"

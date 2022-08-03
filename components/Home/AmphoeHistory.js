@@ -322,7 +322,7 @@ const History = forwardRef(({ amphoe }, ref) => {
                 ))}
             </div>
             <div className="mt-12 flex items-center self-end font-medium">
-                <Link href={`/travel?amphoe=${amphoe.name}`} passHref>
+                <Link href={`/travel?amphoe=${amphoe.name}&map=true`} passHref>
                     <div className="group  mr-4 flex cursor-pointer items-center  border border-text px-5 py-2 text-sm hover:bg-text ">
                         <>
                             <div className="mr-2 group-hover:text-white">
@@ -336,7 +336,7 @@ const History = forwardRef(({ amphoe }, ref) => {
                         </>
                     </div>
                 </Link>
-                <Link href={`/restaurant?amphoe=${amphoe.name}`} passHref>
+                <Link href={`/restaurant?amphoe=${amphoe.name}&map=true`} passHref>
                     <div className="group flex cursor-pointer items-center border border-text bg-text  px-5 py-2 text-sm hover:bg-white">
                         <div className="mr-2 text-white group-hover:text-text">
                             ร้านอาหาร

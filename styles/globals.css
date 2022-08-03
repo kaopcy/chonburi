@@ -76,6 +76,14 @@ body {
     border-color: transparent transparent rgba(0,0,0,0.8) transparent;
 }
 
+.new-triangle-sm {
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 0 7px 8px 7px;
+    border-color: transparent transparent rgba(0,0,0,0.8) transparent;
+}
+
 .radial-circle {
     background: rgb(122, 201, 255);
     background: radial-gradient(

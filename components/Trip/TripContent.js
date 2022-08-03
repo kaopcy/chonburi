@@ -1,26 +1,37 @@
-import { useState, useMemo, useRef } from "react";
-import Link from "next/link";
+import { useEffect, useState, useMemo, useRef } from "react";
 import gsap from "gsap/dist/gsap";
+import Link from "next/link";
 
 // import icons
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronDown } from "@fortawesome/free-solid-svg-icons";
-import { useEffect } from "react";
+import { faMap } from "@fortawesome/free-regular-svg-icons";
 import SvgSuitcase from "../../icons/Suitcase";
 
 // import Components
 import TripMap from "./TripMap";
+import SvgUtensil from "../../icons/Utensil";
+import SvgCar from "../../icons/Car";
 
 const TripContent = ({ trip }) => {
     const [activeNum, setActiveNum] = useState(null);
     const stickyMapRef = useRef();
 
     useEffect(() => {
-        const stickyH = stickyMapRef.current.clientHeight;
-        const windowH = window.innerHeight;
+        const resizeEvt = () => {
+            const stickyH = stickyMapRef.current.clientHeight;
+            const windowH = window.innerHeight;
+            const preferredT = `${35 + (windowH / 2 - stickyH / 2)}px`;
+            if (window.innerWidth > 768)
+                stickyMapRef.current.style.top = preferredT;
+            else stickyMapRef.current.style.top = 0;
+        };
+        resizeEvt();
+        window.addEventListener("resize", resizeEvt);
 
-        const preferredT = `${35 + (windowH / 2 - stickyH / 2)}px`;
-        stickyMapRef.current.style.top = preferredT;
+        return () => {
+            window.removeEventListener("resize", resizeEvt);
+        };
     }, []);
 
     return (
@@ -32,7 +43,7 @@ const TripContent = ({ trip }) => {
                 </div>
             </div>
             <div className="relative flex flex-col md:flex-row">
-                <div className="relative flex w-full max-w-[800px] flex-col self-start  px-4 text-sm text-text sm:text-base md:px-8">
+                <div className=" relative flex w-full max-w-[800px] flex-col self-start  px-4 text-sm text-text sm:text-base md:px-8">
                     <div className="absolute top-0 left-14 z-[-1] h-full w-[1.5px] bg-text-lightest md:left-20"></div>
                     {trip.days.map((day, daysIndex) => (
                         <>
@@ -40,7 +51,7 @@ const TripContent = ({ trip }) => {
                                 <div className="mr-3 mt-[2px] w-3 md:w-4">
                                     <SvgSuitcase />
                                 </div>
-                                <span className="text-base tracking-wide md:text-xl">
+                                <span className="text-base tracking-wide underline underline-offset-1 md:text-xl">
                                     วันที่ {daysIndex + 1}
                                 </span>
                             </div>
@@ -60,7 +71,7 @@ const TripContent = ({ trip }) => {
                                     <div className="mr-3 mt-[2px] w-3 md:w-4">
                                         <SvgSuitcase />
                                     </div>
-                                    <span className="text-base tracking-wide md:text-xl">
+                                    <span className="text-base tracking-wide underline underline-offset-1 md:text-xl">
                                         เดินทางกลับโดยสวัสดิภาพ
                                     </span>
                                 </div>
@@ -70,9 +81,20 @@ const TripContent = ({ trip }) => {
                 </div>
                 <div
                     ref={stickyMapRef}
-                    className="sticky top-[70px] mt-10  w-full self-start rounded-md px-4  md:mt-0 md:px-0"
+                    className="sticky top-[70px] mt-10  flex w-full flex-col items-center  self-start rounded-md px-4 md:mt-0 md:pl-0 md:pr-8"
                 >
-                    <TripMap trip={trip} />
+                    <div className="mb-3 flex items-center text-xl font-bold text-text">
+                        <FontAwesomeIcon
+                            className="mr-2 mt-1 text-base text-text-lighterr"
+                            icon={faMap}
+                        />
+                        <span>แผนที่แสดงทริป</span>
+                    </div>
+                    <TripMap
+                        activeNum={activeNum}
+                        setActiveNum={setActiveNum}
+                        trip={trip}
+                    />
                 </div>
             </div>
         </>
@@ -81,10 +103,16 @@ const TripContent = ({ trip }) => {
 
 const ActivityCard = ({ activity, activeNum, index, setActiveNum }) => {
     const link = activity.link;
+    const type = useMemo(() => activity.link?.split("/")[1], [activity]);
+
     const isActive = useMemo(
         () => activeNum === activity._key,
         [activity._key, activeNum]
     );
+
+    const onCardClick = () => {
+        setActiveNum(isActive ? -1 : activity._key);
+    };
 
     const textRef = useRef();
 
@@ -94,10 +122,7 @@ const ActivityCard = ({ activity, activeNum, index, setActiveNum }) => {
     }, [isActive]);
 
     return (
-        <div
-            onClick={() => setActiveNum(isActive ? -1 : activity._key)}
-            className="mb-4 flex w-full flex-col rounded-lg  border bg-white px-6 py-4 last-of-type:mb-8"
-        >
+        <div className="mb-4 flex w-full flex-col rounded-lg  border bg-white px-6 py-4 last-of-type:mb-8">
             <div className="flex items-center justify-between">
                 <div className="relative flex">
                     <div
@@ -112,10 +137,19 @@ const ActivityCard = ({ activity, activeNum, index, setActiveNum }) => {
                     >
                         {activity.time} น.
                     </div>
-                    <div className="mx-3">-</div>
-                    <div className="flex flex-col">
+                    {type === "travel" ? (
+                        <div className="ml-2 mr-3 mt-[9px] w-[12px]  shrink-0 self-start">
+                            <SvgCar stroke="#b0b0b0" />
+                        </div>
+                    ) : (
+                        <div className="ml-2 mr-3 mt-[6px] w-[10px]  shrink-0 self-start">
+                            <SvgUtensil stroke="#b0b0b0" />
+                        </div>
+                    )}
+                    <div className=" flex flex-col">
                         <div
-                            className={`${
+                            onClick={onCardClick}
+                            className={`cursor-pointer underline-offset-1 hover:underline ${
                                 isActive ? "font-bold" : "font-medium"
                             }`}
                         >
@@ -126,17 +160,18 @@ const ActivityCard = ({ activity, activeNum, index, setActiveNum }) => {
                                 <div ref={textRef} className="">
                                     {activity.detail}
                                 </div>
-                                <div href={link}>
-                                    <div className="mt-4 self-end text-sm text-primary underline underline-offset-1">
-                                        เปิดใน google map
+                                <Link href={link} passHref>
+                                    <div className="mt-8 cursor-pointer self-end text-sm text-primary underline underline-offset-1 hover:text-blue-500 ">
+                                        {link.split("/")[2]}
                                     </div>
-                                </div>
+                                </Link>
                             </div>
                         )}
                     </div>
                 </div>
                 <FontAwesomeIcon
-                    className={`ml-3 text-sm text-text-lighterr ${
+                    onClick={onCardClick}
+                    className={`ml-3 cursor-pointer py-1 text-sm text-text-lighterr ${
                         isActive ? "rotate-180" : "rotate-0"
                     }`}
                     icon={faChevronDown}

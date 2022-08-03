@@ -11,8 +11,8 @@ const LocationMarker = forwardRef(({ position, onClick, post }, ref) => {
     return (
         <OverlayView position={position} mapPaneName={OverlayView.FLOAT_PANE}>
             <div className="relative  transition-transform hover:scale-110">
-                <div className="flex-cen cursor-pointer  absolute left-[-9px] top-[-8px]   h-5  w-6 shrink-0 animate-gps-pulse-red rounded-[50%] border-[3px] border-white bg-red-400">
-                    <div className="h-[5px] w-[7px]  rounded-[50%] bg-white"></div>
+                <div className="flex-cen cursor-pointer  absolute left-[-9px] top-[-8px]   h-3  w-4 shrink-0 animate-gps-pulse-red rounded-[50%] border-[2px] border-white bg-red-400">
+                    <div className="h-[3px] w-[5px]  rounded-[50%] bg-white"></div>
                     <div className="absolute bottom-1/2 h-[40px] w-[4px] rounded-full bg-text"></div>
                     <div
                         onClick={() => onClick(post.title)}

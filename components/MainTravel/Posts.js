@@ -29,7 +29,9 @@ const Posts = ({ type }) => {
     const [extraAmphoe, setExtraAmphoe] = useState(postsArr.map(() => 1));
 
     const { isOpen, setIsOpen } = useMapContext();
-
+    useEffect(() => {
+        console.log("isOpen: ", isOpen);
+    }, [isOpen]);
     const eachAmphoreRef = useRef([]);
 
     const rootRef = useRef(null);

@@ -186,6 +186,7 @@ const Map = () => {
                         <>
                             <DirectionsRenderer
                                 options={{
+                                    polylineOptions: { strokeColor: 'rgb(34,197,94)' , strokeWeight: 5 , strokeOpacity: 0.7 },
                                     suppressMarkers: true,
                                     preserveViewport: true,
                                 }}

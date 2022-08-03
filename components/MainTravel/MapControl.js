@@ -7,6 +7,7 @@ import { usePostsContext } from "../../context/MainTravel/PostContext";
 // import icons
 import { faExpand, faMaximize } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import SvgMaximize from "../../icons/Maximize";
 
 const textObject = {
     south: 12.74355965840848,
@@ -42,14 +43,16 @@ const MapControl = () => {
         <div className="absolute bottom-4 right-4 flex   w-8 flex-col items-center space-y-3 sm:w-9">
             <div
                 onClick={fitToMap}
-                className="flex-cen group relative aspect-square w-full   cursor-pointer rounded-md  border-blue-500 bg-white text-text shadow-lg hover:shadow-blue  "
+                className="flex-cen group relative aspect-square w-full   cursor-pointer rounded-full  border-blue-500 bg-white text-text shadow-lg hover:shadow-blue  "
             >
-                <FontAwesomeIcon icon={faMaximize} />
+                <div className="w-[14px]">
+                    <SvgMaximize strokeWidth={40} />
+                </div>
                 <HoverOverlay text="ฟิตจังหวัดชลบุรี" />
             </div>
             <div
                 onClick={fitToBound}
-                className="flex-cen group relative aspect-square w-full   cursor-pointer rounded-md   border-blue-500 bg-white text-text shadow-lg hover:shadow-blue "
+                className="flex-cen group relative aspect-square w-full   cursor-pointer rounded-full   border-blue-500 bg-white text-text shadow-lg hover:shadow-blue "
             >
                 <FontAwesomeIcon icon={faExpand} />
                 <HoverOverlay text="ฟิตสถานที่" />

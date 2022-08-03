@@ -260,7 +260,7 @@ const Distance = forwardRef((_, ref) => {
 
 const LinkToGoogleMap = ()=>{
     return (
-        <div className="absolute z-20 w-5 h-5 bg-white rounded-full flex-cen top-2 left-2">
+        <div className="absolute z-20 w-5 h-5 bg-white rounded-full flex-cen top-2 left-2 cursor-pointer">
             <FontAwesomeIcon className="text-xs" icon={faMap} />
         </div>
     )

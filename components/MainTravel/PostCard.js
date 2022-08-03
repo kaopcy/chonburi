@@ -13,14 +13,13 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { useRef } from "react";
 
-const PostCard = ({ post , type }) => {
+const PostCard = ({ post, type , isOpen }) => {
     const {
         placeID,
         imageURL,
         title,
         amphoe,
         tambon,
-        isOpen,
         slug,
         reviews,
         star,
@@ -35,6 +34,8 @@ const PostCard = ({ post , type }) => {
     const deltaX = useRef(null);
 
     const [curIndex, setCurIndex] = useState(0);
+
+   
 
     const increase = () => {
         setCurIndex((old) => (old >= imageCount - 1 ? old : old + 1));

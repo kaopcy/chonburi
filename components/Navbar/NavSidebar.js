@@ -94,7 +94,7 @@ const NavSidebar = ({ setIsOpen }) => {
                         </div>
                     )}
                 </MatchLink>
-                <MatchLink path={`/restaurant`}>
+                <MatchLink path={`/restaurant?map=true`}>
                     {({ isMatch }) => (
                         <div className="sidebar-item  flex h-10  w-full items-center ">
                             <div className="mr-8 w-5">
@@ -110,7 +110,7 @@ const NavSidebar = ({ setIsOpen }) => {
                         </div>
                     )}
                 </MatchLink>
-                <MatchLink path={`/travel`}>
+                <MatchLink path={`/travel?map=true`}>
                     {({ isMatch }) => (
                         <div className="sidebar-item  flex h-10  w-full items-center ">
                             <div className="mr-8 w-5">

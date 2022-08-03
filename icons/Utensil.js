@@ -1,11 +1,11 @@
-const SvgUtensil = () => (
+const SvgUtensil = (props) => (
     <svg
         data-name="Layer 1"
         xmlns="http://www.w3.org/2000/svg"
         viewBox="0 0 318.207 378.5"
         style={{
             fill: "none",
-            stroke: "#8B8B8B",
+            stroke: props.stroke || "#8B8B8B",
             strokeLinecap: "round",
             strokeLinejoin: "round",
             strokeWidth: 31,

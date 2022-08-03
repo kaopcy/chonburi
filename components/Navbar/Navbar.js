@@ -79,7 +79,7 @@ const Navbar = () => {
                         {/* <PoiDropdown /> */}
                     </div>
                     <div className="group relative py-4">
-                        <MatchLink path="/travel">
+                        <MatchLink path="/travel?map=true">
                             {({ isMatch }) => (
                                 <div
                                     className={` cursor-pointer  px-4 ${
@@ -98,7 +98,7 @@ const Navbar = () => {
                         {/* <PoiDropdown /> */}
                     </div>
                     <div className=" group relative py-4">
-                        <MatchLink path="/restaurant">
+                        <MatchLink path="/restaurant?map=true">
                             {({ isMatch }) => (
                                 <div
                                     className={` cursor-pointer  px-4 ${
