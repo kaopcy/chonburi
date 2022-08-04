@@ -33,6 +33,7 @@ import { usePostContext } from "../../../../context/Travel/PostContext";
 
 // import constants
 import { TRAVEL_MODE } from "../../../../config/selectorConstant";
+import SvgExport from "../../../../icons/Export";
 
 const TravelDetail = () => {
     const { post } = usePostContext();
@@ -44,7 +45,7 @@ const TravelDetail = () => {
             className="flex h-full w-full shrink-0 flex-col overflow-y-auto  overflow-x-hidden py-3 px-3 xl:px-5"
             id={`${TRAVEL_MODE}-detail`}
         >
-            <div className="my-4 self-center  text-[25px] font-bold leading-6 text-text">
+            <div className="my-4 self-center  text-[25px] font-bold leading-10 text-text">
                 {post.title}
             </div>
             <div className="flex items-center justify-between">
@@ -61,7 +62,7 @@ const TravelDetail = () => {
                                 สถานที่ท่องเที่ยว
                             </span>
                             <div className="w-4">
-                                <SvgMountain stroke={"#d4d4d4"} />
+                                <SvgMountain stroke="#7d7d7d" />
                             </div>
                         </div>
                     </Link>
@@ -72,7 +73,7 @@ const TravelDetail = () => {
                                 ร้านอาหาร
                             </span>
                             <div className="w-4">
-                                <SvgUtensil stroke={"#d4d4d4"} />
+                                <SvgUtensil stroke="#7d7d7d" />
                             </div>
                         </div>
                     </Link>
@@ -103,13 +104,12 @@ const HighLightDetail = ({ post }) => {
                     href={`https://www.google.co.th/maps/place/${post.title}`}
                     className="flex cursor-pointer items-center text-sm font-light"
                 >
-                    <div className="mr-2 underline underline-offset-1">
+                    <div className="mr-2 underline underline-offset-1 hover:text-primary">
                         เปิดใน Google map
                     </div>
-                    <FontAwesomeIcon
-                        className="text-xs "
-                        icon={faUpRightFromSquare}
-                    />
+                    <div className="w-3 mt-[3px]">
+                        <SvgExport/>
+                    </div>
                 </a>
             </div>
             <div className="my-2 ml-7 flex items-center text-text">

@@ -123,6 +123,7 @@ const TripMap = ({ trip, activeNum, setActiveNum }) => {
                             height: "100%",
                         }}
                         options={{
+                            gestureHandling: 'greedy',
                             clickableIcons: false,
                             restriction: {
                                 latLngBounds: {

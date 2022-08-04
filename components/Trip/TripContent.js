@@ -14,7 +14,7 @@ import SvgUtensil from "../../icons/Utensil";
 import SvgCar from "../../icons/Car";
 
 const TripContent = ({ trip }) => {
-    const [activeNum, setActiveNum] = useState(null);
+    const [activeNum, setActiveNum] = useState(trip.days[0].activities[0]._key);
     const stickyMapRef = useRef();
 
     useEffect(() => {
@@ -46,7 +46,7 @@ const TripContent = ({ trip }) => {
                 <div className=" relative flex w-full max-w-[800px] flex-col self-start  px-4 text-sm text-text sm:text-base md:px-8">
                     <div className="absolute top-0 left-14 z-[-1] h-full w-[1.5px] bg-text-lightest md:left-20"></div>
                     {trip.days.map((day, daysIndex) => (
-                        <>
+                        <div key={day._key}>
                             <div className="mb-8  ml-0 flex items-center bg-white py-2 text-xl font-bold">
                                 <div className="mr-3 mt-[2px] w-3 md:w-4">
                                     <SvgSuitcase />
@@ -76,9 +76,10 @@ const TripContent = ({ trip }) => {
                                     </span>
                                 </div>
                             )}
-                        </>
+                        </div>
                     ))}
                 </div>
+                <div className="mx-auto mt-10 block h-[1px] w-[90%] shrink-0 bg-text-lightest md:hidden"></div>
                 <div
                     ref={stickyMapRef}
                     className="sticky top-[70px] mt-10  flex w-full flex-col items-center  self-start rounded-md px-4 md:mt-0 md:pl-0 md:pr-8"
@@ -160,11 +161,13 @@ const ActivityCard = ({ activity, activeNum, index, setActiveNum }) => {
                                 <div ref={textRef} className="">
                                     {activity.detail}
                                 </div>
-                                <Link href={link} passHref>
-                                    <div className="mt-8 cursor-pointer self-end text-sm text-primary underline underline-offset-1 hover:text-blue-500 ">
-                                        {link.split("/")[2]}
-                                    </div>
-                                </Link>
+                                {link && (
+                                    <Link href={link} passHref>
+                                        <div className="mt-8 cursor-pointer self-end text-sm text-primary underline underline-offset-1 hover:text-blue-500 ">
+                                            {link?.split("/")[2]}
+                                        </div>
+                                    </Link>
+                                )}
                             </div>
                         )}
                     </div>

@@ -47,7 +47,7 @@ const Selector = ({ setIsOpen, isOpen }) => {
                 />
                 <Icon
                     setIsOpen={setIsOpen}
-                    isOpen={isOpen}
+                    isOpen={isOpen} 
                     icon={faMountainCity}
                     text={OTHERPLACE_MODE}
                 />

@@ -17,7 +17,7 @@ import useIsTouchDevice from "../../composables/useIsTouchDevice";
 import Posts from "../../components/MainTravel/Posts";
 import Map from "../../components/MainTravel/Map";
 
-const Travel = ({ posts }) => {
+const Restaurant = ({ posts }) => {
     return (
         <MapContextProvider>
             <PostsContextProvider initPosts={posts}>
@@ -75,4 +75,4 @@ export async function getStaticProps({ params, preview = false }) {
     };
 }
 
-export default Travel;
+export default Restaurant;

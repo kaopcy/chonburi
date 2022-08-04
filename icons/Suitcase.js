@@ -1,11 +1,11 @@
-const SvgSuitcase = () => (
+const SvgSuitcase = (props) => (
     <svg
         data-name="Layer 1"
         xmlns="http://www.w3.org/2000/svg"
         viewBox="0 0 347 324.5"
         style={{
             fill: "none",
-            stroke: "#8B8B8B",
+            stroke: props.stroke || "#8B8B8B",
             strokeLinecap: "round",
             strokeLinejoin: "round",
             strokeWidth: 31,

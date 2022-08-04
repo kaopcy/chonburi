@@ -3,8 +3,10 @@ import Link from "next/link";
 
 import gsap from "gsap/dist/gsap";
 
+// import icons
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars } from "@fortawesome/free-solid-svg-icons";
+import SvgSuitcase from "../../icons/Suitcase";
 
 // import components
 import NavSidebar from "./NavSidebar";
@@ -35,7 +37,7 @@ const Navbar = () => {
             })
             .to(
                 iconRef.current,
-                { ease: "expo.inOut", width: "72px", duration: 0.5 },
+                { ease: "expo.inOut", width: "62px", duration: 0.5 },
                 "<"
             );
     }, []);
@@ -46,17 +48,18 @@ const Navbar = () => {
     return (
         <div
             ref={navbarRef}
-            className="fixed z-[2000] flex  h-[70px] w-full flex-col border-b lg:h-[100px]"
+            className="fixed z-[1010] flex  h-[70px] w-full flex-col border-b lg:h-[100px]"
         >
-            <div className="relative hidden h-full w-full  max-w-[1500px] items-center justify-between self-center px-20 text-xl  font-medium text-text lg:flex 2xl:px-5">
+            <div className="relative hidden h-full w-full  max-w-[1350px] items-center justify-between self-center px-20 text-xl  font-medium text-text lg:flex 2xl:px-5">
                 <div className="absolute top-0 left-0 z-10 h-full w-full bg-white opacity-80"></div>
                 <Link href={"/"} passHref>
-                    <div className="relative z-20 w-24" ref={iconRef}>
+                    <div
+                        className="relative z-20 mt-3 w-10 md:w-20 "
+                        ref={iconRef}
+                    >
                         <SvgChonburi2 />
                     </div>
                 </Link>
-
-                
 
                 <div className="z-20 flex justify-center space-x-6">
                     <div className="group relative py-4">
@@ -117,15 +120,21 @@ const Navbar = () => {
                         {/* <RestaurantDropdown /> */}
                     </div>
                 </div>
-                <div className="group relative z-20 py-4">
+                <div className="group relative z-20 rounded-full bg-primary-light py-[7px] shadow-md">
                     <MatchLink path="/trip">
                         {({ isMatch }) => (
                             <div
-                                className={` cursor-pointer  px-4 ${
-                                    isMatch ? "text-primary" : "text-text"
+                                className={` group flex cursor-pointer items-center px-5 ${
+                                    isMatch ? "text-white" : "text-white"
                                 }`}
                             >
-                                <span className="mr-2">โปรแกรมเที่ยว</span>
+                                <div className="mr-2 w-4 shrink-0">
+                                    <SvgSuitcase stroke="#fff" />
+                                </div>
+                                <span className="whitespace-nowrap text-base underline-offset-1 group-hover:underline">
+                                    โปรแกรมเที่ยว
+                                </span>
+
                                 <div
                                     className={`h-[3px] w-full origin-left scale-x-0 bg-primary opacity-20 transition-transform group-hover:scale-x-100  ${
                                         isMatch && "!scale-x-100"
@@ -143,7 +152,7 @@ const Navbar = () => {
             >
                 <div className="absolute top-0 left-0 z-10 h-full w-full bg-white opacity-80"></div>
                 <Link href={"/"} passHref>
-                    <div className="relative z-20 w-16" ref={iconRef}>
+                    <div className="relative z-20 mt-3 w-16 ">
                         <SvgChonburi2 />
                     </div>
                 </Link>

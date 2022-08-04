@@ -11,7 +11,7 @@ import { usePostContext } from "../../../context/Travel/PostContext";
 const DirectionInfoBox = () => {
     const { post } = usePostContext()
     return (
-        <div className="absolute  top-[69px] md:top-0 flex w-full flex-col bg-[#ffffffdd] p-2 text-text gap-2 shadow-md">
+        <div className="absolute  top-[69px] md:top-0 flex md:hidden w-full flex-col bg-[#ffffffdd] p-2 text-text gap-2 shadow-md">
             <div className="absolute left-[26px] top-10 flex flex-col items-center gap-1">
                 <div className="w-[4px] h-[4px] bg-text-lighterr rounded-full"></div>
                 <div className="w-[4px] h-[4px] bg-text-lighterr rounded-full"></div>

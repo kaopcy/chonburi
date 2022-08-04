@@ -8,7 +8,7 @@ import SvgFlag from "../../icons/Flag";
 import SvgCar from "../../icons/Car";
 import SvgUtensil from "../../icons/Utensil";
 
-const TripMarker = ({ isActive , setActiveNum, coords, link, _key }) => {
+const TripMarker = ({ isActive, setActiveNum, coords, link, _key }) => {
     const [_, type, name] = link?.split("/");
     const isTravel = useMemo(() => type === "travel", [type]);
     console.log(isTravel);
@@ -23,16 +23,20 @@ const TripMarker = ({ isActive , setActiveNum, coords, link, _key }) => {
         <OverlayView
             onLoad={onLoad}
             position={coords}
-            mapPaneName={isActive ? OverlayView.FLOAT_PANE : OverlayView.MARKER_LAYER}
+            mapPaneName={
+                isActive ? OverlayView.FLOAT_PANE : OverlayView.MARKER_LAYER
+            }
         >
             <div
-                onClick={()=> setActiveNum(_key)}
+                onClick={() => setActiveNum(_key)}
                 ref={markerRef}
                 className="relative -left-1/2 -top-10 origin-center transition-transform hover:scale-110"
             >
-                <div className="flex-cen relative max-w-[150px] shrink-0 overflow-hidden  rounded-full px-1 py-1 pr-2">
-                    <div className="absolute h-2 w-2 rounded-full"></div>
-                    <div className={`absolute inset-0 z-[-1] bg-black  ${isActive ? 'opacity-90' : 'opacity-70'}`}></div>
+                <div
+                    className={`flex-cen relative max-w-[150px] shrink-0 overflow-hidden  rounded-full bg-black px-1 py-1 pr-2  ${
+                        isActive ? "opacity-100" : "opacity-80"
+                    }`}
+                >
                     {isTravel ? (
                         <div
                             className={`mr-2 aspect-square w-6 shrink-0 rounded-full p-1 pt-[5px]  ${
@@ -55,6 +59,7 @@ const TripMarker = ({ isActive , setActiveNum, coords, link, _key }) => {
                     </div>
                 </div>
                 <div className="new-triangle-sm relative left-1/2  -translate-x-1/2 rotate-180"></div>
+                <div className="relative z-[-1] left-1/2 h-2 w-3 border-2 bg-white -translate-x-1/2 rounded-[50%]  "></div>
             </div>
         </OverlayView>
     );

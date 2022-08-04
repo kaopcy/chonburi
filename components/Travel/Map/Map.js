@@ -186,7 +186,11 @@ const Map = () => {
                         <>
                             <DirectionsRenderer
                                 options={{
-                                    polylineOptions: { strokeColor: 'rgb(34,197,94)' , strokeWeight: 5 , strokeOpacity: 0.7 },
+                                    polylineOptions: {
+                                        strokeColor: "rgb(34,197,94)",
+                                        strokeWeight: 5,
+                                        strokeOpacity: 0.7,
+                                    },
                                     suppressMarkers: true,
                                     preserveViewport: true,
                                 }}
@@ -274,34 +278,27 @@ const Controller = ({ isHighLight, setIsHighLight, tempLocation }) => {
     const { map } = useMapContext();
     return (
         <>
-            <div className="absolute bottom-[calc(12px+70px)] left-3 flex flex-col space-y-3  md:bottom-3 ">
-                <div className="relative flex h-16 w-8 flex-col rounded-md  bg-white shadow-lg md:h-24 md:w-12">
-                    <div
-                        className="flex-cen h-full cursor-pointer"
-                        onClick={() => {
-                            map.setZoom(map.getZoom() + 1);
-                        }}
-                    >
-                        <FontAwesomeIcon
-                            className="text-sm text-text"
-                            icon={faPlus}
-                        />
-                    </div>
-                    <div className="absolute top-1/2 left-1/2 h-[1px]  w-[80%] -translate-x-1/2 bg-text-lightest"></div>
-                    <div
-                        className="flex-cen h-full cursor-pointer"
-                        onClick={() => {
-                            map.setZoom(map.getZoom() - 1);
-                        }}
-                    >
-                        <FontAwesomeIcon
-                            className="text-sm text-text"
-                            icon={faMinus}
-                        />
-                    </div>
+            <div className="absolute bottom-[calc(12px+70px)] left-3 flex flex-col   md:bottom-3 ">
+                <div
+                    className="flex-cen mb-2 h-8 w-8 cursor-pointer rounded-full bg-white shadow-lg md:h-9 md:w-9"
+                    onClick={() => map.setZoom(map.getZoom() + 1)}
+                >
+                    <FontAwesomeIcon
+                        className="text-xs text-text md:text-sm"
+                        icon={faPlus}
+                    />
                 </div>
                 <div
-                    className="flex-cen h-8 w-8 cursor-pointer rounded-md bg-white shadow-lg md:h-12 md:w-12"
+                    className="flex-cen mb-4 h-8 w-8 cursor-pointer rounded-full bg-white shadow-lg md:h-9 md:w-9"
+                    onClick={() => map.setZoom(map.getZoom() - 1)}
+                >
+                    <FontAwesomeIcon
+                        className="text-xs text-text md:text-sm"
+                        icon={faMinus}
+                    />
+                </div>
+                <div
+                    className="flex-cen h-8 w-8 cursor-pointer rounded-full bg-white shadow-lg md:h-9 md:w-9"
                     onClick={() => {
                         map.panTo(
                             new google.maps.LatLng(
@@ -311,7 +308,7 @@ const Controller = ({ isHighLight, setIsHighLight, tempLocation }) => {
                     }}
                 >
                     <FontAwesomeIcon
-                        className="text-sm text-text md:text-xl"
+                        className="text-sm text-text md:text-base"
                         icon={faLocationCrosshairs}
                     />
                 </div>

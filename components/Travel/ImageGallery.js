@@ -38,7 +38,7 @@ const ImageGallery = () => {
         <div
             ref={overlayRef}
             onClick={removeParams}
-            className="invisible fixed inset-0  z-[1001] flex  flex-col items-center overflow-y-scroll bg-[#00000088]"
+            className="invisible fixed inset-0  z-[1020] flex  flex-col items-center overflow-y-scroll bg-[#00000088]"
         >
             <div
                 onClick={(e) => e.stopPropagation()}

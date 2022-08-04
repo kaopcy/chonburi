@@ -23,16 +23,17 @@ const TripCard = ({ trip, index }) => {
     return (
         <Link href={`trip/${trip.slug.current}`} passHref>
             <div
-                className={`group w-full cursor-pointer  shadow overflow-hidden rounded-lg ${
+                className={`group w-full cursor-pointer   overflow-hidden  ${
                     index === 1 && "md:col-auto lg:col-[span_2]"
                 } ${index === 2 && "md:col-[span_2] lg:col-auto"}`}
             >
                 <div className="relative flex w-full flex-col">
-                    <div className="flex-cen absolute inset-0 z-10 bg-gradient-to-b from-transparent to-black opacity-60 transition-opacity duration-700 group-hover:opacity-70"></div>
+                    <div className="flex-cen absolute inset-0 z-10 bg-gradient-to-b from-transparent to-black opacity-60 transition-opacity duration-700 group-hover:opacity-80"></div>
                     <div className="absolute top-1/2 left-1/2 z-20 -translate-x-1/2 -translate-y-1/2">
                         <div className="mb-3 whitespace-nowrap text-center text-4xl font-black text-white ">
                             {firstQuote}
                         </div>
+                        <div  className="transition-all h-0 group-hover:h-10 ease-out duration-500 w-[1px] bg-white mx-auto"></div>
                         <div className="whitespace-nowrap text-center text-lg font-medium text-white underline underline-offset-1">
                             {secondQuote}
                         </div>
@@ -51,7 +52,7 @@ const TripCard = ({ trip, index }) => {
                             />
                         </div>
                     </div>
-                    <div className=" z-20 flex h-10 w-full min-w-0 items-center bg-white px-3 text-sm font-light text-text">
+                    <div className=" z-20 flex h-10 w-full min-w-0 items-center bg-[#fcfcfc] border px-3 text-sm font-light text-text">
                         <div className="ellipsis">{cardTitle}</div>
                     </div>
                 </div>

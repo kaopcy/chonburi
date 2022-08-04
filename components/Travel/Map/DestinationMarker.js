@@ -110,8 +110,31 @@ const DestinationMarker = () => {
     }, [map]);
 
     return (
-        <>
+        <><OverlayView
+        position={post.coords}
+        mapPaneName={OverlayView.FLOAT_PANE}
+    >
+        <div
+            className="relative transition-transform hover:scale-110 "
+            onClick={() => setIsOpen(true)}
+        >
+            <div className="flex-cen absolute left-[-12px] top-[-8px] h-5   w-6  shrink-0 animate-gps-pulse-3-blue cursor-pointer rounded-[50%] border-[3px] border-white bg-blue-400  shadow-[0_0_0_0_rgba(0,154,255,1)]">
+                <div className="h-[5px] w-[7px]  rounded-[50%] bg-white"></div>
+                <div className="absolute bottom-1/2 h-[40px] w-[4px] rounded-full bg-text"></div>
+                <div className="flex-col-cen absolute -top-20 h-16 w-16 rounded-[50%] border-2 border-white bg-white shadow-lg">
+                    <FontAwesomeIcon
+                        icon={faLocationDot}
+                        className="text-base text-red-500"
+                    />
+                    <div className="mt-1 font-sarabun text-xs font-light text-text">
+                        จุดหมาย
+                    </div>
+                </div>
+            </div>
+        </div>
+    </OverlayView>
             {isOpen && (
+                
                 <OverlayView
                     onLoad={onLoad}
                     position={post.coords}
@@ -179,29 +202,7 @@ const DestinationMarker = () => {
                     </div>
                 </OverlayView>
             )}
-            <OverlayView
-                position={post.coords}
-                mapPaneName={OverlayView.FLOAT_PANE}
-            >
-                <div
-                    className="relative transition-transform hover:scale-110 "
-                    onClick={() => setIsOpen(true)}
-                >
-                    <div className="flex-cen absolute left-[-12px] top-[-8px] h-5   w-6  shrink-0 animate-gps-pulse-3-blue cursor-pointer rounded-[50%] border-[3px] border-white bg-blue-400  shadow-[0_0_0_0_rgba(0,154,255,1)]">
-                        <div className="h-[5px] w-[7px]  rounded-[50%] bg-white"></div>
-                        <div className="absolute bottom-1/2 h-[40px] w-[4px] rounded-full bg-text"></div>
-                        <div className="flex-col-cen absolute -top-20 h-16 w-16 rounded-[50%] border-2 border-white bg-white shadow-lg">
-                            <FontAwesomeIcon
-                                icon={faLocationDot}
-                                className="text-base text-red-500"
-                            />
-                            <div className="mt-1 font-sarabun text-xs font-light text-text">
-                                จุดหมาย
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </OverlayView>
+            
         </>
     );
 };

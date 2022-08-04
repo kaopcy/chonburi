@@ -1,23 +1,46 @@
-import React from "react";
-import { OverlayView } from "@react-google-maps/api";
+import { useMemo, useEffect, useRef, forwardRef } from "react";
+
 import Image from "next/image";
+import { OverlayView } from "@react-google-maps/api";
 
 // import icons
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPerson } from "@fortawesome/free-solid-svg-icons";
-import { forwardRef } from "react";
+import SvgPlay from "../../icons/Play";
+import SvgFlag from "../../icons/Flag";
 
-const LocationMarker = forwardRef(({ position, onClick, post }, ref) => {
+import SvgCar from "../../icons/Car";
+import SvgUtensil from "../../icons/Utensil";
+
+const TripMarker = forwardRef(({ position, onClick, post }, ref) => {
+    const markerRef = useRef();
+
+    const onLoad = () => {
+        const markerH = markerRef.current.clientHeight;
+        markerRef.current.style.top = `-${markerH}px`;
+    };
+
     return (
-        <OverlayView position={position} mapPaneName={OverlayView.FLOAT_PANE}>
-            <div className="relative  transition-transform hover:scale-110">
-                <div className="flex-cen cursor-pointer  absolute left-[-9px] top-[-8px]   h-3  w-4 shrink-0 animate-gps-pulse-red rounded-[50%] border-[2px] border-white bg-red-400">
-                    <div className="h-[3px] w-[5px]  rounded-[50%] bg-white"></div>
-                    <div className="absolute bottom-1/2 h-[40px] w-[4px] rounded-full bg-text"></div>
+        <OverlayView
+            onLoad={onLoad}
+            position={position}
+            mapPaneName={OverlayView.FLOAT_PANE}
+        >
+            <div
+                onClick={() => onClick(post.slug.current)}
+                ref={markerRef}
+                className="relative -left-1/2 -top-10 origin-center transition-transform hover:scale-110"
+            >
+                <div
+                    className={`flex-cen z-10 relative max-w-[150px] shrink-0 overflow-hidden  rounded-full bg-black px-1 py-1 pr-2  opacity-80 `}
+                >
+                    {/* {isTravel ? (
+                        <div
+                            className={`mr-2 aspect-square w-6 shrink-0 rounded-full bg-red-500 p-1  pt-[5px] `}
+                        >
+                            <SvgCar stroke="#fff" />
+                        </div>
+                    ) : ( */}
                     <div
-                        onClick={() => onClick(post.title)}
-                        ref={ref}
-                        className="flex-col-cen absolute -top-20 z-10 h-[68px] w-[68px] overflow-hidden rounded-[50%] border-[3px] border-white bg-white shadow-lg"
+                        className={`relative mr-2 aspect-square w-6 shrink-0 overflow-hidden rounded-full  bg-red-500 p-[6px]`}
                     >
                         <Image
                             layout="fill"
@@ -30,16 +53,16 @@ const LocationMarker = forwardRef(({ position, onClick, post }, ref) => {
                             className=""
                         />
                     </div>
-                </div>
-                {/* <div className="custom-text-shadow-black  absolute top-[14px] left-1/2 w-40 text-center -translate-x-1/2 font-sarabun text-xs text-white">
+                    {/* )} */}
+                    <div className="ellipsis font-extralight text-white">
                         {post.title}
-                    </div> */}
-                <div className="custom-text-shadow-white absolute top-[14px] left-1/2 w-40 -translate-x-1/2 text-center font-sarabun text-xs text-black">
-                    {post.title}
+                    </div>
                 </div>
+                <div className="new-triangle-sm relative left-1/2  -translate-x-1/2 rotate-180"></div>
+                <div className="relative -mt-1 left-1/2 z-[-1] h-2 w-3 -translate-x-1/2 rounded-[50%] border-2 bg-red-400  "></div>
             </div>
         </OverlayView>
     );
 });
 
-export default LocationMarker;
+export default TripMarker;

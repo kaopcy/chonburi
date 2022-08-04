@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import groq from "groq";
 import Head from "next/head";
-import { useRouter } from 'next/router'
+import { useRouter } from "next/router";
 
 // import configs
 import { getClient } from "../../lib/sanity.server";
@@ -18,16 +18,10 @@ import Posts from "../../components/MainTravel/Posts";
 import Map from "../../components/MainTravel/Map";
 
 const Travel = ({ posts }) => {
-   
-    const isTouch = useIsTouchDevice();
     return (
         <MapContextProvider>
             <PostsContextProvider initPosts={posts}>
-                <main
-                    className={`relative flex   w-full flex-col overflow-hidden  ${
-                        isTouch ? "h-[calc(100vh-70px)]" : "h-screen"
-                    }`}
-                >
+                <main className="absolute inset-0 flex flex-col overflow-hidden">
                     <Head>
                         <title>แหล่งท่องเที่ยวในชลบุรี</title>
                         <meta
