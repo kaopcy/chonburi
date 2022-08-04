@@ -72,8 +72,7 @@ const ImageGallery = () => {
                                             layout="fill"
                                             objectFit="cover"
                                             alt={post.title}
-                                            quality="low"
-                                            blurDataURL="URL"
+                                            blurDataURL={BLURRED_URL}
                                             placeholder="blur"
                                             src={post.imageURL[index].url}
                                             className=""
@@ -87,7 +86,6 @@ const ImageGallery = () => {
                                             layout="fill"
                                             objectFit="cover"
                                             alt={post.title}
-                                            quality="low"
                                             blurDataURL={BLURRED_URL}
                                             placeholder="blur"
                                             src={post.imageURL[index].url}
@@ -103,7 +101,6 @@ const ImageGallery = () => {
                                                 layout="fill"
                                                 objectFit="cover"
                                                 alt={post.title}
-                                                quality="low"
                                                 blurDataURL={BLURRED_URL}
                                                 placeholder="blur"
                                                 src={
@@ -117,7 +114,6 @@ const ImageGallery = () => {
                                                 layout="fill"
                                                 objectFit="cover"
                                                 alt={post.title}
-                                                quality="low"
                                                 blurDataURL={BLURRED_URL}
                                                 placeholder="blur"
                                                 src={post.imageURL[index].url}

@@ -12,6 +12,9 @@ import { urlFor } from "../../../../lib/sanity";
 // import contexts
 import { usePostContext } from "../../../../context/Travel/PostContext";
 
+const blurredUrl =
+    "data:image/webp;base64,UklGRkgDAABXRUJQVlA4WAoAAAAgAAAAgQAAWAAASUNDUBgCAAAAAAIYAAAAAAQwAABtbnRyUkdCIFhZWiAAAAAAAAAAAAAAAABhY3NwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAA9tYAAQAAAADTLQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAlkZXNjAAAA8AAAAHRyWFlaAAABZAAAABRnWFlaAAABeAAAABRiWFlaAAABjAAAABRyVFJDAAABoAAAAChnVFJDAAABoAAAAChiVFJDAAABoAAAACh3dHB0AAAByAAAABRjcHJ0AAAB3AAAADxtbHVjAAAAAAAAAAEAAAAMZW5VUwAAAFgAAAAcAHMAUgBHAEIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFhZWiAAAAAAAABvogAAOPUAAAOQWFlaIAAAAAAAAGKZAAC3hQAAGNpYWVogAAAAAAAAJKAAAA+EAAC2z3BhcmEAAAAAAAQAAAACZmYAAPKnAAANWQAAE9AAAApbAAAAAAAAAABYWVogAAAAAAAA9tYAAQAAAADTLW1sdWMAAAAAAAAAAQAAAAxlblVTAAAAIAAAABwARwBvAG8AZwBsAGUAIABJAG4AYwAuACAAMgAwADEANlZQOCAKAQAAsAkAnQEqggBZAD7tbK9QP6Ykoqj0TEvwHYllbt1aYUsF/j9gJ412AKqqrPnvtSSBmoB7kQkuOPZucrqrwlPyfyRrp2zGmwnu5xtKcgqG1/BDrYZd5qAA/qbj/hKp0IqQI58abIXs5uX/lTDEwo7O3BobPQ0B+oyNOjxJ4MMMuLlKTImxwJJuTiuHLhYUU4gHngATeWTCcDgkV6mI1UEWPquCtJAX/LGV06dcM6+KtvvxgzDsjRT5NyPDS19RXyKiRutSP3QBMfGHl5iEVTSUe7sAso3TrzXN3za36MzoBEKqbufEows2j3yqhskNTPmPL1GwIllMscwDtf2out5v/Mo2JFVjhyQAAAA=";
+
 const ImageGroup = () => {
     const { post } = usePostContext();
     const router = useRouter();
@@ -24,7 +27,7 @@ const ImageGroup = () => {
                     objectFit="cover"
                     alt={post.title}
                     quality="low"
-                    blurDataURL="URL"
+                    blurDataURL={blurredUrl}
                     placeholder="blur"
                     src={post.imageURL[0].url}
                     className=""
@@ -37,7 +40,7 @@ const ImageGroup = () => {
                         objectFit="cover"
                         alt={post.title}
                         quality="low"
-                        blurDataURL="URL"
+                        blurDataURL={blurredUrl}
                         placeholder="blur"
                         src={post.imageURL[1].url}
                         className=""
@@ -65,7 +68,7 @@ const ImageGroup = () => {
                             objectFit="cover"
                             alt={post.title}
                             quality="low"
-                            blurDataURL="URL"
+                            blurDataURL={blurredUrl}
                             placeholder="blur"
                             src={post.imageURL[2].url}
                             className=""

@@ -1,4 +1,5 @@
 import React, { useRef, useEffect } from "react";
+import { useRouter } from "next/router";
 
 // import configs
 import { urlFor } from "../../lib/sanity";
@@ -24,6 +25,12 @@ import { useSelectorContext } from "../../context/Travel/SelectorContext";
 
 const Selector = ({ setIsOpen, isOpen }) => {
     const containerRef = useRef(null);
+    const router = useRouter()
+    
+    const otherplace = ()=>{
+        const path = router.pathname.split('/')[1]
+        router.push(`/${path}` , undefined)
+    }
     return (
         <div
             className={`relative flex  justify-center rounded-none pb-2 pt-4 transition-all container-type-size  md:w-full md:justify-between md:pr-4  ${
@@ -32,24 +39,21 @@ const Selector = ({ setIsOpen, isOpen }) => {
             ref={containerRef}
         >
             <div className="ml-6 hidden cursor-pointer items-center self-center text-text md:flex">
-                <FontAwesomeIcon
-                    className="mt-[2px] mr-2 text-xs text-text-lighterr"
-                    icon={faChevronLeft}
-                />
-                <div className="">กลับ</div>
+                {}
             </div>
             <div className="flex justify-end">
-                <Icon
-                    setIsOpen={setIsOpen}
-                    isOpen={isOpen}
-                    icon={faNewspaper}
-                    text={TRAVEL_MODE}
-                />
                 <Icon
                     setIsOpen={setIsOpen}
                     isOpen={isOpen} 
                     icon={faMountainCity}
                     text={OTHERPLACE_MODE}
+                    otherplace={otherplace}
+                />
+                <Icon
+                    setIsOpen={setIsOpen}
+                    isOpen={isOpen}
+                    icon={faNewspaper}
+                    text={TRAVEL_MODE}
                 />
                 <Icon
                     setIsOpen={setIsOpen}
@@ -104,7 +108,7 @@ const Highlighter = ({ containerRef, isOpen }) => {
     );
 };
 
-const Icon = ({ icon, text, isOpen, setIsOpen, children }) => {
+const Icon = ({ icon, text, isOpen, setIsOpen, children , otherplace }) => {
     const { setSelectedMode, selectedMode } = useSelectorContext();
     return (
         <div
@@ -113,6 +117,10 @@ const Icon = ({ icon, text, isOpen, setIsOpen, children }) => {
                 selectedMode === text && "!text-primary "
             }`}
             onClick={() => {
+                if(otherplace){
+                    otherplace()
+                    return
+                }
                 if (selectedMode === text) setIsOpen(true);
                 setSelectedMode(text);
             }}

@@ -18,13 +18,19 @@ import RunningText from "../components/Home/RunningText";
 import HistoryImageSlider from "../components/Home/HistoryImageSlider";
 import AmphoeHistory from "../components/Home/AmphoeHistory";
 
+import TripCard from "../components/Trip/TripCard";
+
 // import images
 import chonburiImage from "../public/images/background.jpg";
+
+// import icons
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faSuitcase } from "@fortawesome/free-solid-svg-icons";
 
 const bluredMainImg =
     "data:image/webp;base64,UklGRkwDAABXRUJQVlA4WAoAAAAgAAAAgQAAWAAASUNDUBgCAAAAAAIYAAAAAAQwAABtbnRyUkdCIFhZWiAAAAAAAAAAAAAAAABhY3NwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAA9tYAAQAAAADTLQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAlkZXNjAAAA8AAAAHRyWFlaAAABZAAAABRnWFlaAAABeAAAABRiWFlaAAABjAAAABRyVFJDAAABoAAAAChnVFJDAAABoAAAAChiVFJDAAABoAAAACh3dHB0AAAByAAAABRjcHJ0AAAB3AAAADxtbHVjAAAAAAAAAAEAAAAMZW5VUwAAAFgAAAAcAHMAUgBHAEIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFhZWiAAAAAAAABvogAAOPUAAAOQWFlaIAAAAAAAAGKZAAC3hQAAGNpYWVogAAAAAAAAJKAAAA+EAAC2z3BhcmEAAAAAAAQAAAACZmYAAPKnAAANWQAAE9AAAApbAAAAAAAAAABYWVogAAAAAAAA9tYAAQAAAADTLW1sdWMAAAAAAAAAAQAAAAxlblVTAAAAIAAAABwARwBvAG8AZwBsAGUAIABJAG4AYwAuACAAMgAwADEANlZQOCAOAQAAEAoAnQEqggBZAD7tbK9QP6Ykoqj0TEvwHYllbt//TFhcuJ1v+f6AW/OukB/99WuwZFFI0SD0+OFXWNSgF/qM0SXy3pA4BigopgPgufyj9kLAt3YnW25dZoAA/qbj/nU8U5xFLnM5PRrPvmvoGgDox+lMbDP1a4X1C9iIzUWDkb1Km9kcY36DBQEvoPPk3nwEQDW4Ac4xrcYXz/ZatjUXBdpZeNWjEOsTZZ42NcYMN7q7e/t+CK9yCczqoaUPpZZPau1j7oAmNZWczaa431bubwH3WqPFa1yUyciZNnGrOrh0dxVr2vmQzXEyn/2pnnmcfWpoaDSkaCCeUai7JpXSCaR7rY/3rUmkqDpyrgAA";
 
-const Home = ({ posts, restaurants, pointOfInterests }) => {
+const Home = ({ trips, restaurants, pointOfInterests }) => {
     const imageRef = useRef(null);
     const quoteRef = useRef(null);
     const parallaxTrigger = useRef(null);
@@ -109,6 +115,25 @@ const Home = ({ posts, restaurants, pointOfInterests }) => {
             </div>
             <RunningText />
             <HistoryImageSlider />
+
+            <div className="mx-auto flex w-full max-w-[1300px] flex-col  pt-[95px]  mb-20">
+                <span className="flex items-center text-lg font-semibold text-text sm:text-2xl lg:text-3xl mb-8">
+                    ทริปแนะนำ
+                    <FontAwesomeIcon
+                        icon={faSuitcase}
+                        className="ml-3  text-text-lightest"
+                    />
+                </span>
+                <div className=" relative  grid  max-w-[full] grid-cols-[repeat(auto-fill,minmax(300px,1fr))] grid-rows-[minmax(100px,auto)] gap-6 md:gap-4">
+                    {trips.map((trip, index) => (
+                        <TripCard
+                            key={`${trip._id}-1`}
+                            trip={trip}
+                            index={index}
+                        />
+                    ))}
+                </div>
+            </div>
             <PointOfInterestList pointOfInterests={pointOfInterests} />
             <RestaurantList restaurants={restaurants} />
 
@@ -187,6 +212,10 @@ const pointOfInterestQuery = groq`
   star,
 }`;
 
+const tripsQuery = groq`
+    *[(_type == "trip")]
+`;
+
 export const getStaticProps = async (context) => {
     const posts = await getClient(context.preview).fetch(groq`
         *[_type == "post" && publishedAt < now()][0...5] | order(publishedAt desc , title desc){
@@ -210,8 +239,11 @@ export const getStaticProps = async (context) => {
         pointOfInterestQuery
     );
 
+    const trips = await getClient().fetch(tripsQuery);
+
     return {
         props: {
+            trips,
             posts,
             restaurants,
             pointOfInterests,
