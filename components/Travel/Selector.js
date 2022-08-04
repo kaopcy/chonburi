@@ -78,7 +78,7 @@ const Highlighter = ({ containerRef, isOpen }) => {
             elRef.current.style.left = `${modeOffset}px`;
         };
         calPost();
-        window.addEventListener("resize", calPost);
+        window.addEventListener("resize", calPost , { passive: true });
 
         return () => {
             window.removeEventListener("resize", calPost);

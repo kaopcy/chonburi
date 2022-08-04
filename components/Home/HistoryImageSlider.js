@@ -146,7 +146,11 @@ const HistoryImageSlider = () => {
                 windowHeight = window.innerHeight;
             };
 
-            window.addEventListener("resize", resizeListenerRef.current[index]);
+            window.addEventListener(
+                "resize",
+                resizeListenerRef.current[index],
+                { passive: true }
+            );
         });
 
         return () => {

@@ -40,7 +40,7 @@ const TripImages = ({ trip }) => {
             )}px`;
         };
         resizeEvnt();
-        window.addEventListener("resize", resizeEvnt);
+        window.addEventListener("resize", resizeEvnt, { passive: true });
 
         gsap.timeline({
             scrollTrigger: {

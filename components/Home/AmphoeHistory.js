@@ -148,7 +148,7 @@ const AmphoeHistory = () => {
                 }px`;
         };
 
-        window.addEventListener("resize", resizeEvt);
+        window.addEventListener("resize", resizeEvt, { passive: true });
         resizeEvt();
         return () => {
             window.removeEventListener("resize", resizeEvt);
@@ -190,7 +190,7 @@ const AmphoeHistory = () => {
         scrollEvnt();
         window.addEventListener("scroll", scrollEvnt, { passive: true });
         window.addEventListener("touchmove", scrollEvnt, { passive: true });
-        window.addEventListener("resize", scrollEvnt);
+        window.addEventListener("resize", scrollEvnt, { passive: true });
 
         return () => {
             window.removeEventListener("touchmove", scrollEvnt);
@@ -336,7 +336,10 @@ const History = forwardRef(({ amphoe }, ref) => {
                         </>
                     </div>
                 </Link>
-                <Link href={`/restaurant?amphoe=${amphoe.name}&map=true`} passHref>
+                <Link
+                    href={`/restaurant?amphoe=${amphoe.name}&map=true`}
+                    passHref
+                >
                     <div className="group flex cursor-pointer items-center border border-text bg-text  px-5 py-2 text-sm hover:bg-white">
                         <div className="mr-2 text-white group-hover:text-text">
                             ร้านอาหาร

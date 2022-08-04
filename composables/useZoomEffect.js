@@ -37,8 +37,8 @@ const useZoomEffect = (
             options.onMouseLeaveCallback();
             hover.current.reverse();
         };
-        overlayRef.current.addEventListener("mouseenter", onMouseEnter);
-        overlayRef.current.addEventListener("mouseleave", onMouseLeave);
+        overlayRef.current.addEventListener("mouseenter", onMouseEnter, { passive: true });
+        overlayRef.current.addEventListener("mouseleave", onMouseLeave, { passive: true });
 
         return () => {
             if (overlayRef.current) {

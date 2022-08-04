@@ -71,7 +71,7 @@ const Posts = ({ type }) => {
                 }, 1000);
             }
         };
-        rootRef.current.addEventListener("scroll", scrollEvnt);
+        rootRef.current.addEventListener("scroll", scrollEvnt , { passive: true });
 
         let observeArr = [];
 

@@ -74,7 +74,7 @@ const OtherPlaceDetail = () => {
             timer.current = setTimeout(callActiveOtherPlace, 50);
         };
         if (!containerRef.current || cardsRef.current.length === 0) return;
-        containerRef.current.addEventListener("scroll", onScroll, false);
+        containerRef.current.addEventListener("scroll", onScroll, { passive: true });
         callActiveOtherPlace();
         return () => {
             if (containerRef.current) {

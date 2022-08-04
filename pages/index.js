@@ -21,6 +21,9 @@ import AmphoeHistory from "../components/Home/AmphoeHistory";
 // import images
 import chonburiImage from "../public/images/background.jpg";
 
+const bluredMainImg =
+    "data:image/webp;base64,UklGRkwDAABXRUJQVlA4WAoAAAAgAAAAgQAAWAAASUNDUBgCAAAAAAIYAAAAAAQwAABtbnRyUkdCIFhZWiAAAAAAAAAAAAAAAABhY3NwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAA9tYAAQAAAADTLQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAlkZXNjAAAA8AAAAHRyWFlaAAABZAAAABRnWFlaAAABeAAAABRiWFlaAAABjAAAABRyVFJDAAABoAAAAChnVFJDAAABoAAAAChiVFJDAAABoAAAACh3dHB0AAAByAAAABRjcHJ0AAAB3AAAADxtbHVjAAAAAAAAAAEAAAAMZW5VUwAAAFgAAAAcAHMAUgBHAEIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFhZWiAAAAAAAABvogAAOPUAAAOQWFlaIAAAAAAAAGKZAAC3hQAAGNpYWVogAAAAAAAAJKAAAA+EAAC2z3BhcmEAAAAAAAQAAAACZmYAAPKnAAANWQAAE9AAAApbAAAAAAAAAABYWVogAAAAAAAA9tYAAQAAAADTLW1sdWMAAAAAAAAAAQAAAAxlblVTAAAAIAAAABwARwBvAG8AZwBsAGUAIABJAG4AYwAuACAAMgAwADEANlZQOCAOAQAAEAoAnQEqggBZAD7tbK9QP6Ykoqj0TEvwHYllbt//TFhcuJ1v+f6AW/OukB/99WuwZFFI0SD0+OFXWNSgF/qM0SXy3pA4BigopgPgufyj9kLAt3YnW25dZoAA/qbj/nU8U5xFLnM5PRrPvmvoGgDox+lMbDP1a4X1C9iIzUWDkb1Km9kcY36DBQEvoPPk3nwEQDW4Ac4xrcYXz/ZatjUXBdpZeNWjEOsTZZ42NcYMN7q7e/t+CK9yCczqoaUPpZZPau1j7oAmNZWczaa431bubwH3WqPFa1yUyciZNnGrOrh0dxVr2vmQzXEyn/2pnnmcfWpoaDSkaCCeUai7JpXSCaR7rY/3rUmkqDpyrgAA";
+
 const Home = ({ posts, restaurants, pointOfInterests }) => {
     const imageRef = useRef(null);
     const quoteRef = useRef(null);
@@ -80,7 +83,7 @@ const Home = ({ posts, restaurants, pointOfInterests }) => {
                             layout="fill"
                             className="object-cover "
                             quality="100"
-                            blurDataURL="URL"
+                            blurDataURL={bluredMainImg}
                             placeholder="blur"
                         />
                     </div>

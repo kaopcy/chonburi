@@ -27,7 +27,7 @@ const TripContent = ({ trip }) => {
             else stickyMapRef.current.style.top = 0;
         };
         resizeEvt();
-        window.addEventListener("resize", resizeEvt);
+        window.addEventListener("resize", resizeEvt, { passive: true });
 
         return () => {
             window.removeEventListener("resize", resizeEvt);

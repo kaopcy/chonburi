@@ -33,7 +33,7 @@ const AmphoeChonburi = forwardRef(({ currentAmphoe }, ref) => {
             markerRef.current.style.top = `${preferredT}px`;
             markerRef.current.style.left = `${preferredL}px`;
         };
-        window.addEventListener("resize", resizeEvt);
+        window.addEventListener("resize", resizeEvt, { passive: true });
         return () => {
             window.removeEventListener("resize", resizeEvt);
         };

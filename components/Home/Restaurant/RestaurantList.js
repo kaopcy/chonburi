@@ -44,7 +44,7 @@ const RestaurantList = ({ restaurants }) => {
             indicatorRef.current.updateScroll(start, end);
         };
         scrollEvnt();
-        sliderRef.current.addEventListener("scroll", scrollEvnt);
+        sliderRef.current.addEventListener("scroll", scrollEvnt, { passive: true });
         return () => {
             if (sliderRef.current)
                 sliderRef.current.removeEventListener("scroll", scrollEvnt);

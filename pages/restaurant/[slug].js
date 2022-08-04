@@ -99,7 +99,7 @@ const Detail = () => {
         };
 
         calPosition();
-        window.addEventListener("resize", calPosition);
+        window.addEventListener("resize", calPosition, { passive: true });
         return () => window.removeEventListener("resize", calPosition);
     }, [selectedMode]);
 
