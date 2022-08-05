@@ -49,11 +49,11 @@ const useDraggable = (
             cancelMomentumTracking();
         };
 
-        slider.current.addEventListener("mousedown", onMouseDown, { passive: true });
-        slider.current.addEventListener("mouseleave", onMouseLeave, { passive: true });
-        slider.current.addEventListener("mouseup", onMouseUp, { passive: true });
-        slider.current.addEventListener("mousemove", onMouseMove, { passive: true });
-        slider.current.addEventListener("wheel", onWheel, { passive: true });
+        slider.current.addEventListener("mousedown", onMouseDown);
+        slider.current.addEventListener("mouseleave", onMouseLeave);
+        slider.current.addEventListener("mouseup", onMouseUp);
+        slider.current.addEventListener("mousemove", onMouseMove);
+        slider.current.addEventListener("wheel", onWheel);
 
         function beginMomentumTracking() {
             cancelMomentumTracking();
