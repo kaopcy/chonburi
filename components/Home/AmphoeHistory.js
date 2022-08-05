@@ -323,15 +323,15 @@ const History = forwardRef(({ amphoe }, ref) => {
             </div>
             <div className="mt-12 flex items-center self-end font-medium">
                 <Link href={`/travel?amphoe=${amphoe.name}&map=true`} passHref>
-                    <div className="group  mr-4 flex cursor-pointer items-center  border border-text px-5 py-2 text-sm hover:bg-text ">
+                    <div className="group  mr-4 flex cursor-pointer items-center  border border-text px-5 py-2 text-sm  ">
                         <>
-                            <div className="mr-2 group-hover:text-white">
+                            <div className="mr-2 group-hover:underline underline-offset-1">
                                 แหล่งท่องเที่ยว
                             </div>
                             <div className="relative w-3 rotate-180 transition-transform group-hover:translate-x-2 group-hover:rotate-0">
-                                <div className="absolute h-[1px] w-full bg-text group-hover:bg-white"></div>
-                                <div className="absolute top-0 h-[1px] w-[50%] origin-bottom-left rotate-45 bg-text group-hover:bg-white"></div>
-                                <div className="absolute top-0 h-[1px] w-[50%] origin-top-left -rotate-45 bg-text group-hover:bg-white"></div>
+                                <div className="absolute h-[1px] w-full bg-text "></div>
+                                <div className="absolute top-0 h-[1px] w-[50%] origin-bottom-left rotate-45 bg-text "></div>
+                                <div className="absolute top-0 h-[1px] w-[50%] origin-top-left -rotate-45 bg-text "></div>
                             </div>
                         </>
                     </div>
@@ -340,14 +340,14 @@ const History = forwardRef(({ amphoe }, ref) => {
                     href={`/restaurant?amphoe=${amphoe.name}&map=true`}
                     passHref
                 >
-                    <div className="group flex cursor-pointer items-center border border-text bg-text  px-5 py-2 text-sm hover:bg-white">
-                        <div className="mr-2 text-white group-hover:text-text">
+                    <div className="group flex cursor-pointer items-center border border-text bg-text  px-5 py-2 text-sm ">
+                        <div className="mr-2 text-white group-hover:underline underline-offset-1">
                             ร้านอาหาร
                         </div>
                         <div className="relative w-3 rotate-180 transition-transform group-hover:translate-x-2 group-hover:rotate-0">
-                            <div className="absolute h-[1px] w-full bg-white group-hover:bg-text "></div>
-                            <div className="absolute top-0 h-[1px] w-[50%] origin-bottom-left rotate-45 bg-white group-hover:bg-text"></div>
-                            <div className="absolute top-0 h-[1px] w-[50%] origin-top-left -rotate-45 bg-white group-hover:bg-text"></div>
+                            <div className="absolute h-[1px] w-full bg-white  "></div>
+                            <div className="absolute top-0 h-[1px] w-[50%] origin-bottom-left rotate-45 bg-white "></div>
+                            <div className="absolute top-0 h-[1px] w-[50%] origin-top-left -rotate-45 bg-white "></div>
                         </div>
                     </div>
                 </Link>

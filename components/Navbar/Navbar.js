@@ -54,7 +54,7 @@ const Navbar = () => {
                 <div className="absolute top-0 left-0 z-10 h-full w-full bg-white opacity-80"></div>
                 <Link href={"/"} passHref>
                     <div
-                        className="relative z-20 mt-3 w-10 md:w-20 "
+                        className="relative z-20 mt-1 w-10 md:w-20 "
                         ref={iconRef}
                     >
                         <SvgChonburi2 />
@@ -152,7 +152,7 @@ const Navbar = () => {
             >
                 <div className="absolute top-0 left-0 z-10 h-full w-full bg-white opacity-80"></div>
                 <Link href={"/"} passHref>
-                    <div className="relative z-20 mt-3 w-16 ">
+                    <div className="relative z-20 mt-1 w-16 ">
                         <SvgChonburi2 />
                     </div>
                 </Link>
