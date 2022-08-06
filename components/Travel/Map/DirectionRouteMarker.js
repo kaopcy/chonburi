@@ -66,7 +66,7 @@ const DirectionRouteMarker = () => {
                             </div>
                         </div>
                         <div className={` relative  w-[90%] self-end font-light  text-white`}>
-                            - ระยะทาง: {route.distance}
+                            - ด้วยระยะทาง: {route.distance}
                             {route.extra && (
                                 <div className="">
                                     - {route.extra.replace("&nbsp;", "")}

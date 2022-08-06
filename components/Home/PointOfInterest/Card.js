@@ -1,6 +1,7 @@
-import React, { useState, useMemo, useEffect, forwardRef } from "react";
+import React, { useRef, useState, useMemo, useEffect, forwardRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { getDistance } from "geolib";
 
 // import icons
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -10,7 +11,9 @@ import {
     faChevronRight,
     faPencilAlt,
 } from "@fortawesome/free-solid-svg-icons";
-import { useRef } from "react";
+
+// import hooks
+import { useUserLocation } from "../../../context/UserLocationContext";
 
 const PostCard = forwardRef(({ post }, ref) => {
     const imageCount = useMemo(
@@ -19,6 +22,20 @@ const PostCard = forwardRef(({ post }, ref) => {
     );
     const imageContainerRef = useRef(null);
     const [curIndex, setCurIndex] = useState(0);
+
+    const { userLocation } = useUserLocation();
+    const distance = useMemo(
+        () =>
+            userLocation && post
+                ? (
+                      getDistance(
+                          { lat: userLocation.lat, lng: userLocation.lng },
+                          { lat: post.coords.lat, lng: post.coords.lng }
+                      ) / 1000
+                  ).toFixed(2)
+                : null,
+        [userLocation, post.coords]
+    );
 
     const increase = () => {
         setCurIndex((old) => (old >= imageCount - 1 ? old : old + 1));
@@ -98,7 +115,7 @@ const PostCard = forwardRef(({ post }, ref) => {
                         icon={faLocationDot}
                         className="mr-[6px] text-red-400"
                     />
-                    <span className="">ระยะห่าง 90 กม.</span>
+                    <span className="">ระยะห่าง {distance} กม.</span>
                 </span>
 
                 <span className="ellipsis text-xs">

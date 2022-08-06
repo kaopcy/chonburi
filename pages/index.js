@@ -109,15 +109,15 @@ const Home = ({ trips, restaurants, pointOfInterests }) => {
                         </div>
                     </div>
                 </div>
-                <div className="absolute  left-1/2 bottom-0 z-10 flex w-full -translate-x-1/2 translate-y-1/2 px-5 ">
-                    <SearchBar />
-                </div>
+
+                
+                <SearchBar />
             </div>
             <RunningText />
             <HistoryImageSlider />
 
-            <div className="mx-auto flex w-full max-w-[1300px] flex-col  pt-[95px]  mb-20">
-                <span className="flex items-center text-lg font-semibold text-text sm:text-2xl lg:text-3xl mb-8">
+            <div className="mx-auto mb-20 flex w-full max-w-[1300px]  flex-col  pt-[95px]">
+                <span className="mb-8 flex items-center text-lg font-semibold text-text sm:text-2xl lg:text-3xl">
                     ทริปแนะนำ
                     <FontAwesomeIcon
                         icon={faSuitcase}

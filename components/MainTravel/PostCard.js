@@ -1,7 +1,7 @@
 import React, { useState, useMemo, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { v4 as uuid } from "uuid";
+import { getDistance } from "geolib";
 
 // import icons
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -13,29 +13,38 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { useRef } from "react";
 
-const PostCard = ({ post, type , isOpen }) => {
-    const {
-        placeID,
-        imageURL,
-        title,
-        amphoe,
-        tambon,
-        slug,
-        reviews,
-        star,
-    } = post;
+// import hook
+import { useUserLocation } from "../../context/UserLocationContext";
+
+const PostCard = React.memo(({ post, type, isOpen }) => {
+    const { placeID, imageURL, title, amphoe, tambon, slug, reviews, star } =
+        post;
     const imageCount = useMemo(
         () => (imageURL ? imageURL.length : 0),
         [imageURL]
     );
+    const { userLocation } = useUserLocation();
+    const distance = useMemo(
+        () =>
+            userLocation && post
+                ? (
+                      getDistance(
+                          { lat: userLocation.lat, lng: userLocation.lng },
+                          { lat: post.coords.lat, lng: post.coords.lng }
+                      ) / 1000
+                  ).toFixed(2)
+                : null,
+        [userLocation, post.coords]
+    );
+
+    console.log("postcard: ", distance);
+
     const imageContainerRef = useRef(null);
     const prevTouchX = useRef(null);
     const startTouchX = useRef(null);
     const deltaX = useRef(null);
 
     const [curIndex, setCurIndex] = useState(0);
-
-   
 
     const increase = () => {
         setCurIndex((old) => (old >= imageCount - 1 ? old : old + 1));
@@ -166,7 +175,7 @@ const PostCard = ({ post, type , isOpen }) => {
                         icon={faLocationDot}
                         className="mr-[6px] text-red-400"
                     />
-                    <span className="">ระยะห่าง 90 กม.</span>
+                    <span className="">ระยะห่าง {distance} กม.</span>
                 </span>
 
                 <span className="ellipsis text-xs">
@@ -176,7 +185,7 @@ const PostCard = ({ post, type , isOpen }) => {
             </div>
         </div>
     );
-};
+});
 
 const ImageComponent = ({ imageURL, title }) => {
     return (
