@@ -9,6 +9,7 @@ module.exports = {
             opacity: ["group-hover"],
             height: ["group-hover"],
             transform: ["group-hover"],
+            textDecorationLine: ["group-hover"],
         },
     },
 

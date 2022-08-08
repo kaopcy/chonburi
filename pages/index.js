@@ -8,8 +8,13 @@ import Head from "next/head";
 import { getClient } from "../lib/sanity.server";
 import useIsTouchDevice from "../composables/useIsTouchDevice";
 
+// import contexts
+import {
+    SearchProvider,
+    useSearchContext,
+} from "../context/Home/SearchContext";
+
 // import components
-import LocationList from "../components/Home/PointOfInterest/PointOfInterestList";
 import SearchBar from "../components/Home/SearchBar";
 import RestaurantList from "../components/Home/Restaurant/RestaurantList";
 import PointOfInterestList from "../components/Home/PointOfInterest/PointOfInterestList";
@@ -30,7 +35,13 @@ import { faSuitcase } from "@fortawesome/free-solid-svg-icons";
 const bluredMainImg =
     "data:image/webp;base64,UklGRkwDAABXRUJQVlA4WAoAAAAgAAAAgQAAWAAASUNDUBgCAAAAAAIYAAAAAAQwAABtbnRyUkdCIFhZWiAAAAAAAAAAAAAAAABhY3NwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAA9tYAAQAAAADTLQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAlkZXNjAAAA8AAAAHRyWFlaAAABZAAAABRnWFlaAAABeAAAABRiWFlaAAABjAAAABRyVFJDAAABoAAAAChnVFJDAAABoAAAAChiVFJDAAABoAAAACh3dHB0AAAByAAAABRjcHJ0AAAB3AAAADxtbHVjAAAAAAAAAAEAAAAMZW5VUwAAAFgAAAAcAHMAUgBHAEIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFhZWiAAAAAAAABvogAAOPUAAAOQWFlaIAAAAAAAAGKZAAC3hQAAGNpYWVogAAAAAAAAJKAAAA+EAAC2z3BhcmEAAAAAAAQAAAACZmYAAPKnAAANWQAAE9AAAApbAAAAAAAAAABYWVogAAAAAAAA9tYAAQAAAADTLW1sdWMAAAAAAAAAAQAAAAxlblVTAAAAIAAAABwARwBvAG8AZwBsAGUAIABJAG4AYwAuACAAMgAwADEANlZQOCAOAQAAEAoAnQEqggBZAD7tbK9QP6Ykoqj0TEvwHYllbt//TFhcuJ1v+f6AW/OukB/99WuwZFFI0SD0+OFXWNSgF/qM0SXy3pA4BigopgPgufyj9kLAt3YnW25dZoAA/qbj/nU8U5xFLnM5PRrPvmvoGgDox+lMbDP1a4X1C9iIzUWDkb1Km9kcY36DBQEvoPPk3nwEQDW4Ac4xrcYXz/ZatjUXBdpZeNWjEOsTZZ42NcYMN7q7e/t+CK9yCczqoaUPpZZPau1j7oAmNZWczaa431bubwH3WqPFa1yUyciZNnGrOrh0dxVr2vmQzXEyn/2pnnmcfWpoaDSkaCCeUai7JpXSCaR7rY/3rUmkqDpyrgAA";
 
-const Home = ({ trips, restaurants, pointOfInterests }) => {
+const Home = ({
+    trips,
+    restaurants,
+    pointOfInterests,
+    searchRestaurants,
+    searchTravels,
+}) => {
     const imageRef = useRef(null);
     const quoteRef = useRef(null);
     const parallaxTrigger = useRef(null);
@@ -109,9 +120,12 @@ const Home = ({ trips, restaurants, pointOfInterests }) => {
                         </div>
                     </div>
                 </div>
-
-                
-                <SearchBar />
+                <SearchProvider
+                    initRestaurants={searchRestaurants}
+                    initTravels={searchTravels}
+                >
+                    <SearchBar />
+                </SearchProvider>
             </div>
             <RunningText />
             <HistoryImageSlider />
@@ -216,27 +230,38 @@ const tripsQuery = groq`
     *[(_type == "trip")]
 `;
 
-export const getStaticProps = async (context) => {
-    const posts = await getClient(context.preview).fetch(groq`
-        *[_type == "post" && publishedAt < now()][0...5] | order(publishedAt desc , title desc){
-            _id,
-            title,
-            "username": author->username,
-            "categories": categories[]->{_id, title},
-            "authorImage": author->avatar,
-            body,
-            mainImage,
-            slug,
-            publishedAt,
-            coords,
-            location,
-            locationType,
-        }
-    `);
+const searchRestaurantsQuery = groq`
+*[(_type == "pointOfInterest")]{
+  title , 
+  slug , 
+  imageURL[0]{ url , _key },
+  _id,
+  amphoe-> { name },
+  tambon-> { name }
+}
+`;
 
+const searchTravelsQuery = groq`
+*[(_type == "travelSpot")]{
+  title , 
+  slug , 
+  imageURL[0]{ url , _key },
+  _id,
+  amphoe-> { name },
+  tambon-> { name }
+}
+`;
+
+export const getStaticProps = async (context) => {
     const restaurants = await getClient(context.preview).fetch(restaurantQuery);
     const pointOfInterests = await getClient(context.preview).fetch(
         pointOfInterestQuery
+    );
+    const searchRestaurants = await getClient(context.preview).fetch(
+        searchRestaurantsQuery
+    );
+    const searchTravels = await getClient(context.preview).fetch(
+        searchTravelsQuery
     );
 
     const trips = await getClient().fetch(tripsQuery);
@@ -244,9 +269,10 @@ export const getStaticProps = async (context) => {
     return {
         props: {
             trips,
-            posts,
             restaurants,
             pointOfInterests,
+            searchRestaurants,
+            searchTravels,
         },
     };
 };

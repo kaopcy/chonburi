@@ -29,7 +29,7 @@ const TripCard = ({ trip, index }) => {
             >
                 <div className="relative flex w-full flex-col">
                     <div className="flex-cen absolute inset-0 z-10 bg-gradient-to-b from-transparent to-black opacity-60 transition-opacity duration-700 group-hover:opacity-80"></div>
-                    <div className="absolute top-1/2 left-1/2 z-20 -translate-x-1/2 -translate-y-1/2">
+                    <div className="absolute top-1/2 left-1/2 z-20 -translate-x-1/2 -translate-y-1/2"  >
                         <div className="mb-3 whitespace-nowrap text-center text-4xl font-black text-white ">
                             {firstQuote}
                         </div>
