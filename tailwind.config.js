@@ -119,8 +119,4 @@ module.exports = {
             },
         },
     },
-    plugins: [
-        require("tailwindcss-nested-groups"),
-        require("tailwindcss-container-query"),
-    ],
 };

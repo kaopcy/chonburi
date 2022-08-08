@@ -43,7 +43,7 @@ const SearchBar = () => {
         }px)`;
         formRef.current.style.zIndex = `1030`;
 
-        setIsDropdown(true);
+        searchDropdownRef.current.style.display = "flex";
     };
 
     const onInputBlur = () => {
@@ -55,7 +55,7 @@ const SearchBar = () => {
         formRef.current.style.transform = `translate(-50%,50%)`;
         formRef.current.style.zIndex = `10`;
 
-        setIsDropdown(false);
+        searchDropdownRef.current.style.display = "none";
     };
 
     // clear effect
@@ -103,7 +103,7 @@ const SearchBar = () => {
                         placeholder="ค้นหาในชลบุรี . . ."
                     />
                 </div>
-                {isDropdown && <SearchDropdown ref={searchDropdownRef} />}
+                <SearchDropdown ref={searchDropdownRef} />
 
                 <div className=""></div>
             </form>
@@ -149,7 +149,7 @@ const SearchDropdown = forwardRef(({}, ref) => {
     return (
         <div
             ref={ref}
-            className="absolute top-[120%] left-1/2 flex  max-h-[400px] w-full max-w-[800px] -translate-x-1/2 overflow-y-auto rounded-lg bg-white  shadow-lg"
+            className="absolute top-[120%] left-1/2 hidden  max-h-[400px] w-full max-w-[800px] -translate-x-1/2 overflow-y-auto rounded-lg bg-white  shadow-lg"
         >
             <div className="relative grid h-full  w-full grid-cols-1 md:grid-cols-2">
                 <div className=" relative flex  w-full flex-col justify-between py-4 px-4 md:hidden">
