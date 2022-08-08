@@ -18,6 +18,8 @@ import MatchLink from "../Utils/MatchLink";
 const Navbar = () => {
     const navbarRef = useRef(null);
     const iconRef = useRef(null);
+    const iconContainerRef = useRef(null);
+    const textRef = useRef(null);
     const animation = useRef(null);
 
     useEffect(() => {
@@ -37,9 +39,33 @@ const Navbar = () => {
             })
             .to(
                 iconRef.current,
-                { ease: "expo.inOut", width: "62px", duration: 0.5 },
+                {
+                    ease: "linear",
+                    rotate: "200deg",
+                    duration: 0.3,
+                },
                 "<"
-            );
+            )
+            .to(
+                textRef.current,
+                {
+                    ease: "expo.inOut",
+                    fontSize: "24px",
+                    duration: 0.5,
+                },
+                "<"
+            )
+            .to(
+                iconRef.current,
+                {
+                    ease: "expo.inOut",
+                    width: "0px",
+                    display: "none",
+                    duration: 0.5,
+                },
+                "<"
+            )
+            .set(textRef.current, { textDecorationLine: "underline" });
     }, []);
 
     // navsidebar
@@ -54,14 +80,25 @@ const Navbar = () => {
                 <div className="absolute top-0 left-0 z-10 h-full w-full bg-white opacity-80"></div>
                 <Link href={"/"} passHref>
                     <div
-                        className="relative z-20 mt-1 w-10 md:w-20 "
-                        ref={iconRef}
+                        ref={iconContainerRef}
+                        className="z-20 flex items-center"
                     >
-                        <SvgChonburi2 />
+                        <div
+                            className="relative  mt-1 w-10 md:w-20 "
+                            ref={iconRef}
+                        >
+                            <SvgChonburi2 />
+                        </div>
+                        <div
+                            ref={textRef}
+                            className="ml-1 cursor-pointer text-[32px] font-black !text-text"
+                        >
+                            ชลบุรี
+                        </div>
                     </div>
                 </Link>
 
-                <div className="z-20 flex justify-center space-x-6">
+                <div className="z-20 flex justify-center space-x-6 transition-all">
                     <div className="group relative py-4">
                         <MatchLink path="/" index>
                             {({ isMatch }) => (
