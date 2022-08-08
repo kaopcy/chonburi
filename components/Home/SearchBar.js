@@ -1,6 +1,7 @@
 import React, { useRef, useEffect, forwardRef, useState } from "react";
 import gsap from "gsap/dist/gsap";
 import Image from "next/image";
+import Link from "next/link";
 
 // import Icons
 import SvgSearch from "../../icons/Search";
@@ -30,21 +31,17 @@ const SearchBar = () => {
     const { setSearchValue } = useSearchContext();
 
     // focus event
-    const focusEvt = () => {
-        if (!formRef.current) return;
-        formRef.current.style.transform = `translate(-50%,-${
-            formRef.current.getBoundingClientRect().top -
-            formRef.current.clientHeight
-        }px)`;
-        formRef.current.style.zIndex = `1030`;
-    };
+
     const onInputFocus = () => {
         if (isTouch) gsap.set(overlayRef.current, { autoAlpha: 0.7 });
         else gsap.to(overlayRef.current, { autoAlpha: 0.7 });
 
         document.body.style.overflow = "hidden";
-        window.addEventListener("resize", focusEvt);
-        focusEvt();
+        formRef.current.style.transform = `translate(-50%,-${
+            formRef.current.getBoundingClientRect().top -
+            formRef.current.clientHeight
+        }px)`;
+        formRef.current.style.zIndex = `1030`;
 
         setIsDropdown(true);
     };
@@ -55,7 +52,6 @@ const SearchBar = () => {
 
         document.body.style.overflow = "auto";
 
-        window.removeEventListener("resize", focusEvt);
         formRef.current.style.transform = `translate(-50%,50%)`;
         formRef.current.style.zIndex = `10`;
 
@@ -67,7 +63,6 @@ const SearchBar = () => {
         gsap.set(overlayRef.current, { autoAlpha: 0 });
         return () => {
             if (idleTimer.current) clearTimeout(idleTimer.current);
-            window.removeEventListener("resize", focusEvt);
         };
     }, []);
 
@@ -157,22 +152,25 @@ const SearchDropdown = forwardRef(({}, ref) => {
             className="absolute top-[120%] left-1/2 flex  max-h-[400px] w-full max-w-[800px] -translate-x-1/2 overflow-y-auto rounded-lg bg-white  shadow-lg"
         >
             <div className="relative grid h-full  w-full grid-cols-1 md:grid-cols-2">
-                <div className=" relative flex  w-full py-4 px-4 md:hidden ">
-                    <div
-                        ref={travelSelectorRef}
-                        onClick={() => setSelector("travel")}
-                        className="mr-4 cursor-pointer"
-                    >
-                        แหล่งท่องเที่ยว
+                <div className=" relative flex  w-full flex-col justify-between py-4 px-4 md:hidden">
+                    <div className="relative mb-3  flex w-full">
+                        <div
+                            ref={travelSelectorRef}
+                            onClick={() => setSelector("travel")}
+                            className="mr-4 cursor-pointer"
+                        >
+                            แหล่งท่องเที่ยว
+                        </div>
+                        <div
+                            ref={restaurantSelectorRef}
+                            onClick={() => setSelector("restaurant")}
+                            className="cursor-pointer"
+                        >
+                            ร้านอาหาร
+                        </div>
                     </div>
-                    <div
-                        ref={restaurantSelectorRef}
-                        onClick={() => setSelector("restaurant")}
-                        className="cursor-pointer"
-                    >
-                        ร้านอาหาร
-                    </div>
-                    <div className="absolute bottom-0 left-1/2 h-[1px] w-[94%] -translate-x-1/2  bg-text-lightest ">
+
+                    <div className="relative bottom-0  h-[1px] w-[100%]   bg-text-lightest ">
                         <div
                             ref={indicatorRef}
                             className="absolute top-0 left-0 h-[2px]  bg-primary transition-all"
@@ -226,7 +224,7 @@ const SearchDropdown = forwardRef(({}, ref) => {
                     <div className="grid grid-cols-1">
                         {filteredRestaurants.map((e) => (
                             <div key={e._id} className="ellipsis ">
-                                <Card place={e} />
+                                <Card place={e} restaurant />
                             </div>
                         ))}
                     </div>
@@ -236,34 +234,40 @@ const SearchDropdown = forwardRef(({}, ref) => {
     );
 });
 
-const Card = ({ place }) => {
+const Card = ({ place, restaurant }) => {
     return (
-        <div className="group mb-4 flex w-full cursor-pointer">
-            <div className="relative mr-4 aspect-square h-[40px] shrink-0 overflow-hidden rounded-full bg-pink-200">
-                <Image
-                    layout="fill"
-                    objectFit="cover"
-                    alt={place.title}
-                    blurDataURL={BLURRED_URL}
-                    placeholder="blur"
-                    src={place.imageURL.url}
-                    className=""
-                />
-            </div>
-            <div className="flex w-full min-w-0 flex-col ">
-                <div className="ellipsis group-hover:underline">
-                    {place.title}
+        <Link
+            href={`${restaurant ? "restaurant" : "travel"}/${
+                place.slug.current
+            }`}
+        >
+            <div className="group mb-4 flex w-full cursor-pointer">
+                <div className="relative mr-4 aspect-square h-[40px] shrink-0 overflow-hidden rounded-full bg-pink-200">
+                    <Image
+                        layout="fill"
+                        objectFit="cover"
+                        alt={place.title}
+                        blurDataURL={BLURRED_URL}
+                        placeholder="blur"
+                        src={place.imageURL.url}
+                        className=""
+                    />
                 </div>
-                <div className=" flex min-w-0 space-x-2">
-                    <div className=" text-xs text-text-lighterr">
-                        อ. {place.amphoe.name}
+                <div className="flex w-full min-w-0 flex-col ">
+                    <div className="ellipsis group-hover:underline">
+                        {place.title}
                     </div>
-                    <div className="ellipsis min-w-0 text-xs text-text-lighterr">
-                        ต. {place.tambon.name}
+                    <div className=" flex min-w-0 space-x-2">
+                        <div className=" text-xs text-text-lighterr">
+                            อ. {place.amphoe.name}
+                        </div>
+                        <div className="ellipsis min-w-0 text-xs text-text-lighterr">
+                            ต. {place.tambon.name}
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
+        </Link>
     );
 };
 
