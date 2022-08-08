@@ -4,6 +4,14 @@ module.exports = {
         "./components/**/*.{js,ts,jsx,tsx}",
     ],
 
+    variants: {
+        extend: {
+            opacity: ["group-hover"],
+            height: ["group-hover"],
+            transform: ["group-hover"],
+        },
+    },
+
     theme: {
         extend: {
             fontFamily: {
