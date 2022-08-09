@@ -25,7 +25,6 @@ const SearchBar = () => {
     };
 
     const isTouch = useIsTouchDevice();
-    const [isDropdown, setIsDropdown] = useState(false);
 
     // search context
     const { setSearchValue } = useSearchContext();
@@ -33,28 +32,49 @@ const SearchBar = () => {
     // focus event
 
     const onInputFocus = () => {
-        if (isTouch) gsap.set(overlayRef.current, { autoAlpha: 0.7 });
-        else gsap.to(overlayRef.current, { autoAlpha: 0.7 });
-
         document.body.style.overflow = "hidden";
-        formRef.current.style.transform = `translate(-50%,-${
-            formRef.current.getBoundingClientRect().top -
-            formRef.current.clientHeight
-        }px)`;
-        formRef.current.style.zIndex = `1030`;
 
+        if (isTouch) {
+            gsap.set(overlayRef.current, { autoAlpha: 0.7 });
+            gsap.set(formRef.current, {
+                position: "fixed",
+                left: "0px",
+                top: "100px",
+                bottom: "auto",
+                transform: "translate(0,0)",
+            });
+            formRef.current.removeAttribute("bottom-0");
+        } else {
+            gsap.to(overlayRef.current, { autoAlpha: 0.7 });
+            formRef.current.style.transform = `translate(-50%,-${
+                formRef.current.getBoundingClientRect().top -
+                formRef.current.clientHeight
+            }px)`;
+        }
+
+        formRef.current.style.zIndex = `1030`;
         searchDropdownRef.current.style.display = "flex";
     };
 
     const onInputBlur = () => {
-        if (isTouch) gsap.set(overlayRef.current, { autoAlpha: 0 });
-        else gsap.to(overlayRef.current, { autoAlpha: 0 });
-
         document.body.style.overflow = "auto";
 
-        formRef.current.style.transform = `translate(-50%,50%)`;
-        formRef.current.style.zIndex = `10`;
+        if (isTouch) {
+            gsap.set(overlayRef.current, { autoAlpha: 0 });
+            gsap.set(formRef.current, {
+                position: "absolute",
+                left: "50%",
+                bottom: "0px",
+                top: "auto",
+                transform: "translate(-50%,50%)",
+                translateX: "0px",
+            });
+        } else {
+            gsap.to(overlayRef.current, { autoAlpha: 0 });
+            formRef.current.style.transform = `translate(-50%,50%)`;
+        }
 
+        formRef.current.style.zIndex = `10`;
         searchDropdownRef.current.style.display = "none";
     };
 
@@ -63,6 +83,7 @@ const SearchBar = () => {
         gsap.set(overlayRef.current, { autoAlpha: 0 });
         return () => {
             if (idleTimer.current) clearTimeout(idleTimer.current);
+            document.body.style.overflow = "auto";
         };
     }, []);
 
@@ -88,7 +109,7 @@ const SearchBar = () => {
             <form
                 ref={formRef}
                 onSubmit={onSubmit}
-                className="absolute left-1/2 bottom-0 z-10  flex w-full -translate-x-1/2 translate-y-1/2 px-5 transition-transform duration-500"
+                className="absolute left-1/2  bottom-0 z-[1030]  flex  w-full -translate-x-1/2 translate-y-1/2 px-5 md:bottom-0 md:transition-transform md:duration-500"
             >
                 <div className=" mx-auto flex h-[50px] w-full max-w-[800px]  items-center rounded-full bg-white px-3 py-3 shadow-xl md:h-[70px] md:px-6 md:py-4">
                     <div className="mr-3 w-8 shrink-0 p-1 ">

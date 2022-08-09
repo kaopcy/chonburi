@@ -9,10 +9,7 @@ import { getClient } from "../lib/sanity.server";
 import useIsTouchDevice from "../composables/useIsTouchDevice";
 
 // import contexts
-import {
-    SearchProvider,
-    useSearchContext,
-} from "../context/Home/SearchContext";
+import { SearchProvider } from "../context/Home/SearchContext";
 
 // import components
 import SearchBar from "../components/Home/SearchBar";
@@ -80,7 +77,7 @@ const Home = ({
                 <title>Chonburi x Travel | หน้าหลัก</title>
                 <meta
                     name="description"
-                    content="ท่องเที่ยวที่ชลบุรี ค้นหาแหล่งท่องเที่ยวและร้านอาหารชื่อดงัที่ไม่ควรพลาดในจังหวัดชลบุรี, ประเทศไทย "
+                    content="ท่องเที่ยวที่ชลบุรี Chonburi x Travel ค้นหาแหล่งท่องเที่ยวและร้านอาหารชื่อดงัที่ไม่ควรพลาดในจังหวัดชลบุรี ประเทศไทย"
                 />
             </Head>
             <div className="h-[100px]"></div>
