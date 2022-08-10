@@ -15,8 +15,6 @@ const DURATION = 10;
 const PADDING = "20px";
 
 const RunningText = () => {
-    console.log("running text rerender");
-
     const container = useRef(null);
     const rootContainer = useRef(null);
     const animate = useRef(null);

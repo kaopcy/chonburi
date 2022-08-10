@@ -78,7 +78,6 @@ const Map = () => {
 
     useEffect(() => {
         if (!map || selectedMode !== DIRECTION_MODE) return;
-        console.log("called");
         // map.panTo(activeDirectionCoord);
         const destCoords = new google.maps.LatLng(
             activeDirectionCoord.lat,
@@ -95,20 +94,6 @@ const Map = () => {
         );
         smoothlyAnimatePanTo(getCenterWithOffset(map, destCoords, 0, 100), 15);
     }, [selectedMode === TRAVEL_MODE]);
-
-    // const firstRender = useRef(false);
-    // useEffect(() => {
-    //     if (!map || firstRender.current) return;
-    //     firstRender.current = true;
-    //     setTimeout(() => {
-    //         const destCoords = new google.maps.LatLng(
-    //             tempLocation.lat,
-    //             tempLocation.lng
-    //         );
-    //         console.log(destCoords.lat(), destCoords.lng());
-    //         smoothlyAnimatePanTo(destCoords, 15);
-    //     }, 1000);
-    // }, [map]);
 
     const calculateDirection = async () => {
         const directionService = new google.maps.DirectionsService();
@@ -240,7 +225,6 @@ const OtherPlaces = () => {
     const { map } = useMapContext();
 
     const [isHideDetail, setIsHideDetail] = useState(false);
-    console.log("rerenderred");
 
     useEffect(() => {
         const listener = map.addListener("zoom_changed", () => {

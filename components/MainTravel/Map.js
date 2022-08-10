@@ -17,7 +17,6 @@ import LocationMarker from "./LocationMarker";
 import MapControl from "./MapControl";
 
 const Map = ({ type }) => {
-    console.log("type: ", type === "restaurant" ? "restaurant" : "travel");
     const { postByActiveAmphoe } = usePostsContext();
     const { isOpen, setMap, map } = useMapContext();
     const { isLoaded } = useJsApiLoader({
@@ -42,24 +41,6 @@ const Map = ({ type }) => {
             if (mapRef) mapRef.removeEventListener("transitionend", evnt);
         };
     }, [isOpen]);
-
-    // useEffect(() => {
-    //     if (!isLoaded || !isShowMap) return;
-    //     console.log(markerRef.current);
-    //     const evt = (e) => {
-    //         console.log(e);
-    //     };
-    //     markerRef.current.forEach((marker) => {
-    //         if (!marker) return;
-    //         marker.addEventListener("mouseenter", evt);
-    //     });
-    //     return () => {
-    //         markerRef.current.forEach((marker) => {
-    //             if (!marker) return;
-    //             marker.removeEventListener("mouseenter", evt);
-    //         });
-    //     };
-    // }, [postByActiveAmphoe, isShowMap, isLoaded]);
 
     const onMapLoad = (initMap) => {
         setMap(initMap);

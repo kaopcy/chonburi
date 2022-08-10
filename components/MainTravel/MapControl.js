@@ -35,7 +35,6 @@ const MapControl = () => {
 
     const fitToMap = () => {
         if (!map) return;
-        console.log(map.getBounds());
         map.fitBounds(textObject);
     };
 

@@ -44,15 +44,6 @@ const DestinationMarker = () => {
         else setIsOpen(true);
     }, [selectedMode]);
 
-    useEffect(() => {
-        if (!isStart.current) return;
-        console.log(titleRef.current);
-        console.log(starRef.current);
-        console.log(locationRef.current);
-        console.log(distanceRef.current);
-        // if (isOpen) onLoad();
-    }, [isOpen]);
-
     const onLoad = () => {
         isStart.current = true;
 

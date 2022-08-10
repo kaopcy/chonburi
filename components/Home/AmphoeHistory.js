@@ -181,11 +181,6 @@ const AmphoeHistory = () => {
                     preferredContainerH) /
                     preferredContainerH) *
                     100;
-
-            // if (isEnter) {
-            //     svgRef.current.setColor(process.current);
-            // }
-            if (isOut) console.log("out");
         };
         scrollEvnt();
         window.addEventListener("scroll", scrollEvnt, { passive: true });

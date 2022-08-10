@@ -15,7 +15,6 @@ const useZoomEffect = (
 
     useEffect(() => {
         if (!zoomRef.current || !overlayRef.current) return;
-        console.log("zoooom");
         hover.current = gsap
             .timeline({ paused: true, reversed: true })
             .to(zoomRef.current, {

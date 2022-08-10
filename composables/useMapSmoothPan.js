@@ -69,7 +69,6 @@ export const useMapSmoothPan = () => {
     ) => {
         var initialZoom = initzoom.current || map.getZoom(),
             listener;
-        console.log("initzoom: ", initialZoom);
 
         function zoomIn() {
             if (map.getZoom() < initialZoom) {

@@ -11,7 +11,6 @@ import SvgUtensil from "../../icons/Utensil";
 const TripMarker = ({ isActive, setActiveNum, coords, link, _key }) => {
     const [_, type, name] = link?.split("/");
     const isTravel = useMemo(() => type === "travel", [type]);
-    console.log(isTravel);
     const markerRef = useRef();
 
     const onLoad = () => {

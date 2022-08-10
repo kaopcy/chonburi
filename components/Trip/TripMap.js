@@ -42,15 +42,12 @@ const TripMap = ({ trip, activeNum, setActiveNum }) => {
         [trip]
     );
 
-    console.log(placesGeo);
-
     const mockCenter = useRef({ lat: 13, lng: 102 });
 
     // * Map control
     const fitBounds = () => {
         const newBounds = new google.maps.LatLngBounds();
         placesGeo.forEach((place) => {
-            console.log(place.lat);
             newBounds.extend({
                 lat: parseFloat(place.lat),
                 lng: parseFloat(place.lng),

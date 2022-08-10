@@ -76,7 +76,6 @@ const PostCard = React.memo(({ post, type, isOpen }) => {
         const deltaStartX = prevTouchX.current
             ? Math.abs(startTouchX.current) - Math.abs(prevTouchX.current)
             : 0;
-        console.log(Math.abs(deltaStartX));
         if (Math.abs(deltaStartX) < 100) {
             imageContainerRef.current.style.left = `${
                 curIndex * -imageContainerRef.current.clientWidth

@@ -52,8 +52,6 @@ const fetchDocuments = () =>
 
 const test = async () => {
     const document = await fetchDocuments()
-    console.log(document);
-
 };
 
 test()
