@@ -37,8 +37,6 @@ const PostCard = React.memo(({ post, type, isOpen }) => {
         [userLocation, post.coords]
     );
 
-    console.log("postcard: ", distance);
-
     const imageContainerRef = useRef(null);
     const prevTouchX = useRef(null);
     const startTouchX = useRef(null);

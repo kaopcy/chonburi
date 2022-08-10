@@ -6,7 +6,7 @@ import gsap from "gsap/dist/gsap";
 // import components
 import SvgUtensil from "../../icons/Utensil";
 import SvgMuseum from "../../icons/new/Museum";
-import SvgHouse from "../../icons/House";
+import SvgBook from "../../icons/Book";
 import SvgSuitcase from "../../icons/Suitcase";
 
 // import HOC
@@ -78,22 +78,6 @@ const NavSidebar = ({ setIsOpen }) => {
                     className=" mb-6 text-2xl "
                 />
 
-                <MatchLink index path={`/`}>
-                    {({ isMatch }) => (
-                        <div className="sidebar-item  flex h-10  w-full items-center ">
-                            <div className="mr-8 w-5">
-                                <SvgHouse />
-                            </div>
-                            <div
-                                className={`text-base font-medium ${
-                                    isMatch && "underline underline-offset-2"
-                                }`}
-                            >
-                                หน้าแรก
-                            </div>
-                        </div>
-                    )}
-                </MatchLink>
                 <MatchLink path={`/restaurant?map=true`}>
                     {({ isMatch }) => (
                         <div className="sidebar-item  flex h-10  w-full items-center ">
@@ -138,6 +122,22 @@ const NavSidebar = ({ setIsOpen }) => {
                                 }`}
                             >
                                 โปรแกรมท่องเที่ยว
+                            </div>
+                        </div>
+                    )}
+                </MatchLink>
+                <MatchLink path={`/history`}>
+                    {({ isMatch }) => (
+                        <div className="sidebar-item  flex h-10  w-full items-center ">
+                            <div className="mr-8 w-5">
+                                <SvgBook stroke="#8B8B8B" />
+                            </div>
+                            <div
+                                className={`text-base font-medium ${
+                                    isMatch && "underline underline-offset-2"
+                                }`}
+                            >
+                                ประวัติ
                             </div>
                         </div>
                     )}

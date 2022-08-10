@@ -100,25 +100,6 @@ const Navbar = () => {
 
                 <div className="z-20 flex justify-center space-x-6 transition-all">
                     <div className="group relative py-4">
-                        <MatchLink path="/" index>
-                            {({ isMatch }) => (
-                                <div
-                                    className={`group cursor-pointer  px-4 ${
-                                        isMatch ? "text-primary" : "text-text"
-                                    }`}
-                                >
-                                    <span className="">หน้าแรก</span>
-                                    <div
-                                        className={`h-[3px] w-full origin-left scale-x-0 bg-primary opacity-20 transition-transform group-hover:scale-x-100  ${
-                                            isMatch && "!scale-x-100"
-                                        }`}
-                                    ></div>
-                                </div>
-                            )}
-                        </MatchLink>
-                        {/* <PoiDropdown /> */}
-                    </div>
-                    <div className="group relative py-4">
                         <MatchLink path="/travel?map=true">
                             {({ isMatch }) => (
                                 <div
@@ -154,7 +135,24 @@ const Navbar = () => {
                                 </div>
                             )}
                         </MatchLink>
-                        {/* <RestaurantDropdown /> */}
+                    </div>
+                    <div className="group relative py-4">
+                        <MatchLink path="/history">
+                            {({ isMatch }) => (
+                                <div
+                                    className={`group cursor-pointer  px-4 ${
+                                        isMatch ? "text-primary" : "text-text"
+                                    }`}
+                                >
+                                    <span className="">ประวัติ</span>
+                                    <div
+                                        className={`h-[3px] w-full origin-left scale-x-0 bg-primary opacity-20 transition-transform group-hover:scale-x-100  ${
+                                            isMatch && "!scale-x-100"
+                                        }`}
+                                    ></div>
+                                </div>
+                            )}
+                        </MatchLink>
                     </div>
                 </div>
                 <div className="group relative z-20 rounded-full bg-primary-light py-[7px] shadow-md">

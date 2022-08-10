@@ -75,4 +75,6 @@ export async function getStaticProps({ params, preview = false }) {
     };
 }
 
+
+
 export default Restaurant;

@@ -29,9 +29,6 @@ const Posts = ({ type }) => {
     const [extraAmphoe, setExtraAmphoe] = useState(postsArr.map(() => 1));
 
     const { isOpen, setIsOpen } = useMapContext();
-    useEffect(() => {
-        console.log("isOpen: ", isOpen);
-    }, [isOpen]);
     const eachAmphoreRef = useRef([]);
 
     const rootRef = useRef(null);
@@ -40,6 +37,7 @@ const Posts = ({ type }) => {
     const scrollTimeout = useRef(null);
 
     const firstTime = useRef(true);
+
     useEffect(() => {
         const { amphoe, map } = router.query;
         if (!firstTime.current) return;
@@ -71,7 +69,9 @@ const Posts = ({ type }) => {
                 }, 1000);
             }
         };
-        rootRef.current.addEventListener("scroll", scrollEvnt , { passive: true });
+        rootRef.current.addEventListener("scroll", scrollEvnt, {
+            passive: true,
+        });
 
         let observeArr = [];
 
@@ -105,31 +105,21 @@ const Posts = ({ type }) => {
         };
     }, [postsArr]);
 
-    useEffect(() => {
-        if (!activeAmphoe) return;
-        const { pathname, query } = router;
-        const params = new URLSearchParams(query);
-        params.set("amphoe", activeAmphoe);
-        router.replace({ pathname, query: params.toString() }, undefined, {
-            shallow: true,
-        });
-    }, [activeAmphoe]);
-
-    useEffect(() => {
-        const { pathname, query } = router;
-        const params = new URLSearchParams(query);
-        if (isOpen) {
-            params.set("map", true);
-            router.push({ pathname, query: params.toString() }, undefined, {
-                shallow: true,
-            });
-        } else {
-            params.delete("map");
-            router.replace({ pathname, query: params.toString() }, undefined, {
-                shallow: true,
-            });
-        }
-    }, [isOpen]);
+    // useEffect(() => {
+    //     const { pathname, query } = router;
+    //     const params = new URLSearchParams(query);
+    //     if (isOpen) {
+    //         params.set("map", true);
+    //         router.push({ pathname, query: params.toString() }, undefined, {
+    //             shallow: true,
+    //         });
+    //     } else {
+    //         params.delete("map");
+    //         router.replace({ pathname, query: params.toString() }, undefined, {
+    //             shallow: true,
+    //         });
+    //     }
+    // }, [isOpen]);
 
     return (
         <div

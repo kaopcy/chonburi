@@ -1,7 +1,6 @@
-import React, { useEffect } from "react";
+import React from "react";
 import groq from "groq";
 import Head from "next/head";
-import { useRouter } from "next/router";
 
 // import configs
 import { getClient } from "../../lib/sanity.server";
@@ -9,9 +8,6 @@ import { getClient } from "../../lib/sanity.server";
 // import contexts
 import { MapContextProvider } from "../../context/MainTravel/MapContext";
 import { PostsContextProvider } from "../../context/MainTravel/PostContext";
-
-// imports hooks
-import useIsTouchDevice from "../../composables/useIsTouchDevice";
 
 // import components
 import Posts from "../../components/MainTravel/Posts";

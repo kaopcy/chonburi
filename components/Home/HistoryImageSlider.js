@@ -1,6 +1,10 @@
 import React, { useRef } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { useEffect } from "react";
+
+// import icons
+import SvgBook from "../../icons/Book";
 
 // import hooks
 import useIsTouchDevice from "../../composables/useIsTouchDevice";
@@ -201,6 +205,16 @@ const HistoryImageSlider = () => {
                 <div className="text-center text-sm font-normal sm:text-base">
                     สร้างความสุข และการลดความเหลื่อมล้ำทางสังคมให้กับประชาชน
                 </div>
+                <Link href="/history">
+                    <div className="  mx-auto mt-10  flex h-10 items-center rounded-full bg-primary-light px-6 ">
+                        <div className="mr-3 w-4">
+                            <SvgBook stroke="#fff" />
+                        </div>
+                        <div className="text-base font-medium text-white ">
+                            ประวัติ
+                        </div>
+                    </div>
+                </Link>
             </div>
             <div
                 ref={containerRef}
