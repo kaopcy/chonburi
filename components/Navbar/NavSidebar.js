@@ -14,7 +14,7 @@ import MatchLink from "../Utils/MatchLink";
 
 // import icons
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faXmark } from "@fortawesome/free-solid-svg-icons";
+import { faXmark, faCakeCandles } from "@fortawesome/free-solid-svg-icons";
 import {
     FacebookShareButton,
     LineShareButton,
@@ -89,7 +89,26 @@ const NavSidebar = ({ setIsOpen }) => {
                                     isMatch && "underline underline-offset-2"
                                 }`}
                             >
-                                ร้านอาหาร
+                                อาหารคาว
+                            </div>
+                        </div>
+                    )}
+                </MatchLink>
+                <MatchLink path={`/desert?map=true`}>
+                    {({ isMatch }) => (
+                        <div className="sidebar-item  flex h-10  w-full items-center ">
+                            <div className="mr-8 w-5">
+                                <FontAwesomeIcon
+                                    className="mr-4 shrink-0 text-xl text-text"
+                                    icon={faCakeCandles}
+                                />
+                            </div>
+                            <div
+                                className={`text-base font-medium ${
+                                    isMatch && "underline underline-offset-2"
+                                }`}
+                            >
+                                อาหารหวาน
                             </div>
                         </div>
                     )}
@@ -105,7 +124,7 @@ const NavSidebar = ({ setIsOpen }) => {
                                     isMatch && "underline underline-offset-2"
                                 }`}
                             >
-                                แหล่งท่องเที่ยว
+                                แหล่งท่องเที่ยวเชิงอาหาร
                             </div>
                         </div>
                     )}

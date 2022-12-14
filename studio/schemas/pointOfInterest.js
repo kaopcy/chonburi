@@ -1,5 +1,3 @@
-
-
 export default {
     name: "pointOfInterest",
     type: "document",
@@ -9,6 +7,18 @@ export default {
     }),
 
     fields: [
+        {
+            name: "type",
+            title: "ชนิด",
+            type: "string",
+            options: {
+                list: [
+                    { title: "ของคาว", value: "dish" },
+                    { title: "ของหวาน", value: "desert" },
+                ], // <-- predefined values
+                layout: "radio", // <-- defaults to 'dropdown'
+            },
+        },
         {
             name: "title",
             type: "string",

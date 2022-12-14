@@ -17,9 +17,9 @@ import {
 } from "../../config/homeConstants/historyImageConstants";
 
 const SLIDER_MARGIN = 30;
-const SCROLL_SPEED = 1;
+const SCROLL_SPEED = 0.4;
 const SCROLL_RATIO = 0.05;
-const SLIDER_SPEED = 1;
+const SLIDER_SPEED = 0.5;
 const SLIDER_COPY = 2;
 
 const HistoryImageSlider = () => {
@@ -206,14 +206,14 @@ const HistoryImageSlider = () => {
                     สร้างความสุข และการลดความเหลื่อมล้ำทางสังคมให้กับประชาชน
                 </div>
                 <Link href="/history">
-                    <div className="  mx-auto mt-10  flex h-10 items-center rounded-full bg-primary-light px-6 ">
+                    <a className=" mx-auto mt-10 flex h-10  items-center rounded-full bg-primary-light px-6 shadow-md hover:bg-primary ">
                         <div className="mr-3 w-4">
                             <SvgBook stroke="#fff" />
                         </div>
                         <div className="text-base font-medium text-white ">
                             ประวัติ
                         </div>
-                    </div>
+                    </a>
                 </Link>
             </div>
             <div

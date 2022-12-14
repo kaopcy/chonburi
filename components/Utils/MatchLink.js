@@ -4,11 +4,11 @@ import Link from "next/link";
 const MatchLink = ({ path, children, index }) => {
     const router = useRouter();
     const isIndex = useMemo(() => router.pathname === "/", [router.pathname]);
-
+    const absoluteTargetPath = path.split("?")[0]
     return (
         <Link href={path} passHref={true}>
             {children({
-                isMatch: index ? isIndex : router.pathname.includes(path),
+                isMatch: index ? isIndex : router.pathname.includes(absoluteTargetPath),
             })}
         </Link>
     );

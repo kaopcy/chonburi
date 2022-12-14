@@ -4,26 +4,26 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 
 // import configs
-import { getClient } from "../../lib/sanity.server";
+import { getClient } from "../lib/sanity.server";
 
 // import contexts
-import { MapContextProvider } from "../../context/MainTravel/MapContext";
-import { PostsContextProvider } from "../../context/MainTravel/PostContext";
+import { MapContextProvider } from "../context/MainTravel/MapContext";
+import { PostsContextProvider } from "../context/MainTravel/PostContext";
 
 // imports hooks
-import useIsTouchDevice from "../../composables/useIsTouchDevice";
+import useIsTouchDevice from "../composables/useIsTouchDevice";
 
 // import components
-import Posts from "../../components/MainTravel/Posts";
-import Map from "../../components/MainTravel/Map";
+import Posts from "../components/MainTravel/Posts";
+import Map from "../components/MainTravel/Map";
 
-const Restaurant = ({ posts }) => {
+const Desert = ({ posts }) => {
     return (
         <MapContextProvider>
             <PostsContextProvider initPosts={posts}>
                 <main className="absolute inset-0 flex  flex-col overflow-hidden  ">
                     <Head>
-                        <title>อาหารคาวในชลบุรี</title>
+                        <title>ขนมหวานในชลบุรี</title>
                         <meta
                             name="description"
                             content="ค้นหาร้านอาหารชื่อดังมากมายในชลบุรี รวมไปถึงแสดงแผนที่และเส้นทางในการเดินทาง"
@@ -41,7 +41,7 @@ const Restaurant = ({ posts }) => {
 };
 
 const postsQuery = groq`
-*[(_type == "pointOfInterest") && defined(slug.current) && type == "dish"]{
+*[(_type == "pointOfInterest") && defined(slug.current) && type == "desert"]{
   amphoe-> { name },
   tambon-> { name },
   title,
@@ -77,4 +77,4 @@ export async function getStaticProps({ params, preview = false }) {
 
 
 
-export default Restaurant;
+export default Desert;

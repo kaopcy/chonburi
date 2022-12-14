@@ -99,6 +99,43 @@ const Navbar = () => {
                 </Link>
 
                 <div className="z-20 flex justify-center space-x-6 transition-all">
+                    
+                    <div className=" group relative py-4">
+                        <MatchLink path="/restaurant?map=true">
+                            {({ isMatch }) => (
+                                <div
+                                    className={` cursor-pointer  px-4 ${
+                                        isMatch ? "text-primary" : "text-text"
+                                    }`}
+                                >
+                                    <span className="mr-2">อาหารคาว</span>
+                                    <div
+                                        className={`h-[3px] w-full origin-left scale-x-0 bg-primary opacity-20 transition-transform group-hover:scale-x-100  ${
+                                            isMatch && "!scale-x-100"
+                                        }`}
+                                    ></div>
+                                </div>
+                            )}
+                        </MatchLink>
+                    </div>
+                    <div className="group relative py-4">
+                        <MatchLink path="/desert?map=true">
+                            {({ isMatch }) => (
+                                <div
+                                    className={`group cursor-pointer  px-4 ${
+                                        isMatch ? "text-primary" : "text-text"
+                                    }`}
+                                >
+                                    <span className="">อาหารหวาน</span>
+                                    <div
+                                        className={`h-[3px] w-full origin-left scale-x-0 bg-primary opacity-20 transition-transform group-hover:scale-x-100  ${
+                                            isMatch && "!scale-x-100"
+                                        }`}
+                                    ></div>
+                                </div>
+                            )}
+                        </MatchLink>
+                    </div>
                     <div className="group relative py-4">
                         <MatchLink path="/travel?map=true">
                             {({ isMatch }) => (
@@ -107,7 +144,7 @@ const Navbar = () => {
                                         isMatch ? "text-primary" : "text-text"
                                     }`}
                                 >
-                                    <span className="">แหล่งท่องเที่ยว</span>
+                                    <span className="">แหล่งท่องเที่ยวเชิงอาหาร</span>
                                     <div
                                         className={`h-[3px] w-full origin-left scale-x-0 bg-primary opacity-20 transition-transform group-hover:scale-x-100  ${
                                             isMatch && "!scale-x-100"
@@ -117,42 +154,6 @@ const Navbar = () => {
                             )}
                         </MatchLink>
                         {/* <PoiDropdown /> */}
-                    </div>
-                    <div className=" group relative py-4">
-                        <MatchLink path="/restaurant?map=true">
-                            {({ isMatch }) => (
-                                <div
-                                    className={` cursor-pointer  px-4 ${
-                                        isMatch ? "text-primary" : "text-text"
-                                    }`}
-                                >
-                                    <span className="mr-2">ร้านอาหาร</span>
-                                    <div
-                                        className={`h-[3px] w-full origin-left scale-x-0 bg-primary opacity-20 transition-transform group-hover:scale-x-100  ${
-                                            isMatch && "!scale-x-100"
-                                        }`}
-                                    ></div>
-                                </div>
-                            )}
-                        </MatchLink>
-                    </div>
-                    <div className="group relative py-4">
-                        <MatchLink path="/history">
-                            {({ isMatch }) => (
-                                <div
-                                    className={`group cursor-pointer  px-4 ${
-                                        isMatch ? "text-primary" : "text-text"
-                                    }`}
-                                >
-                                    <span className="">ประวัติ</span>
-                                    <div
-                                        className={`h-[3px] w-full origin-left scale-x-0 bg-primary opacity-20 transition-transform group-hover:scale-x-100  ${
-                                            isMatch && "!scale-x-100"
-                                        }`}
-                                    ></div>
-                                </div>
-                            )}
-                        </MatchLink>
                     </div>
                 </div>
                 <div className="group relative z-20 rounded-full bg-primary-light py-[7px] shadow-md">

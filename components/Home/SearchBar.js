@@ -104,12 +104,12 @@ const SearchBar = () => {
             <div
                 onClick={onInputBlur}
                 ref={overlayRef}
-                className="invisible fixed top-0 left-0 z-[1020]  h-full w-full bg-black opacity-50"
+                className="invisible fixed top-0 left-0 z-[1010]  h-full w-full bg-black opacity-50"
             ></div>
             <form
                 ref={formRef}
                 onSubmit={onSubmit}
-                className="absolute left-1/2  bottom-0 z-[1030]  flex  w-full -translate-x-1/2 translate-y-1/2 px-5 md:bottom-0 md:transition-transform md:duration-500"
+                className="absolute left-1/2  bottom-0 z-[0]  flex  w-full -translate-x-1/2 translate-y-1/2 px-5 md:bottom-0 md:transition-transform md:duration-500"
             >
                 <div className=" mx-auto flex h-[50px] w-full max-w-[800px]  items-center rounded-full bg-white px-3 py-3 shadow-xl md:h-[70px] md:px-6 md:py-4">
                     <div className="mr-3 w-8 shrink-0 p-1 ">

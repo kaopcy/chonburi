@@ -38,7 +38,7 @@ const TripCard = ({ trip, index }) => {
                             {secondQuote}
                         </div>
                     </div>
-                    <div className={`relative h-[300px] overflow-hidden `}>
+                    <div className={`relative h-[230px] overflow-hidden `}>
                         <div className="absolute inset-0 transition-transform duration-500  ease-out group-hover:scale-125">
                             <Image
                                 layout="fill"
