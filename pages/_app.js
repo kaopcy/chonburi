@@ -5,7 +5,6 @@ import { useEffect } from "react";
 import "../styles/globals.css";
 
 // import dependencies
-import { PortableTextComponentsProvider } from "@portabletext/react";
 import gsap from "gsap/dist/gsap";
 import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
 
@@ -40,14 +39,12 @@ function MyApp({ Component, pageProps }) {
                     content="width=device-width, initial-scale=1"
                 />
             </Head>
-            <PortableTextComponentsProvider components={CustomPortableText}>
-                <div className="w-full">
-                    <ProgressBar />
-                    <Navbar />
-                    {/* <div className="h-[100px]"></div> */}
-                    <Component {...pageProps} />
-                </div>
-            </PortableTextComponentsProvider>
+            <div className="w-full">
+                <ProgressBar />
+                <Navbar />
+                {/* <div className="h-[100px]"></div> */}
+                <Component {...pageProps} />
+            </div>
         </UserLocationProvider>
     );
 }

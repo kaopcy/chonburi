@@ -17,7 +17,6 @@
         "@fortawesome/free-regular-svg-icons": "^6.1.1",
         "@fortawesome/free-solid-svg-icons": "^6.1.1",
         "@fortawesome/react-fontawesome": "^0.1.18",
-        "@portabletext/react": "^1.0.6",
         "@react-google-maps/api": "^2.10.2",
         "@sanity/client": "^3.3.0",
         "@sanity/image-url": "^1.0.1",
